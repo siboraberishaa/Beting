@@ -2,34 +2,96 @@ import React, { useEffect, useState } from 'react';
 import { useGetInPlayOdssQuery, useGetOddsPerGameQuery } from '../features/apiSlice';
 import { useNavigate } from 'react-router-dom';  
 import { useDispatch } from 'react-redux';
-import { addBets } from '../features/betSlice';
+import { addBets, deleteBet } from '../features/betSlice';
 
 const MatchOdds = ({ eventId, teams }) => {
 
   const dispatch = useDispatch();
   
   const { data: odds, isLoading, isError } = useGetOddsPerGameQuery(eventId);
+  const [isClicked, setIsClicked] = useState(false)
+  const [isClicked1, setIsClicked1] = useState(false)
+  const [isClicked2, setIsClicked2] = useState(false)
+
+  console.log(odds, 'odds')
 
   if (isLoading) return <div>Loading odds...</div>;
   if (isError) return <div>Error: {isError.message}</div>;
 
-  // Filter the markets to only include items where the group is "Fulltime Result"
-  const fulltimeResultOdds = odds?.markets?.filter(odd => odd.group === 'Fulltime Result');
+  // const fulltimeResultOdds = odds?.markets?.filter(odd => odd.group === 'Fulltime Result');
 
-  const handleOddClick = (odd, teams) => {
-    dispatch(addBets({
-      coef: odd.coef,
-      teams: teams
-    }));
+  const handleOddClick0 = (coef, teams) => {
+    const bets = JSON.parse(localStorage.getItem("bets"));
+    const existingBetIndex = bets.betItems.findIndex(bet => bet.coef === Number(coef).toFixed(2));
+  
+    if (existingBetIndex !== -1) {
+      // If the bet already exists in the local storage, remove it
+      dispatch(deleteBet(existingBetIndex));
+    } else {
+      // If the bet doesn't exist in the local storage, add it
+      dispatch(addBets({
+        coef: Number(coef).toFixed(2),
+        teams: teams
+      }));
+    }
+  
+    setIsClicked(prevState => !prevState);
+  };
+  
+  // Do the same for handleOddClick1 and handleOddClick2
+  
+
+  const handleOddClick1 = (coef, teams) => {
+    const bets = JSON.parse(localStorage.getItem("bets"));
+    const existingBetIndex = bets.betItems.findIndex(bet => bet.coef === Number(coef).toFixed(2));
+  
+    if (existingBetIndex !== -1) {
+      // If the bet already exists in the local storage, remove it
+      dispatch(deleteBet(existingBetIndex));
+    } else {
+      // If the bet doesn't exist in the local storage, add it
+      dispatch(addBets({
+        coef: Number(coef).toFixed(2),
+        teams: teams
+      }));
+    }
+  
+    setIsClicked1(prevState => !prevState);
+  };
+
+  const handleOddClick2 = (coef, teams) => {
+    const bets = JSON.parse(localStorage.getItem("bets"));
+    const existingBetIndex = bets.betItems.findIndex(bet => bet.coef === Number(coef).toFixed(2));
+  
+    if (existingBetIndex !== -1) {
+      // If the bet already exists in the local storage, remove it
+      dispatch(deleteBet(existingBetIndex));
+    } else {
+      // If the bet doesn't exist in the local storage, add it
+      dispatch(addBets({
+        coef: Number(coef).toFixed(2),
+        teams: teams
+      }));
+    }
+  
+    setIsClicked2(prevState => !prevState);
   };
 
   return (
-    fulltimeResultOdds?.map((odd, index) => (
-      <div className='d-odd' onClick={() => handleOddClick(odd, teams)}>  
-      <p id='p-n2'>{!isNaN(odd.n2) ? Number(odd.n2).toFixed(2) : ''}</p>
-      <p>{!isNaN(odd.coef) ? Number(odd.coef).toFixed(2) : ''}</p> 
+    <>
+      <div className='d-odd' style={{backgroundColor: isClicked ? '#fff' : '', cursor: 'pointer'}} onClick={() => handleOddClick0(odds?.markets[0]?.coef, teams)} >  
+      <p style={{color: isClicked ? '#1c2d23' : ''}} id='p-n2'>{!isNaN(odds?.markets[0]?.n2) ? Number(odds?.markets[0]?.n2).toFixed(2) : ''}</p>
+      <p>{!isNaN(odds?.markets[0]?.coef) ? Number(odds?.markets[0]?.coef).toFixed(2) : ''}</p> 
     </div>
-    ))
+      <div className='d-odd' style={{backgroundColor: isClicked1 ? '#fff' : '', cursor: 'pointer'}} onClick={() => handleOddClick1(odds?.markets[1]?.coef, teams)} >  
+      <p style={{color: isClicked1 ? '#1c2d23' : ''}} id='p-n2'>{!isNaN(odds?.markets[1]?.n2) ? Number(odds?.markets[1]?.n2).toFixed(2) : ''}</p>
+      <p >{!isNaN(odds?.markets[1]?.coef) ? Number(odds?.markets[1]?.coef).toFixed(2) : ''}</p> 
+    </div>
+      <div className='d-odd' style={{backgroundColor: isClicked2 ? '#fff' : '', cursor: 'pointer'}} onClick={() => handleOddClick2(odds?.markets[2]?.coef, teams)} >  
+      <p style={{color: isClicked2 ? '#1c2d23' : ''}} id='p-n2'>{!isNaN(odds?.markets[2]?.n2) ? Number(odds?.markets[2]?.n2).toFixed(2) : ''}</p>
+      <p >{!isNaN(odds?.markets[2]?.coef) ? Number(odds?.markets[2]?.coef).toFixed(2) : ''}</p> 
+    </div>
+    </>
   );
 };
 

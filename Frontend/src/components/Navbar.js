@@ -22,6 +22,8 @@ function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false); // Shto state për modalin e loginit
+  const [price, setPrice] = useState(0);
+
 
   const bets = useSelector((state) => state.bets.betItems) 
 
@@ -66,6 +68,11 @@ function Navbar() {
     setActiveLink(link);
   };
 
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
+
+
   const { data: sports, isLoading, isError } = useGetInPlayFilterQuery();
 
   if (isLoading) return <div>Loading...</div>;
@@ -80,6 +87,8 @@ function Navbar() {
   };
 
   const totalCoef = bets?.reduce((total, bet) => total * bet.coef, 1);
+  const winningChance = price * totalCoef;
+
 
   return (
     <div>
@@ -181,7 +190,7 @@ function Navbar() {
                   </div>
                     <p className="bet-slip-label">Bet Slip</p>
                 </div>
-                    <p className="balance">{bets?.length === 0 ? totalCoef : '1.00'}</p>
+                    <p className="balance">{bets?.length !== 0 ? totalCoef.toFixed(2) : '1.00'}</p>
                     <p className="balance-label">Balance</p>
               </div>
 
@@ -204,11 +213,11 @@ function Navbar() {
               <div className="bet-input">
                 <div className="price-section">
                   <p className="price-label">Price</p>
-                  <input type="text" className="price-input" placeholder="Ps. 2.00" />
+                  <input  type="text" className="price-input" placeholder="Ps. 2.00" onChange={handlePriceChange} />
                 </div>
                 <div className="winning-chance-section">
                   <p className="winning-chance-label">Winning Chance: </p>
-                  <p className="winning-chance-rezult">0.00 </p>
+                  <p className="winning-chance-rezult">{price.length !== 0 ? winningChance.toFixed(2) : '0.00'}</p>
                 </div>
               </div>
 
