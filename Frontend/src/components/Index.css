@@ -1,0 +1,1744 @@
+/* index.css */
+body {
+  background-color: #444444;
+    overflow-x: hidden;
+  }
+  
+* {
+    margin: 0;
+    text-decoration: none;
+    padding: 0; 
+  }
+
+
+  
+
+  .bodyy{
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    position: absolute; 
+    width: 100%;
+  }
+
+  
+  
+  .navbar {
+    position: sticky; 
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #126e51;
+    justify-content: center;
+    flex-direction: row; 
+}
+
+  
+  /* linqet */
+  
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+  }
+  
+  .nav-link {
+    padding: 10px;
+    text-decoration: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #ffffff;
+    position: relative;  
+  }
+   
+  .nav-link:after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 2px;
+    background-color: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 25%;  
+    transform: translateX(-50%) scaleX(0);  
+    transition: transform 0.3s ease-in-out, background-color 0.3s;
+}
+
+  
+  .nav-link.active:after {
+    transform: scaleX(1);  
+    background-color: #ffd700;  
+  }
+  
+  /* logo */
+  
+  .div-logo {
+    width: 33%;
+    height: auto; 
+    display: flex;
+    justify-content: flex-start;  
+    align-items: center; 
+  }
+  
+  .logo {
+    width: 100px;
+    height: 50px; 
+  }
+  
+  /* butonat */
+  
+  .auth-buttons { 
+    display: flex;
+    justify-content: flex-end;
+    width: 34%;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .auth-button {
+    margin: 4px;
+    background-color: #00ff2a;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    color: black;
+    border-radius: 2px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  /* Menu burger */
+  
+  .burger-menu{
+    display: none;  
+  }
+   
+ 
+  
+
+
+ 
+  
+
+
+
+/* Stili i sidebar-it */
+.sidebar { 
+    width: 150px;   
+    height: auto;
+    margin-top: 20px;
+    z-index: 1000; 
+    transform: translateX(-400px);
+    transition: transform 0.3s ease-in-out; 
+  }
+
+  .sidebar.open {
+    transform: translateX(0);  
+  }
+  
+  .sidebar-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #a5a4a4;
+    font-size: 12px; 
+    text-decoration: none; 
+    background-color: #333333; 
+    width: 100%;
+    height: 10px;
+    padding: 10px ;
+    margin: 2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  .sidebar-link:hover {
+    color: #ffffff;  
+    background-color: #4b4b4b;  
+  }
+
+  .sidebar-link-home{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #ffffff;
+    font-size: 12px; 
+    font-weight: bold;
+    text-decoration: none; 
+    background-color: #333333; 
+    width: 100%;
+    height: 10px;
+    padding: 10px ;
+    margin: 2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+  .search-input {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #a5a4a4;
+    font-size: 12px;
+    text-decoration: none;
+    background-color: #333333;
+    width: 100%;
+    height: 10px;
+    padding: 10px;
+    margin-left: 2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: none; 
+    outline: none;   
+    border-bottom: 2px solid rgb(255, 255, 255); /* Add yellow bottom border */
+  }
+  
+  
+
+  .close-sidebar { 
+    display: none;  
+  }
+
+  .search-icon{
+    padding-right: 10px;
+    width: 15px;
+    height: 15px;
+  }
+   
+  .star-icon{
+    width: 15px;
+    height: 15px;
+  }
+   
+ 
+
+ 
+.welcome-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.welcome-modal-content {
+  background-color: #655050;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 80%;
+}
+
+.close-welcome-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.div-search{
+ display: flex;
+ flex-direction: row;
+}
+
+.search-slide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1000;
+}
+
+
+.sidebar-none{
+  display: none;
+}
+
+.sidebar-menu{ 
+    width: 100%;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 11px;
+    background-color: #333333;
+}
+
+
+.sidebar-menu-a{
+  display: flex;
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; 
+   
+}
+
+.sidebar-menu-a p{ 
+  padding-top: 3px;
+  color: #A5A4A4;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 13px;
+}
+
+.icon-menuu{
+  width: 15px;
+  height: 15px;
+
+}
+
+
+
+.search-content {
+  background-color: #444444;
+  width: 80%;
+  max-width: 400px;
+  height: 400px;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 10px;
+}
+
+  
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-search {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #14805e;
+  cursor: pointer;
+}
+
+.search-inputt {
+  width: 100%;
+  padding: 10px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+ 
+.search-inputt:focus {
+  outline: none; 
+  box-shadow: none;  
+}
+
+.dark-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+
+
+
+
+/* tabela e rezultateve */
+
+.bet-slip-container { 
+  background-color: #f8f8f8;  
+  width: 30%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-right: 3px;  
+  z-index: 10000;
+  flex-direction: column;
+}
+
+.bet-slip-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; 
+  background-color: #f0eeee;
+}
+
+ 
+
+.bet-slip{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.balance {
+  font-size: 15px;
+  color: #333;
+  font-weight: bold;
+  padding: 15px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+.bet-count{
+  font-size: 13px;
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #126e51;
+}
+
+.bet-slip-label {
+  font-size: 15px;
+  color: #333;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin-left: 5px;
+}
+
+ .balance-label {
+  font-size: 14px;
+  color: #999;
+  padding: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+}
+
+.match-details { 
+  width: 100%;
+  height: auto; 
+}
+
+.match {
+  display: flex;
+  justify-content: space-between; 
+}
+
+.team {
+  font-size: 12px;
+    padding: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.odds {
+  font-weight: bold;
+  padding: 15px 15px 0px 15px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.bet-type {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 10px;
+  color: #999; 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 15px 15px 15px;
+}
+
+.bet-input-section { 
+  background-color: #4b4b4b; 
+  width: 100%;
+}
+
+.bet-input{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.delete-button {
+  border: none;
+  background-color: transparent;  
+  color: red;  
+  padding: 0;  
+  margin: 0;  
+  cursor: pointer;  
+  font-size: 10px;
+}
+
+.delete-button:focus {
+  outline: none; 
+  border-color: transparent; 
+}
+
+
+.price-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column; 
+  padding: 15px;
+  width: 50%; 
+  border-right:1px solid white;
+  background-color: #555555;
+}
+
+
+ .winning-chance-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column; 
+  padding: 15px;
+  border-left:1px solid white;
+  width: 50%; 
+  background-color: #555555;
+}
+.price-label, .winning-chance-label {
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 5px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+ .winning-chance-rezult {
+  font-size: 15px;
+  color: #ffffff; 
+  font-weight: bold;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.price-input {
+  background-color: transparent; /* Heqja e background-it */
+  border: none;  
+  width: 50px;
+  color: white;
+}
+
+/* Stilizimi për input-in kur është aktiv (kur ka fokus) */
+.price-input:focus {
+  outline: none; /* Heqja e outline-it që shfaqet kur input-i ka fokus */
+  border-color: transparent; /* Bërja e border-it transparent kur input-i ka fokus */
+}
+
+
+.place-bet-section {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+}
+
+.place-bet-btn {
+  background-color: #4b4b4b; 
+  border: none;
+  color: white;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px; 
+  cursor: pointer;
+}
+ 
+
+.place-bet-btn:hover{
+  background-color: #616060;  
+}
+ 
+
+
+/* Login Modal  */
+
+
+
+.login-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  width: 300px;
+  padding: 30px;
+  border-radius: 5px;
+  opacity: 0;  
+  pointer-events: none;  
+  transition: opacity 0.3s ease;
+}
+
+.login-modal.active {
+  opacity: 1;  
+  pointer-events: auto;  
+}
+
+.login-content { 
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.text-danger{
+  color: rgb(203, 25, 25);
+  font-size: 12px; 
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: bold; 
+}
+
+.input-field {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease; /* Shto një tranzicion për border-in */
+}
+
+.input-field:focus {
+  outline: none; /* Fshij konturin e input-it kur është në fokus */
+  border-color: transparent; /* Bëj border-in transparent kur input-i është në fokus */
+}
+
+
+.submit-button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  background-color: #10c154;
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+/* Sport List  */
+
+.div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.div-sports1 {
+  width: 9.5%;
+}
+
+.div-sports2 {
+  width: 30%;
+}
+
+.div-sports {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.sports {
+  width: 100%;
+  height: 70px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  background-color: #333333;
+  overflow-x: auto; /* Shtoni këtë për skrollim horizontal */
+  overflow-y: hidden; /* Mbajeni këtë për të shmangur skrollimin vertical */
+}
+
+.sports::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.sports::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+}
+
+.sports-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100px;
+  height: auto;
+  margin: 0px 10px;
+  color: white;
+  font-size: 12px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.sports-icon {
+  width: 23px;
+  height: 23px;
+  padding-bottom: 7px;
+}
+
+.container-two {
+  width: 100%;
+}
+
+.container-two p {
+  text-align: center;
+  color: #333333;
+  font-weight: bold;
+}
+
+ 
+
+/* pjesa e koeficienteve */
+
+
+.container-two{
+  width: 100%;
+  height: auto;
+  margin-top: 5px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;  
+}
+
+.div-koeficient1{
+  width: 100%;
+  height: auto; 
+  display: flex; 
+  flex-direction: column;  
+}
+
+.div-title{
+  width: 100%;
+  height: 50px;  
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  background-color: #14805e;
+}
+
+.div-title p{
+  font-size: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #e3e3e3;
+  font-weight: bold;
+  margin-left: 15px;
+}
+
+#p1{
+  font-size: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #cdcbcb;
+  font-weight: 400;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.match-icon{
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+}
+
+.div-cont {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff transparent;
+}
+
+.div-cont::-webkit-scrollbar {
+  width: 10px;
+}
+
+.div-cont::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.div-kf {
+  width: 250px;
+  height: 125px;
+  display: inline-block; /* Ndërro display nga flex në inline-block */
+  vertical-align: top;
+  margin-right: 3px;
+  background-color: #666666; /* Shto ngjyrën e kartës */
+}
+
+.div-data{
+  width: 100%;
+  height: 60%;  
+  display: flex; 
+  flex-direction: row; 
+  background-color: #666666;
+}
+
+.div-match{
+  width: 75%;
+  height: 100%;  
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.div-match p{
+  font-size: 13px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #c9c9c9; 
+  margin-left: 15px;
+  font-weight: 600;
+}
+
+.div-time{
+  width: 100%;
+  height: 25%;  
+  display: flex; 
+  flex-direction: row; 
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.div-time p{ 
+  margin-left: 15px;
+  margin-top: 10px;
+  font-size: 10px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #c9c9c9; 
+}
+
+.div-nr{
+  width: 25%;
+  height: 100%;  
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+}
+
+.div-nr p{  
+  font-size: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #c9c9c9; 
+}
+
+
+
+.div-kf-nr{
+  width: 100%;
+  height: 40%;  
+  display: flex;  
+  flex-direction: row;
+  background-color: #666666;
+}
+
+.koef {
+  width: 33%;
+  height: 100%;  
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; 
+  margin-left: 2px;
+  background-color: #5e5e5e; 
+}
+
+.koef.clicked {
+  background-color: #ffffff;  
+}
+
+.koef.clicked p {
+  color: #1c2d23; 
+}
+
+
+.koef p{  
+  font-size: 12px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #00ff62; 
+  margin-left: 5px;
+}
+
+.koef p:first-child{  
+  font-size: 12px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #ffffff; 
+}
+
+
+
+
+/* navbari i koeficienteve  */
+
+.div-league-kf{
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  background-color: #454444;
+}
+
+.div-league{
+  width: 60%;
+  height:  100%;
+  display: flex; 
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #a7a7a7;
+}
+
+.div-league p{ 
+  font-size: 15px;
+  color: #444444;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder;
+  margin-left: 15px;
+  
+}
+
+.koef-option{
+  width: 13.3%;
+  height:  100%;
+  display: flex; 
+  margin-left: 1px;
+  justify-content: center;
+  align-items: center;
+  background-color: #a7a7a7;
+}
+
+.koef-option p{ 
+  font-size: 15px;
+  color: #444444;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder; 
+}
+
+ 
+
+/* ndeshjet live  */
+
+.container{
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  background-color: #747474;
+  margin-top: 2px;
+}
+
+.info{
+  width: 60%;
+  height:  100%;
+  display: flex; 
+  justify-content: flex-start;
+  align-items: center; 
+  background-color: #666666;
+  flex-direction: row;
+}
+
+.time{
+  width: 10%;
+  height:  100%;
+  display: flex; 
+  justify-content: center;
+  align-items: center;  
+  flex-direction: column;
+}
+
+.time p{ 
+  font-size: 15px;
+  color: #ffffff;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight:  200;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.teams{
+  width: 90%; 
+  display: flex;  
+  flex-direction: column;
+}
+
+.teamm{
+  width: 90%; 
+  display: flex;  
+  flex-direction: row;
+  align-items: center;
+  justify-content:  space-between;
+}
+
+.teamm p{ 
+  font-size: 15px;
+  color: #ffffff;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder; 
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+.d-odd{
+  width: 13.3%;
+  height:  100%;
+  display: flex; 
+  margin-left: 1px;
+  justify-content: center;
+  align-items: center; 
+  background-color: #5e5e5e;
+}
+
+.d-odd p{ 
+  font-size: 15px;
+  color: #06db0d;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder; 
+}
+
+
+/* ndeshjet sot  */
+
+.team-today{
+  width: 90%; 
+  display: flex;   
+  align-items: flex-start; 
+  justify-self: start;
+  flex-direction: column; 
+  cursor: pointer;
+}
+
+.team-today p{ 
+  font-size: 15px;
+  color: #eaeaea;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder;
+  margin-left: 15px; 
+  margin-top: 5px;
+}
+
+.team-nr{
+  width: 10%; 
+  display: flex;   
+  align-items: center; 
+  justify-content: center; 
+}
+
+.team-nr p{ 
+  font-size: 15px;
+  color: #eaeaea;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bolder; 
+}
+
+.infoo{
+  width: 60%;
+  height:  100%;
+  display: flex; 
+  justify-content: flex-start;
+  align-items: center; 
+  background-color: #666666;
+  flex-direction: column;
+}
+
+.info-div{
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+}
+
+.timee{
+  width: 100%;
+  height:  50%;
+  display: flex; 
+  justify-content: flex-start;
+  align-items: center;  
+  flex-direction: row;
+}
+
+.timee p{ 
+  font-size: 15px;
+  color: #ffffff;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight:  200;
+  margin-left: 10px; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* media per destop screen    */
+
+@media screen and (max-width: 1670px) {
+
+.div-sports1{
+  width:12% ;
+}
+
+.div-sports2{
+  width:30% ;
+}
+
+.div-sports{ 
+    width: 57%; 
+}
+}
+
+
+@media screen and (max-width: 1450px) {
+
+  .div-sports1{
+    width:14% ;
+  }
+  
+  .div-sports2{
+    width:30% ;
+  }
+  
+  .div-sports{ 
+      width: 55%; 
+  }
+  }
+
+  /* media per te gjitha llojet    */
+
+
+  @media screen and (max-width: 1300px) {
+
+    .div-sports1{
+      display: none;
+    }
+    
+    .div-sports2{
+      display: none;
+    }
+
+    .div-sports{ 
+      width: 100%; 
+  }
+
+
+    .nav-links {
+      display: none;  
+    }
+    
+    .div-logo {
+      width: 100%;  
+      justify-content: center;  
+    }
+  
+    .burger-menu {
+        justify-content: center;
+      display: block;  
+      align-items: center;   
+      width: 33%;  
+    }
+  
+    .menu-icon {
+      width: 30px;
+      height: 30px;
+      padding-left: 10px;
+    }
+   
+    @media screen and (max-width: 800px) {
+      .div-logo {
+        justify-content: center;
+      }
+    }
+   
+    .nav-links {
+      display: none;
+    }
+    
+    .div-logo {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .close-sidebar {
+      display: block;
+      position: absolute;
+      top: 10px;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      right: 50px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+      .sports {
+        width: 100%; 
+        margin-right: 0px;
+    }
+
+    .container-two {
+      width: 100%; 
+      margin-right: 0px;
+  }
+    
+
+    .sidebar-none{
+      display: block;
+    }
+
+    .sidebar { 
+      width: 200px;    
+    }
+
+
+.bet-slip-container{ 
+  width: 100%;
+  display: none;
+}
+
+
+
+.bodyy{
+  flex-direction: column;
+}
+
+.team-nr{
+  width: 20%;
+}
+
+.time{
+  width: 30%;
+}
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* pjesa e file live.js */
+
+  .s-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+
+  .search-container {
+    display: flex;
+    margin-top: 5px;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    background-color: #14805e;
+}
+
+.search-box {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 50px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.sports-search-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+}
+
+.search-box input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    margin-left: 5px;
+    background-color: transparent;
+    color: white;
+}
+
+.search-box input[type="text"]::placeholder {
+    color: white;
+}
+
+.final-result {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 50px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.final-result p {
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.arrov-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+ 
+.dropdown-menu {
+  position: absolute;
+  top: 145px; /* Adjust as needed */
+  right: 0;
+  width: 200px;
+  background-color: white;
+  border: 1px solid #ccc; 
+  z-index: 999; /* Ensure dropdown is on top of other elements */
+}
+
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 10px;
+  border-bottom: 0.5px solid silver; 
+}
+
+.dropdown-menu ul li a {
+  text-decoration: none;
+  color: #333;
+  
+}
+
+.dropdown-menu ul li:hover {
+  background-color: #f0f0f0; 
+  border-left: 2px solid rgb(126, 127, 25);
+}
+
+ .test{
+  width: 100%;
+  height: auto; 
+ }
+
+
+
+
+
+ /* foteri  */
+
+
+ .footer-container{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+ }
+
+ .footer-container-p{
+  width: 60%;
+  height: 400px;   
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+ }
+
+ .footer-container p{
+  font-size: 15px;
+  color: silver;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin: 10px 0px 10px 0px;
+ }
+
+ @media screen and (max-width: 700px){
+  .footer-container-p{
+    width: 95%;
+    height: auto; 
+    font-size: 8px;
+   }
+
+   .footer-container{ 
+    margin: 50px 0px 20px 0px; 
+   }
+  
+ }
+
+
+
+
+
+
+
+
+
+  /* koeficientat per nje ndeshje  */
+
+
+  .rezult-match-div{
+    width: 100%;
+    height:50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #383838;
+    margin-top: 20px;
+  }
+
+  .rezult-match-div p{ 
+    color: white;
+    font-size: 15px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder; 
+  }
+
+  .point:nth-of-type(1) {
+    width:35px;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid rgb(255, 255, 255);
+    color: rgb(64, 255, 0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    margin-left: 15px;
+  }
+
+  .point:nth-of-type(2) {
+    width:35px;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid rgb(46, 46, 13);
+    color: rgb(64, 255, 0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+
+  .div-market{
+    width: 100%;
+    height: 40px; 
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+  }
+
+  .div-market-se{ 
+    width: 100%;  
+  }
+
+  .search-match {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .search-input-match {
+    width: calc(100% - 50px);  
+    height: 30px;
+    padding: 5px 40px 5px 10px;
+    border: 1px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    border-radius: 5px; 
+  }
+  
+  
+  .search-input-match:focus {
+    outline: none;  
+    border-color: #fff;  
+  }
+  
+  .search-button {
+    /* position: absolute;  */
+    top: 80%;
+    margin-top: 20px;
+    right: 0px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    z-index: 5555;
+  }
+  
+  .search-button:focus {
+    outline: none;  
+  }
+  
+  .search-button svg {
+    font-size: 1.2em;
+  }
+
+  .linqet{
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+
+  
+  .linqet p{ 
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 13px;
+    margin-left: 15px;
+    margin-top: 5px;
+  }
+
+
+.customDiv{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #14805e; 
+}
+
+ 
+
+.customDiv p{  
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+ 
+ 
+.outerDiv{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  background-color: #757575;
+}
+
+#p-k{
+  color: white;
+}
+
+.innerDiv{
+  width: 33.3%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #666666;
+  margin-left: 1px;
+}
+
+.innerDivv{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #666666;
+  margin-left: 1px;
+}
+
+.nestedDiv1{
+  width: 50%;
+  height: 100%;
+  display: flex; 
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nestedDiv1 p{
+  color: white;
+ font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  margin-right: 3px;
+}
+
+.nestedDiv2{
+  width: 50%;
+  height: 100%;
+  display: flex; 
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#p-n2{
+  color: white;
+  padding-right: 5px;
+}
+
+
+.nestedDiv2 p{
+  color: rgb(43, 255, 0);
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  margin-left: 3px;
+}
+
+.wrapper{
+  width: 100%;
+  height: 20px;
+  display: flex;  
+  flex-direction: row;
+  background-color: #757575;
+}
+
+.topSection{
+  width: 33.3%;
+  height: 100%;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  background-color: #a7a7a7;
+  margin-left: 1px;
+}
+
+.topSection p{
+  color: rgb(36, 24, 24);
+ font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 13px; 
+}
+
+
+.newOuterDiv{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  background-color: #757575;
+}
+
+.newInnerDiv1{
+  width: 33.3%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #5d5c5c;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1px;
+  color: silver;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+
+.newInnerDiv{
+  width: 33.3%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #666666;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1px;
+  color: rgb(43, 255, 0);
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+ 
+
+  @media screen and (max-width: 1300px) {
+    .div-market-se{ 
+      width: 97%;  
+    }
+  }
