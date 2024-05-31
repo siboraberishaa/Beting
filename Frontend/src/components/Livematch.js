@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useGetInPlayOdssQuery, useGetOddsPerGameQuery } from '../features/apiSlice';
-import { useNavigate } from 'react-router-dom';  
+import { useGetInPlayFilterQuery, useGetInPlayOdssQuery, useGetOddsPerGameQuery } from '../features/apiSlice';
+import { Link, useNavigate } from 'react-router-dom';  
 import { useDispatch } from 'react-redux';
 import { addBets, deleteBet } from '../features/betSlice';
+import soccer from '../assets/soccer.png';
+import basketball from '../assets/basketball.png';
+import baseball from '../assets/baseball.png'; 
+import tennis from '../assets/tennis.png'; 
+import cricket from '../assets/cricket.png'; 
+import icehockey  from '../assets/icehockey.png'
+import volleyball from '../assets/volleyball.png';  
+import esports from '../assets/esports.png'
 
 const MatchOdds = ({ eventId, teams }) => {
   const dispatch = useDispatch();
@@ -61,6 +69,8 @@ const Livematch = () => {
   const navigate = useNavigate();
   const { data: sports, isLoading, isError } = useGetInPlayOdssQuery();
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const { data: sportss, isLoading: loading, isError: err } = useGetInPlayFilterQuery();
+
 
   useEffect(() => {
     if (sports) {
@@ -92,8 +102,65 @@ const Livematch = () => {
     navigate(`/matchoods/${match.eventId}`);
   };
 
+
+
+
+
+  // sport list 
+
+
+
+  
+  // Merr të dhënat e sporteve nga API
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {isError.message}</div>;
+  if (!sports || sports?.length === 0) return <div>No data available</div>;
+
+  // Objekti i ikonave për secilin sport
+  const sportIcons = {
+      soccer,
+      basketball,
+      baseball,
+      tennis,
+      cricket,
+      icehockey,
+      volleyball,
+      esports,
+  };
+
+  const capitalizeFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
+  
+
   return (
     <div className='div-sports'>
+
+
+
+<div className='sports'>
+                  {sportss?.map((sport, index) => (
+                    <Link key={index} className="sports-link" to={`/${sport.toLowerCase()}`}> 
+                      <div className="container-two">  
+                        <img className="sports-icon" src={sportIcons[sport.toLowerCase()]} alt={`${sport} Icon`} />  
+                      </div>
+                      <p>{capitalizeFirstLetter(sport)}</p>
+                    </Link>
+                  ))}
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
       {Object.entries(groupedMatches).map(([liga, matches], index) => (
         <React.Fragment key={index}>
           <div className='div-league-kf'>
