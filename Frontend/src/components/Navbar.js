@@ -12,7 +12,7 @@ import offer from '../assets/offer.png'
 import { useGetInPlayFilterQuery } from '../features/apiSlice';
 import ModalLogin from './ModalLogin'; // Importo ModalLogin.js
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteBet } from '../features/betSlice';
+import { deleteBet, toggleOdd } from '../features/betSlice';
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -84,9 +84,14 @@ function Navbar() {
 
   const handleDeleteClick = (index) => {
     dispatch(deleteBet(index));
+    dispatch(toggleOdd(index));
   };
 
-  const totalCoef = bets?.reduce((total, bet) => total * bet.coef, 1);
+  let totalCoef = 1;
+if (Array.isArray(bets)) {
+  totalCoef = bets.reduce((total, bet) => total * bet.coef, 1);
+}
+
   const winningChance = price * totalCoef;
 
 
@@ -186,16 +191,16 @@ function Navbar() {
               <div className="bet-slip-header">
                 <div className='bet-slip'> 
                   <div className='bet-count'> 
-                  <p>{bets?.length}</p> 
+                  <p>{bets.betItems?.length}</p> 
                   </div>
                     <p className="bet-slip-label">Bet Slip</p>
                 </div>
-                    <p className="balance">{bets?.length !== 0 ? totalCoef.toFixed(2) : '1.00'}</p>
+                    <p className="balance">{bets.betItems?.length !== 0 ? totalCoef.toFixed(2) : '1.00'}</p>
                     <p className="balance-label">Balance</p>
               </div>
 
               <div className="match-details">
-              {bets?.map((bet, index) => (
+              {bets.betItems?.map((bet, index) => (
                   <div className="match-details" key={index}>
                     <div className="match"> 
                       <p className="team">{bet.teams.team1} - {bet.teams.team2}</p> <p className="odds">{bet.coef}</p>
