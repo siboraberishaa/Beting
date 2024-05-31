@@ -130,7 +130,7 @@ function Navbar() {
                               <img className='icon-menuu' src={sport} alt='Sports'/> 
                               <p>Sports</p>
                             </Link> 
-                            <Link className='sidebar-menu-a' to="/">
+                            <Link className='sidebar-menu-a' to="/live">
                               <img className='icon-menuu' src={sportlive} alt='Sports'/> 
                               <p>Live</p>
                             </Link> 

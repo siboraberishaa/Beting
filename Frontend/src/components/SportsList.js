@@ -8,6 +8,7 @@ import cricket from '../assets/cricket.png';
 import icehockey  from '../assets/icehockey.png'
 import volleyball from '../assets/volleyball.png'; 
 import arrow from '../assets/arrow.png';
+import esports from '../assets/esports.png'
 import './Index.css'; 
 import { useGetInPlayFilterQuery } from '../features/apiSlice';
 
@@ -54,23 +55,29 @@ function SportsList() {
       cricket,
       icehockey,
       volleyball,
+      esports,
   };
 
-
+  const capitalizeFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
+  
 
 
 
   return (
     <div className='div-sports'>
-                    <div className='sports'>
-                        {sports?.map((key, index) => (
-                            <Link key={index} className="sports-link" to={`/${key.toLowerCase()}`}>
-                                {sports[key]}
-                                {/* Shto ikonën për sportin aktual */}
-                                <img className="sports-icon" src={sportIcons[key.toLowerCase()]} alt={`${sports[key]} Icon`} /> 
-                            </Link>
-                        ))}
-                    </div>
+               <div className='sports'>
+                  {sports?.map((sport, index) => (
+                    <Link key={index} className="sports-link" to={`/${sport.toLowerCase()}`}> 
+                      <div className="container-two">  
+                        <img className="sports-icon" src={sportIcons[sport.toLowerCase()]} alt={`${sport} Icon`} />  
+                      </div>
+                      <p>{capitalizeFirstLetter(sport)}</p>
+                    </Link>
+                  ))}
+                </div>
+
 
       {/* Div-i për koeficientet */}
       <div className='container-two'>
@@ -180,7 +187,7 @@ function SportsList() {
           <div className='koef-option'>
             <p>2</p>
           </div>
-        </div>
+      </div>
       )}
       {!isClosed && (
         <div className='container'>

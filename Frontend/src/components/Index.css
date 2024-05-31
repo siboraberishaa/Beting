@@ -909,6 +909,15 @@ body {
 
 
 /* navbari i koeficienteve  */
+.div-league-kff{
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  background-color: #454444;
+}
+
+
 
 .div-league-kf{
   width: 100%;
