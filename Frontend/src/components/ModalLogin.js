@@ -1,40 +1,42 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useLoginMutation } from "../features/apiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../features/authSlice";
 
 function ModalLogin({ isOpen, onClose }) {
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    axios
-      .post("http://localhost:8081/live", { email, password })
-      .then((res) => {
-        if (res.data.user) {
-          // Kontrollo nëse kthehet një përdorues
-          navigate("/index");
-        } else {
-          alert("Login failed");
-        }
-      })
+  const [login] = useLoginMutation()
 
-      .catch((err) => console.log(err));
-  }
+  const submitHandler = async (event) => {
+    event.preventDefault()
+    try {
+        const res = await login({ userName, password }).unwrap()
+        dispatch(setCredentials({...res, }))
+        onClose()
+        setUserName('')
+        setPassword('')
+    } catch (error) {
+        console.log(error?.data?.message || error.error)
+    }
+}
 
   return (
     <div className={`login-modal ${isOpen ? "active" : ""}`}>
       <div className="login-content">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={submitHandler}>
           <input
             type="text"
             placeholder="Username"
             className="input-field"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            id="username"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            name="userName"
+            id="userName"
             autocomplete="username"
           />
 

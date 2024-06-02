@@ -15,6 +15,8 @@ import cricket from "../assets/cricket.png";
 import icehockey from "../assets/icehockey.png";
 import volleyball from "../assets/volleyball.png";
 import esports from "../assets/esports.png";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const MatchOdds = ({ eventId, teams }) => {
   const dispatch = useDispatch();
@@ -22,87 +24,104 @@ const MatchOdds = ({ eventId, teams }) => {
   const [isClicked0, setIsClicked0] = useState(false);
   const [isClicked1, setIsClicked1] = useState(false);
   const [isClicked2, setIsClicked2] = useState(false);
-  const isClicked = useSelector((state) => state.bets.clickedOdds);
+  const [idMap, setIdMap] = useState({});
+
+  const clickedOdds = useSelector((state) => state.bets.clickedOdds);
 
   if (isLoading) return <div>Loading odds...</div>;
   if (isError) return <div>Error: {isError.message}</div>;
 
   const handleOddClick = (index, coef) => {
+    let id = idMap[index];
+    if (!id) {
+      id = uuidv4();
+      setIdMap((prevIdMap) => ({ ...prevIdMap, [index]: id }));
+    }
+  
     const bets = JSON.parse(localStorage.getItem("bets"));
-    const existingBetIndex = bets.betItems.findIndex(
-      (bet) => bet.coef === Number(coef).toFixed(2)
-    );
-
-    if (existingBetIndex !== -1) {
-      dispatch(deleteBet(existingBetIndex));
+    const existingBet = bets.betItems.find((bet) => bet.id === id);
+  
+    if (existingBet) {
+      dispatch(deleteBet(existingBet.id));
     } else {
       dispatch(
         addBets({
+          id: id,
           coef: Number(coef).toFixed(2),
           teams: teams,
         })
       );
     }
-
-    switch (index) {
-      case 0:
-        setIsClicked0((prevState) => !prevState);
-        break;
-      case 1:
-        setIsClicked1((prevState) => !prevState);
-        break;
-      case 2:
-        setIsClicked2((prevState) => !prevState);
-        break;
-      default:
-        break;
-    }
-
-    dispatch(toggleOdd(index));
+  
+    // Toggle the clicked state in Redux
+    dispatch(toggleOdd(id));
   };
+  
+  
+  
+  
+
+  // const handleOddClick = (index, coef) => {
+  //   const bets = JSON.parse(localStorage.getItem("bets"));
+  //   const existingBetIndex = bets.betItems.findIndex(
+  //     (bet) => bet.coef === Number(coef).toFixed(2)
+  //   );
+
+  //   if (existingBetIndex !== -1) {
+  //     dispatch(deleteBet(existingBetIndex));
+  //   } else {
+  //     dispatch(
+  //       addBets({
+  //         coef: Number(coef).toFixed(2),
+  //         teams: teams,
+  //       })
+  //     );
+  //   }
+
+  //   switch (index) {
+  //     case 0:
+  //       setIsClicked0((prevState) => !prevState);
+  //       break;
+  //     case 1:
+  //       setIsClicked1((prevState) => !prevState);
+  //       break;
+  //     case 2:
+  //       setIsClicked2((prevState) => !prevState);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
+  //   dispatch(toggleOdd(index));
+  // };
 
   return (
     <>
-      <div
-        className="d-odd"
-        style={{ backgroundColor: isClicked0 ? "#fff" : "", cursor: "pointer" }}
-        onClick={() => handleOddClick(0, odds?.markets[0]?.coef)}
-      >
-        <p>
-          {!isNaN(odds?.markets[0]?.coef)
-            ? Number(odds?.markets[0]?.coef).toFixed(2)
-            : ""}
-        </p>
-      </div>
-      <div
-        className="d-odd"
-        style={{ backgroundColor: isClicked1 ? "#fff" : "", cursor: "pointer" }}
-        onClick={() => handleOddClick(1, odds?.markets[1]?.coef)}
-      >
-        <p>
-          {!isNaN(odds?.markets[1]?.coef)
-            ? Number(odds?.markets[1]?.coef).toFixed(2)
-            : ""}
-        </p>
-      </div>
-      <div
-        className="d-odd"
-        style={{ backgroundColor: isClicked2 ? "#fff" : "", cursor: "pointer" }}
-        onClick={() => handleOddClick(2, odds?.markets[2]?.coef)}
-      >
-        <p>
-          {!isNaN(odds?.markets[2]?.coef)
-            ? Number(odds?.markets[2]?.coef).toFixed(2)
-            : ""}
-        </p>
-      </div>
+      {[0, 1, 2].map((index) => (
+        <div
+          key={index}
+          className="d-odd"
+          style={{
+            backgroundColor: clickedOdds[idMap[index]] ? "#fff" : "",
+            cursor: "pointer",
+          }}
+          onClick={() => handleOddClick(index, odds?.markets[index]?.coef)}
+        >
+          <p>
+            {!isNaN(odds?.markets[index]?.coef)
+              ? Number(odds?.markets[index]?.coef).toFixed(2)
+              : ""}
+          </p>
+        </div>
+      ))}
     </>
   );
+  
 };
 
 const Livematch = () => {
   const navigate = useNavigate();
-  const [selectedSport, setSelectedSport] = useState("tennis");
+  const [selectedSport, setSelectedSport] = useState("soccer");
   const {
     data: sports,
     isLoading,

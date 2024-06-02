@@ -82,10 +82,11 @@ function Navbar() {
 
   console.log('sports from navbar', sports)
 
-  const handleDeleteClick = (index) => {
-    dispatch(deleteBet(index));
-    dispatch(toggleOdd(index));
+  const handleDeleteClick = (id) => {
+    dispatch(deleteBet(id));
+    dispatch(toggleOdd(id));
   };
+  
 
   let totalCoef = 1;
 if (Array.isArray(bets)) {
@@ -191,23 +192,23 @@ if (Array.isArray(bets)) {
               <div className="bet-slip-header">
                 <div className='bet-slip'> 
                   <div className='bet-count'> 
-                  <p>{bets.betItems?.length}</p> 
+                  <p>{bets?.length}</p> 
                   </div>
                     <p className="bet-slip-label">Bet Slip</p>
                 </div>
-                    <p className="balance">{bets.betItems?.length !== 0 ? totalCoef.toFixed(2) : '1.00'}</p>
+                    <p className="balance">{bets?.length !== 0 ? totalCoef.toFixed(2) : '1.00'}</p>
                     <p className="balance-label">Balance</p>
               </div>
 
               <div className="match-details">
-              {bets.betItems?.map((bet, index) => (
+              {bets?.map((bet, index) => (
                   <div className="match-details" key={index}>
                     <div className="match"> 
                       <p className="team">{bet.teams.team1} - {bet.teams.team2}</p> <p className="odds">{bet.coef}</p>
                     </div>
                     <div className="bet-type">
                       <p>Rezultat final (1)</p> 
-                      <button className="delete-button" onClick={() => handleDeleteClick(index)}>Delete</button>    
+                      <button className="delete-button" onClick={() => handleDeleteClick(bet.id)}>Delete</button>      
                     </div>
                   </div>
                 ))}
