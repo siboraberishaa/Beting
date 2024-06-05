@@ -3,6 +3,7 @@ import './Index.css';
 import searchImage from '../assets/search.png';
 import { Link, useParams } from 'react-router-dom';
 import { useGetOddsPerGameQuery } from '../features/apiSlice';
+import Navbar from './Navbar';
 
 function MatchOdds() {
     const { eventId } = useParams();
@@ -12,6 +13,8 @@ function MatchOdds() {
     console.log(oddsPerGame, 'oddspergame');
 
     return (
+        <>
+        <Navbar />
         <div className='div'>
             <div className='div-sports1'></div>
 
@@ -91,6 +94,7 @@ function MatchOdds() {
 
             <div className='div-sports2'></div>
         </div>
+        </>
     );
 }
 

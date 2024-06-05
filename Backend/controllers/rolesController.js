@@ -7,10 +7,10 @@ import User from "../models/userModel.js";
 //@route GET/api/roles
 //@access Public
 const getRoles = asyncHandler( async (req, res) => {
+  const roles = await Roles.find({ name: { $ne: 'Super Admin' } });
+  res.json(roles);
+});
 
-      const roles = await Roles.find()
-      res.json(roles)
-})
 
 //@desc create a new roles
 //@route POST/api/roles

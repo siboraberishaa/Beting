@@ -5,7 +5,7 @@ import { protect, authorize } from '../middleware/authMiddleware.js'
 
 const router = new express.Router()
 
-router.route('/').get(protect, authorize('read', 'roles'),getRoles);
+router.route('/').get(getRoles);
 router.route('/').post(protect, authorize('create', 'roles'), createRoles);
 router.route('/:id').get(protect, authorize('read', 'roles'),  getRolesById);
 router.route('/:id').put(protect, authorize('update', 'roles'),  updateRoles);

@@ -9,10 +9,12 @@ import sport from '../assets/sport.png'
 import sportlive from '../assets/sportlive.png'
 import cards from '../assets/cards.png'
 import offer from '../assets/offer.png'
-import { useGetInPlayFilterQuery } from '../features/apiSlice';
+import { useGetInPlayFilterQuery, useGetUserProfileQuery } from '../features/apiSlice';
 import ModalLogin from './ModalLogin'; // Importo ModalLogin.js
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteBet, toggleOdd } from '../features/betSlice';
+import { PiUserCircleLight } from "react-icons/pi";
+import { Dropdown } from "antd";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -24,8 +26,14 @@ function Navbar() {
   const [loginModalOpen, setLoginModalOpen] = useState(false); // Shto state për modalin e loginit
   const [price, setPrice] = useState(0);
 
+  const { userInfo } = useSelector((state) => state.auth);
+
 
   const bets = useSelector((state) => state.bets.betItems) 
+
+  const { data: sports, isLoading, isError, refetch } = useGetInPlayFilterQuery();
+  const { data: user } = useGetUserProfileQuery({userId: userInfo?._id});
+
 
 
 
@@ -39,6 +47,12 @@ function Navbar() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      refetch()
+    }
+  }, [userInfo, refetch]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -73,7 +87,6 @@ function Navbar() {
   };
 
 
-  const { data: sports, isLoading, isError } = useGetInPlayFilterQuery();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {isError.message}</div>;
@@ -95,6 +108,96 @@ if (Array.isArray(bets)) {
 
   const winningChance = price * totalCoef;
 
+  const items = [
+    {
+      label: <span>Perdoruesi: {user?.userName}</span>,
+      key: '0',
+    },
+    {
+      label: <span>Krediti: {user?.credits}</span>,
+      key: '1',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
+      key: '3',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/transfers'}>Transfertat</Link>,
+      key: '4',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/transactions'}>Transaksionet</Link>,
+      key: '5',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/roles'}>Rolet</Link>,
+      key: '6',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/permissions'}>Autorizimet</Link>,
+      key: '7',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/finances'}>Financat</Link>,
+      key: '8',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/users-list'}>Lista Perdorueseve</Link>,
+      key: '9',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/user-create'}>Krijo Perdorues</Link>,
+      key: '10',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/password-change'}>Ndrysho Passwordin</Link>,
+      key: '11',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/bonuss'}>Bonuset dhe promocionet</Link>,
+      key: '12',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: <span>Dil</span>,
+      key: '13',
+    },
+  ];
+
+
+
 
   return (
     <div>
@@ -112,9 +215,26 @@ if (Array.isArray(bets)) {
             <Link className={`nav-link ${activeLink === 'live' ? 'active' : ''}`} to="/live" onClick={() => handleLinkClick('live')}>Live</Link>
           </div>
         )}
+
+        {userInfo ? <Dropdown
+        overlayStyle={{zIndex: 10000}}
+        menu={{
+          items,
+        }}
+        trigger={['click']}
+      >
+    <div className="auth-buttons">
+    <span style={{color: '#fff'}}>
+      
+        <PiUserCircleLight size={25} /> {userInfo?.role}
+        
+    </span>
+    </div>
+  </Dropdown>
+         : 
       <div className="auth-buttons">
           <button className="auth-button" onClick={openLoginModal}>Login</button>  
-        </div>
+        </div>}
       </div>
 
       <ModalLogin isOpen={loginModalOpen} onClose={closeLoginModal} /> 

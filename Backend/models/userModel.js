@@ -41,6 +41,14 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Roles',
     },
+    credits: {
+        type: Number,
+        default: 0
+    },
+    status: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true,
 })

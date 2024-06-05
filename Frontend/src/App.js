@@ -7,28 +7,30 @@ import Footer from './components/Footer';
 import Matchoods from './components/Matchoods'; 
 import OddsPerGame from './components/OddsPerGame';
 import Index from './admin/Index';
+import PersonalInfo from './components/PersonalInfo';
+import UsersList from './components/UsersList';
+import RegisterUser from './components/RegisterUser';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    // Kontrollo statusin e kyçjes kur komponenti ngarkohet
-    const loggedIn = localStorage.getItem('loggedIn');
-    setIsLoggedIn(loggedIn);
-  }, []);
 
   return (
     <Router>
       <div>
-        <Navbar /> 
+        
         <Routes>
-          <Route path="/" element={isLoggedIn ? <Navigate to="/index" /> : <Sport />} />
+          <Route path="/" element={<Sport />} />
           <Route path="/live" element={<Live />} />
           <Route path="/matchoods/:eventId" element={<Matchoods />} /> 
-          <Route path="/index" element={<Index />} />
+
+          <Route path="/personal-info" element={<PersonalInfo />} />
+          <Route path="/users-list" element={<UsersList />} />
+          <Route path="/user-create" element={<RegisterUser />} />
         </Routes>
         <Footer />
       </div>
+        <ToastContainer />
     </Router>
   );
 }
