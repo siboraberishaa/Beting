@@ -7,6 +7,7 @@ import ModalLogin from './ModalLogin';
 import { useSelector } from 'react-redux';
 import { PiUserCircleLight } from "react-icons/pi";
 import { Dropdown } from "antd";
+import { useGetUserProfileQuery } from '../features/apiSlice';
 
 const Navbar2 = () => {
 
@@ -20,6 +21,7 @@ const Navbar2 = () => {
   const [price, setPrice] = useState(0);
 
   const { userInfo } = useSelector((state) => state.auth);
+  const { data: user } = useGetUserProfileQuery({userId: userInfo?._id});
 
 
 
@@ -74,11 +76,11 @@ const Navbar2 = () => {
 
   const items = [
     {
-      label: <span>Perdoruesi: {userInfo?.userName}</span>,
+      label: <span>Perdoruesi: {user?.userName}</span>,
       key: '0',
     },
     {
-      label: <span>Krediti: {userInfo?.credits}</span>,
+      label: <span>Krediti: {user?.credits}</span>,
       key: '1',
     },
     {
@@ -185,10 +187,8 @@ const Navbar2 = () => {
         trigger={['click']}
       >
     <div className="auth-buttons">
-    <span style={{color: '#fff'}}>
-      
-        <PiUserCircleLight size={25} /> {userInfo?.role}
-        
+    <span style={{color: '#fff', display: 'flex', alignItems: 'center'}}>
+      <PiUserCircleLight size={25} /> {userInfo?.role}
     </span>
     </div>
   </Dropdown>

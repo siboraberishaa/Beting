@@ -21,15 +21,16 @@ const PersonalInfo = () => {
           <div style={{ padding: '20px'}}>
             <div>
               <label htmlFor='input1'>UserName</label>
-              <Input id='input1' placeholder="UserName" value={user?.userName} />
+                <input id='input1' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} type='text' placeholder='username' value={user?.userName} />
+              {/* <Input id='input1' placeholder="UserName" value={user?.userName} /> */}
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input2'>Role</label>
-              <Input id='input2' placeholder="Role" value={user?.roleName} disabled />
+              <input id='input2' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="Role" value={user?.roleName} disabled />
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input3'>Krediti</label>
-              <Input id='input3' placeholder="Krediti" value={user?.credits} disabled />
+              <input id='input3' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="Krediti" value={user?.credits} disabled />
             </div>
           </div>
           
@@ -38,116 +39,54 @@ const PersonalInfo = () => {
         <div style={{ padding: '20px'}}>
             <div>
               <label htmlFor='input4'>First Name</label>
-              <Input id='input4' placeholder="First name" value={user?.firstName} />
+              <input id='input4' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="First name" value={user?.firstName} />
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input5'>Last Name</label>
-              <Input id='input5' placeholder="Last name" value={user?.lastName} />
+              <input id='input5' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="Last name" value={user?.lastName} />
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input6'>Date of birth</label>
-              <Input id='input6' placeholder="date of birth" value={user?.dateOfBirth} type='date' />
+              <input id='input6' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="date of birth" value={user?.dateOfBirth} type='date' />
             </div>
             <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input7'>Citizenship</label>
-            <Select
-                id='input7'
-                defaultValue="Select"
-                style={{
-                  width: '100%',
-                }}
-                options={[
-                  {
-                    value: 'select',
-                    label: 'Select',
-                    disabled: true,
-                  },
-                  {
-                    value: 'Shqiptar',
-                    label: 'Shqiptar',
-                  },
-                  
-                ]}
-              />
+            <label for="input7">Citizenship</label>
+              <select style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id="input7">
+                  <option value="select" disabled>Select</option>
+                  <option value="Shqiptar">Shqiptar</option>
+              </select>
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input8'>Country</label>
-            <Select
-                id='input8'
-                defaultValue="Select"
-                style={{
-                  width: '100%',
-                }}
-                options={[
-                  {
-                    value: 'select',
-                    label: 'Select',
-                    disabled: true,
-                  },
-                  {
-                    value: 'Kosove',
-                    label: 'Kosove',
-                  },
-                ]}
-              />
+            <select style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id="input8">
+                  <option value="select" disabled>Select</option>
+                  <option value="Kosove">Kosove</option>
+              </select>
             </div>
             <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input9'>City</label>
-            <Select
-                id='input9'
-                defaultValue="Select"
-                style={{
-                  width: '100%',
-                }}
-                options={[
-                  {
-                    value: 'select',
-                    label: 'Select',
-                    disabled: true,
-                  },
-                  {
-                    value: 'Prishtine',
-                    label: 'Prishtine',
-                  },
-                  {
-                    value: 'Mitrovice',
-                    label: 'Mitrovice',
-                  },
-                  {
-                    value: 'Pej',
-                    label: 'Pej',
-                  },
-                  {
-                    value: 'Prizren',
-                    label: 'Prizren',
-                  },
-                  {
-                    value: 'Ferizaj',
-                    label: 'Ferizaj',
-                  },
-                  {
-                    value: 'Gjilan',
-                    label: 'Gjilan',
-                  },
-                  {
-                    value: 'Gjakov',
-                    label: 'Gjakov',
-                  },
-                  
-                ]}
-              />
+            <label for="input9">City</label>
+            <select id="input9" style={{width: '100%', padding: '10px', border:'1px solid #ddd'}}>
+                <option value="select" disabled>Select</option>
+                <option value="Prishtine">Prishtine</option>
+                <option value="Mitrovice">Mitrovice</option>
+                <option value="Pej">Pej</option>
+                <option value="Prizren">Prizren</option>
+                <option value="Ferizaj">Ferizaj</option>
+                <option value="Gjilan">Gjilan</option>
+                <option value="Gjakov">Gjakov</option>
+            </select>
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input10'>Post code</label>
-              <Input id='input10' placeholder="post code" value={user?.postCode} />
+              <input type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id='input10' placeholder="post code" value={user?.postCode} />
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input11'>Street</label>
-              <Input id='input11' placeholder="street" value={user?.street} />
+              <input type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id='input11' placeholder="street" value={user?.street} />
             </div>
             <div style={{paddingTop: '20px'}}>
             <label htmlFor='input12'>Phone Number</label>
-              <Input id='input12' placeholder="phone number" value={user?.phoneNumber} type='number' />
+              <input style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id='input12' placeholder="phone number" value={user?.phoneNumber} type='number' />
             </div>
             <div style={{paddingTop: '20px'}}>
               <Button type='primary'>Ruaj ndryshimet</Button>

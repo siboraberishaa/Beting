@@ -224,11 +224,10 @@ if (Array.isArray(bets)) {
         trigger={['click']}
       >
     <div className="auth-buttons">
-    <span style={{color: '#fff'}}>
-      
-        <PiUserCircleLight size={25} /> {userInfo?.role}
-        
-    </span>
+    <span style={{color: '#fff', display: 'flex', alignItems: 'center'}}>
+    <PiUserCircleLight size={25} /> {userInfo?.role}
+</span>
+
     </div>
   </Dropdown>
          : 
