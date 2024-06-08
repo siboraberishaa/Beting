@@ -39,7 +39,7 @@ const MatchOdds = ({ eventId, teams }) => {
     }
   
     const bets = JSON.parse(localStorage.getItem("bets"));
-    const existingBet = bets.betItems.find((bet) => bet.id === id);
+    const existingBet = bets?.betItems?.find((bet) => bet.id === id);
   
     if (existingBet) {
       dispatch(deleteBet(existingBet.id));

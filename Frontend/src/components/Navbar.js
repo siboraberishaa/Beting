@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import Bet365Logo from '../assets/Bet365.png'; 
 import MenuIcon from '../assets/menu.png';  
 import Star from '../assets/star.png';
@@ -9,12 +9,14 @@ import sport from '../assets/sport.png'
 import sportlive from '../assets/sportlive.png'
 import cards from '../assets/cards.png'
 import offer from '../assets/offer.png'
-import { useGetInPlayFilterQuery, useGetUserProfileQuery } from '../features/apiSlice';
+import { useCreateTicketMutation, useGetInPlayFilterQuery, useGetUserProfileQuery, useLogoutMutation } from '../features/apiSlice';
 import ModalLogin from './ModalLogin'; // Importo ModalLogin.js
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteBet, toggleOdd } from '../features/betSlice';
+import { clearBets, clearOdds, deleteBet, toggleOdd } from '../features/betSlice';
 import { PiUserCircleLight } from "react-icons/pi";
 import { Dropdown } from "antd";
+import { toast } from 'react-toastify';
+import { logout } from '../features/authSlice';
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -32,7 +34,8 @@ function Navbar() {
   const bets = useSelector((state) => state.bets.betItems) 
 
   const { data: sports, isLoading, isError, refetch } = useGetInPlayFilterQuery();
-  const { data: user } = useGetUserProfileQuery({userId: userInfo?._id});
+  const { data: user, refetch: refetchUser } = useGetUserProfileQuery({userId: userInfo?._id});
+  const [ createTicket ] = useCreateTicketMutation();
 
 
 
@@ -86,6 +89,22 @@ function Navbar() {
     setPrice(event.target.value);
   };
 
+  const navigate = useNavigate();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    
+        try {
+          await logoutApiCall().unwrap();
+          dispatch(logout());
+          navigate("/");
+        } catch (error) {
+          toast.error(error?.data?.message || error.error)
+        }
+      }
+
+
 
 
   if (isLoading) return <div>Loading...</div>;
@@ -120,13 +139,13 @@ if (Array.isArray(bets)) {
     {
       type: 'divider',
     },
-    {
-      label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
+    // {
+    //   label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
+    //   key: '3',
+    // },
+    // {
+    //   type: 'divider',
+    // },
     {
       label: <Link to={'/transfers'}>Transfertat</Link>,
       key: '4',
@@ -149,7 +168,7 @@ if (Array.isArray(bets)) {
       type: 'divider',
     },
     {
-      label: <Link to={'/permissions'}>Autorizimet</Link>,
+      label: <Link to={'/role/create'}>Krijo Rol</Link>,
       key: '7',
     },
     {
@@ -191,10 +210,27 @@ if (Array.isArray(bets)) {
       type: 'divider',
     },
     {
-      label: <span>Dil</span>,
+      label: <div onClick={logoutHandler} >Dil</div>,
       key: '13',
     },
   ];
+
+  const submitTicket = async(e) => {
+    e.preventDefault()
+    try {
+      await createTicket({userName: userInfo?.userName, ticketWin: winningChance.toFixed(2), playedSum: parseFloat(price)})
+      toast.success('Ticket created successfully')
+      setPrice('')
+      dispatch(clearBets())
+      dispatch(clearOdds())
+      refetchUser()
+    } catch (error) {
+      toast.error(error)
+      console.log(error, 'error while making bets')
+    }
+  }
+  
+  
 
 
 
@@ -338,7 +374,7 @@ if (Array.isArray(bets)) {
               <div className="bet-input">
                 <div className="price-section">
                   <p className="price-label">Price</p>
-                  <input  type="text" className="price-input" placeholder="Ps. 2.00" onChange={handlePriceChange} />
+                  <input value={price}  type="text" className="price-input" placeholder="Ps. 2.00" onChange={handlePriceChange} />
                 </div>
                 <div className="winning-chance-section">
                   <p className="winning-chance-label">Winning Chance: </p>
@@ -347,7 +383,7 @@ if (Array.isArray(bets)) {
               </div>
 
               <div className="place-bet-section">
-                <button className="place-bet-btn">Place Bet</button>    
+                <button className="place-bet-btn" onClick={submitTicket}>Place Bet</button>    
               </div>
             </div>
           </div>

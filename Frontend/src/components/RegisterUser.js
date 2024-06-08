@@ -5,6 +5,7 @@ import { useGetRolesQuery, useRegisterUserMutation } from '../features/apiSlice'
 import { toast } from 'react-toastify';
 import { checkPermissions } from '../functions/Permissions';
 import { Button, Form, Input, Select } from 'antd';
+import { useSelector } from 'react-redux';
 
 
 const { Option } = Select;
@@ -20,13 +21,15 @@ const RegisterUser = () => {
   const [register, { isLoading, }] = useRegisterUserMutation();
   const {data: rolesData} = useGetRolesQuery()
 
+  const { userInfo } = useSelector((state) => state.auth);
+
 
   const onFinish = async (values) => {
     if (values.password !== values.confirmPassword) {
       toast.error('Passwords do not match');
     } else {
       try {
-        await register({ userName: values.userName, password: values.password, rolesId: values.role }).unwrap();
+        await register({ userName: values.userName, password: values.password, rolesId: values.role, userId: userInfo?._id }).unwrap();
         // dispatch(setCredentials({ ...res }));
         // navigate(`/admin/user/${registerData._id}/edit`);
         toast.success('User registered successfully!')

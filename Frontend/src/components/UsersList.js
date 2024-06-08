@@ -5,12 +5,14 @@ import { useGetAllUsersQuery, useGetUserProfileQuery } from '../features/apiSlic
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { checkPermissions } from '../functions/Permissions';
+import { useNavigate } from 'react-router-dom';
 
 const UsersList = () => {
 
+  const navigate = useNavigate()
   const { userInfo } = useSelector((state) => state.auth);
   const { data: user, isLoading, isError } = useGetUserProfileQuery({userId: userInfo?._id})
-  const { data: users } = useGetAllUsersQuery()
+  const { data: users } = useGetAllUsersQuery(userInfo?._id, userInfo?.isAdmin)
   const [list, setlist] = useState([])
   const [searchText, setSearchText] = useState('')
 
@@ -38,7 +40,7 @@ useEffect(() => {
         <Navbar2 />
         {checkPermissions('users', 'read') ? 
         <>
-        <div style={{width: '100%', backgroundColor: '#666', padding: '10px'}}>
+        <div style={{width: '100%', backgroundColor: '#474747', padding: '10px'}}>
             <h3 style={{textAlign: 'center', color: '#fff', fontFamily: 'Arial, Helvetica, sans-serif'}}>Lista e perdorueseve</h3>
         </div>
 
@@ -49,7 +51,7 @@ useEffect(() => {
             <div style={{backgroundColor: '#666', padding: '7px'}}>
                 <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', textAlign: 'end', fontSize: '14px'}}>EUR</p>
             </div>
-            <div style={{backgroundColor: '#fff', padding: '7px', display: 'flex', justifyContent: 'space-between'}}>
+            <div style={{backgroundColor: '#cccccc', padding: '7px', display: 'flex', justifyContent: 'space-between'}}>
                 <p style={{color: '#000', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>Kredit</p>
                 <p style={{color: '#000', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{user?.credits}</p>
             </div>
@@ -67,7 +69,7 @@ useEffect(() => {
                 <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>EUR</p>
             </div>
             {list?.map((usser) => (
-                <div style={{backgroundColor: '#fff', border: '1px solid #666', padding: '7px', display: 'flex', justifyContent: 'space-between'}}>
+                <div key={usser._id} onClick={() => navigate(`/user/${usser._id}`)} style={{backgroundColor: '#cccccc', border: '1px solid #666', padding: '7px', display: 'flex', justifyContent: 'space-between'}}>
                     <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.userName}</p>
                     <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.credits}</p>
                 </div>

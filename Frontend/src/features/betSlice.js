@@ -28,9 +28,16 @@ const betSlice = createSlice({
     toggleOdd: (state, action) => {
       state.clickedOdds[action.payload] = !state.clickedOdds[action.payload];
     },
+    clearBets: (state) => {
+      state.betItems = []; // Clears all betItems
+      localStorage.setItem("bets", JSON.stringify({ betItems: [] })); // Clears 'bets' from the local storage
+    },
+    clearOdds: (state) => {
+      state.clickedOdds = {}; // Clears all clickedOdds
+    },
   },
 });
 
-export const { addBets, deleteBet, toggleOdd } = betSlice.actions;
+export const { addBets, deleteBet, toggleOdd, clearBets, clearOdds } = betSlice.actions;
 
 export default betSlice.reducer;

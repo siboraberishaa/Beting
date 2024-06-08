@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import Bet365Logo from '../assets/Bet365.png'; 
 import MenuIcon from '../assets/menu.png';  
 import './Index.css';  
 import ModalLogin from './ModalLogin'; 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PiUserCircleLight } from "react-icons/pi";
 import { Dropdown } from "antd";
-import { useGetUserProfileQuery } from '../features/apiSlice';
+import { useGetUserProfileQuery, useLogoutMutation } from '../features/apiSlice';
+import { logout } from '../features/authSlice';
+import { toast } from 'react-toastify';
 
 const Navbar2 = () => {
 
@@ -73,6 +75,22 @@ const Navbar2 = () => {
     setPrice(event.target.value);
   };
 
+const navigate = useNavigate();
+const dispatch = useDispatch();
+
+const [logoutApiCall] = useLogoutMutation();
+
+const logoutHandler = async () => {
+  
+      try {
+        await logoutApiCall().unwrap();
+        dispatch(logout());
+        navigate("/");
+      } catch (error) {
+        toast.error(error?.data?.message || error.error)
+      }
+    }
+
 
   const items = [
     {
@@ -86,13 +104,13 @@ const Navbar2 = () => {
     {
       type: 'divider',
     },
-    {
-      label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
+    // {
+    //   label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
+    //   key: '3',
+    // },
+    // {
+    //   type: 'divider',
+    // },
     {
       label: <Link to={'/transfers'}>Transfertat</Link>,
       key: '4',
@@ -115,7 +133,7 @@ const Navbar2 = () => {
       type: 'divider',
     },
     {
-      label: <Link to={'/permissions'}>Autorizimet</Link>,
+      label: <Link to={'/role/create'}>Krijo Rol</Link>,
       key: '7',
     },
     {
@@ -157,7 +175,7 @@ const Navbar2 = () => {
       type: 'divider',
     },
     {
-      label: <span>Dil</span>,
+      label: <div onClick={logoutHandler}>Dil</div>,
       key: '13',
     },
   ];

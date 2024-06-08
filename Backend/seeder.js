@@ -6,6 +6,7 @@ import users from "./data/users.js";
 import roles from "./data/roles.js";
 import User from "./models/userModel.js";
 import Roles from "./models/rolesModel.js";
+import Ticket from "./models/ticketModel.js";
 
 
 dotenv.config()
@@ -16,6 +17,7 @@ const importData = async () => {
     try {
         await User.deleteMany()
         await Roles.deleteMany()
+        await Ticket.deleteMany()
 
         const createdRoles = await Roles.insertMany(roles)
         console.log(`roles imported ${createdRoles}`.green.inverse)
@@ -46,6 +48,7 @@ const destroyData = async () => {
     try {
         await User.deleteMany()
         await Roles.deleteMany()
+        await Ticket.deleteMany()
 
         console.log('data destroyed'. red.inverse)
         process.exit()

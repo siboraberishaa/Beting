@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     street: {
         type: String,
     },
+    description: {
+        type: String,
+        default: ''
+    },
     dateOfBirth: {
         type: Date,
     },
@@ -48,6 +52,9 @@ const userSchema = new mongoose.Schema({
     status: {
         type: Boolean,
         default: false
+    },
+    registeredBy: {
+        type: String,
     }
 }, {
     timestamps: true,
