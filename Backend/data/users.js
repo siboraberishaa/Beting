@@ -20,7 +20,7 @@ const users = [
     lastName: 'User',
     userName: 'user123',
     password: bcrypt.hashSync('123456', 10),
-    rolesId: "User"
+    rolesId: "Player"
   },
   
 ];
