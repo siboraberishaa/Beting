@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-    origin: "http://localhost:3000, https://beting-4.onrender.com/", // Set to the exact origin of your client
+    origin: "*", // Set to the exact origin of your client
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     credentials: true,
 }));
