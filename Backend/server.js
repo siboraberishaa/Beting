@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-    origin: "https://6666ee83c86b363525d4b747--admirable-marzipan-3f011f.netlify.app/", // Set to the exact origin of your client
+    origin: "https://6666faf4a37343424a94d1ae--cozy-arithmetic-5139bc.netlify.app/", // Set to the exact origin of your client
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     credentials: true,
 }));
