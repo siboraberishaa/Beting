@@ -55,7 +55,19 @@ const userSchema = new mongoose.Schema({
     },
     registeredBy: {
         type: String,
-    }
+    },
+    commissionS: {
+        type: Number,
+        default: 3
+    },
+    commission2: {
+        type: Number,
+        default: 5
+    },
+    commission3: {
+        type: Number,
+        default: 8
+    },
 }, {
     timestamps: true,
 })

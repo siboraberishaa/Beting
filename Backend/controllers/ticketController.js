@@ -20,7 +20,7 @@ async function randomString(length) {
 //@route POST/api/tickets
 //@access Public
 const createTicket = asyncHandler(async (req, res) => {
-    const { userName, ticketWin, playedSum } = req.body;
+    const { userName, ticketWin, playedSum, playerOf } = req.body;
 
     // Find the user
     const user = await User.findOne({ userName: userName });
@@ -37,7 +37,8 @@ const createTicket = asyncHandler(async (req, res) => {
         ticketId,
         userName,
         ticketWin,
-        playedSum
+        playedSum,
+        playerOf
     });
 
     if (ticket) {
@@ -53,7 +54,8 @@ const createTicket = asyncHandler(async (req, res) => {
             ticketId: ticket.ticketId,
             userName: ticket.userName,
             ticketWin: ticket.ticketWin,
-            playedSum: ticket.playedSum
+            playedSum: ticket.playedSum,
+            playerOf: ticket.playerOf
         });
     } else {
         res.status(400);
@@ -64,10 +66,20 @@ const createTicket = asyncHandler(async (req, res) => {
 
 
 //@desc fetches all tickets
-//@route GET/api/tickets
+//@route GET/api/tickets/:id?isAdmin=value
 //@access private
-const getTickets = asyncHandler( async (req, res) => {
-    const tickets = await Ticket.find();
+const getTickets = asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const isAdmin = req.query.isAdmin === 'true';
+    let query;
+  
+    if (isAdmin) {
+      query = Ticket.find({});
+    } else {
+      query = Ticket.find({ playerOf: userId });
+    }
+  
+    const tickets = await query.sort({ createdAt: -1 });
     res.json(tickets);
   });
   

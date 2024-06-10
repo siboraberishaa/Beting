@@ -10,6 +10,7 @@ import { Dropdown } from "antd";
 import { useGetUserProfileQuery, useLogoutMutation } from '../features/apiSlice';
 import { logout } from '../features/authSlice';
 import { toast } from 'react-toastify';
+import { checkAnyTrue } from '../functions/Permissions';
 
 const Navbar2 = () => {
 
@@ -92,93 +93,93 @@ const logoutHandler = async () => {
     }
 
 
-  const items = [
-    {
-      label: <span>Perdoruesi: {user?.userName}</span>,
-      key: '0',
-    },
-    {
-      label: <span>Krediti: {user?.credits}</span>,
-      key: '1',
-    },
-    {
-      type: 'divider',
-    },
-    // {
-    //   label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
-    //   key: '3',
-    // },
-    // {
-    //   type: 'divider',
-    // },
-    {
-      label: <Link to={'/transfers'}>Transfertat</Link>,
-      key: '4',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/transactions'}>Transaksionet</Link>,
-      key: '5',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/roles'}>Rolet</Link>,
-      key: '6',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/role/create'}>Krijo Rol</Link>,
-      key: '7',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/finances'}>Financat</Link>,
-      key: '8',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/users-list'}>Lista Perdorueseve</Link>,
-      key: '9',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/user-create'}>Krijo Perdorues</Link>,
-      key: '10',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/password-change'}>Ndrysho Passwordin</Link>,
-      key: '11',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Link to={'/bonuss'}>Bonuset dhe promocionet</Link>,
-      key: '12',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <div onClick={logoutHandler}>Dil</div>,
-      key: '13',
-    },
-  ];
+    const items = [
+      {
+        label: <span>Perdoruesi: {user?.userName}</span>,
+        key: '0',
+      },
+      {
+        label: <span>Krediti: {user?.credits}</span>,
+        key: '1',
+      },
+      {
+        type: 'divider',
+      },
+      // {
+      //   label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
+      //   key: '3',
+      // },
+      // {
+      //   type: 'divider',
+      // },
+      userInfo && checkAnyTrue('transfers') && {
+        label: <Link to={'/transfers'}>Transfertat</Link>,
+        key: '4',
+      },
+      {
+        type: 'divider',
+      },
+      userInfo && checkAnyTrue('transactions') &&{
+        label: <Link to={'/transactions'}>Transaksionet</Link>,
+        key: '5',
+      },
+      {
+        type: 'divider',
+      },
+      userInfo && checkAnyTrue('roles') &&{
+        label: <Link to={'/roles'}>Rolet</Link>,
+        key: '6',
+      },
+      {
+        type: 'divider',
+      },
+      userInfo && checkAnyTrue('roles') &&{
+        label: <Link to={'/role/create'}>Krijo Rol</Link>,
+        key: '7',
+      },
+      {
+        type: 'divider',
+      },
+      userInfo && checkAnyTrue('finances') &&{
+        label: <Link to={'/finances'}>Financat</Link>,
+        key: '8',
+      },
+      {
+        type: 'divider',
+      },
+      userInfo && checkAnyTrue('users') &&{
+        label: <Link to={'/users-list'}>Lista Perdorueseve</Link>,
+        key: '9',
+      },
+      {
+        type: 'divider',
+      },
+      userInfo && checkAnyTrue('users') &&{
+        label: <Link to={'/user-create'}>Krijo Perdorues</Link>,
+        key: '10',
+      },
+      {
+        type: 'divider',
+      },
+      {
+        label: <Link to={'/password-change'}>Ndrysho Passwordin</Link>,
+        key: '11',
+      },
+      {
+        type: 'divider',
+      },
+      {
+        label: <Link to={'/bonuss'}>Bonuset dhe promocionet</Link>,
+        key: '12',
+      },
+      {
+        type: 'divider',
+      },
+      {
+        label: <div onClick={logoutHandler} >Dil</div>,
+        key: '13',
+      },
+    ].filter(Boolean);
 
 
   return (

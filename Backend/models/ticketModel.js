@@ -17,7 +17,10 @@ const ticketSchema = mongoose.Schema({
     playedSum: {
         type: Number,
         required: true
-    }
+    },
+    playerOf: {
+        type: String,
+    },
 
 },{
     timestamps: true,

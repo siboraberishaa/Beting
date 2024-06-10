@@ -51,7 +51,7 @@ const roles = [
         permissions: getManagerPermissions()
     },
     {
-        name: 'User',
+        name: 'Player',
         permissions: getRegisteredUserPermissions()
     },
 ]

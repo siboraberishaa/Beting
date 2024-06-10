@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar2 from './Navbar2'
 import { checkPermissions } from '../functions/Permissions'
 import { useParams } from 'react-router-dom'
-import { useCreateTransferMutation, useEditUsersDescriptionMutation, useEditUsersUserNameMutation, useGetUserByIdQuery, useUpdateUsersStatusMutation } from '../features/apiSlice'
+import { useCreateTransferMutation, useEditUsersCommissionMutation, useEditUsersDescriptionMutation, useEditUsersUserNameMutation, useGetUserByIdQuery, useUpdateUsersStatusMutation } from '../features/apiSlice'
 import { Modal, Switch } from 'antd'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -18,6 +18,9 @@ const UserInfo = () => {
     const [modal5Open, setModal5Open] = useState(false);
     const [userName, setUserName] = useState('');
     const [description, setDescription] = useState('');
+    const [commissionS, setCommissionS] = useState(0);
+    const [commission2, setCommission2] = useState(0);
+    const [commission3, setCommission3] = useState(0);
 
     const { userInfo } = useSelector((state) => state.auth);
 
@@ -26,6 +29,7 @@ const UserInfo = () => {
     const [ editUserName ] = useEditUsersUserNameMutation()
     const [ editDescription ] = useEditUsersDescriptionMutation()
     const [ updateUserStatus ] = useUpdateUsersStatusMutation()
+    const [ updateUserCommission ] = useEditUsersCommissionMutation()
 
 
     const [transferSum, setTransferSum] = useState(0);
@@ -77,6 +81,17 @@ const UserInfo = () => {
           toast.error(error?.data?.message || error.error)
         }
       };
+
+      const handleCommission = async () => {
+        try {
+          await updateUserCommission({ userId, commissionS, commission2, commission3 });
+          toast.success('Komisioni u perditesua');
+          setModal3Open(false)
+          refetch();
+        } catch (err) {
+          toast.error(err?.data?.message || err.error);
+        }
+      };
       
       
       
@@ -85,6 +100,9 @@ const UserInfo = () => {
             setTransferSum(user.credits)
             setUserName(user.userName)
             setDescription(user.description)
+            setCommissionS(user.commissionS)
+            setCommission2(user.commission2)
+            setCommission3(user.commission3)
         }
     }, [user])
       
@@ -198,7 +216,7 @@ const UserInfo = () => {
         onOk={() => setModal3Open(false)}
         onCancel={() => setModal3Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <button onClick={handleUserName} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
+            <button onClick={handleCommission} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
         </div>}
         width='80%'
         closeIcon={null}
@@ -206,15 +224,15 @@ const UserInfo = () => {
         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '20px'}}>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '60%', padding: '10px'}}>
                 <label htmlFor='1'>Komisioni single</label>
-                <input id='1' type='text' style={{border: '1px solid #000', padding: '7px'}} />
+                <input value={commissionS} onChange={(e) => setCommissionS(e.target.value)} id='1' type='number' style={{border: '1px solid #000', padding: '7px'}} />
             </div>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '60%', padding: '10px'}}>
                 <label htmlFor='2'>2 loje</label>
-                <input id='2' type='text' style={{border: '1px solid #000', padding: '7px'}} />
+                <input value={commission2} id='2' onChange={(e) => setCommission2(e.target.value)} type='number' style={{border: '1px solid #000', padding: '7px'}} />
             </div>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '60%', padding: '10px'}}>
                 <label htmlFor='3'>3 ose me shume loje</label>
-                <input id='3' type='text' style={{border: '1px solid #000', padding: '7px'}} />
+                <input value={commission3} id='3' onChange={(e) => setCommission3(e.target.value)} type='number' style={{border: '1px solid #000', padding: '7px'}} />
             </div>
             </div>
 
@@ -222,13 +240,13 @@ const UserInfo = () => {
       </div>
     <div style={{width: '100%'}}>
         <Modal
-        title={<div style={{backgroundColor: '#126e51', padding: '10px'}}><p style={{color: '#fff', textAlign: 'center'}}>Komisioni</p></div>}
+        title={<div style={{backgroundColor: '#126e51', padding: '10px'}}><p style={{color: '#fff', textAlign: 'center'}}>Perqindja</p></div>}
         centered
         open={modal4Open}
         onOk={() => setModal4Open(false)}
         onCancel={() => setModal4Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <button onClick={handleUserName} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
+            <button disabled style={{backgroundColor: '#ccc', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
         </div>}
         width='80%'
         closeIcon={null}

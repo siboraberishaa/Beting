@@ -17,6 +17,7 @@ import { PiUserCircleLight } from "react-icons/pi";
 import { Dropdown } from "antd";
 import { toast } from 'react-toastify';
 import { logout } from '../features/authSlice';
+import { checkAnyTrue } from '../functions/Permissions';
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -146,49 +147,49 @@ if (Array.isArray(bets)) {
     // {
     //   type: 'divider',
     // },
-    {
+    userInfo && checkAnyTrue('transfers') && {
       label: <Link to={'/transfers'}>Transfertat</Link>,
       key: '4',
     },
     {
       type: 'divider',
     },
-    {
+    userInfo && checkAnyTrue('transactions') &&{
       label: <Link to={'/transactions'}>Transaksionet</Link>,
       key: '5',
     },
     {
       type: 'divider',
     },
-    {
+    userInfo && checkAnyTrue('roles') &&{
       label: <Link to={'/roles'}>Rolet</Link>,
       key: '6',
     },
     {
       type: 'divider',
     },
-    {
+    userInfo && checkAnyTrue('roles') &&{
       label: <Link to={'/role/create'}>Krijo Rol</Link>,
       key: '7',
     },
     {
       type: 'divider',
     },
-    {
+    userInfo && checkAnyTrue('finances') &&{
       label: <Link to={'/finances'}>Financat</Link>,
       key: '8',
     },
     {
       type: 'divider',
     },
-    {
+    userInfo && checkAnyTrue('users') &&{
       label: <Link to={'/users-list'}>Lista Perdorueseve</Link>,
       key: '9',
     },
     {
       type: 'divider',
     },
-    {
+    userInfo && checkAnyTrue('users') &&{
       label: <Link to={'/user-create'}>Krijo Perdorues</Link>,
       key: '10',
     },
@@ -213,12 +214,12 @@ if (Array.isArray(bets)) {
       label: <div onClick={logoutHandler} >Dil</div>,
       key: '13',
     },
-  ];
+  ].filter(Boolean);
 
   const submitTicket = async(e) => {
     e.preventDefault()
     try {
-      await createTicket({userName: userInfo?.userName, ticketWin: winningChance.toFixed(2), playedSum: parseFloat(price)})
+      await createTicket({userName: userInfo?.userName, ticketWin: winningChance.toFixed(2), playedSum: parseFloat(price), playerOf: user?.registeredBy})
       toast.success('Ticket created successfully')
       setPrice('')
       dispatch(clearBets())

@@ -51,10 +51,8 @@ const authUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
 
-  console.log(req.user._id, "requsserid");
 
   const roles = await Roles.find()
-  console.log(roles, 'roles') // Log the roles
 
   let role = roles.find((item) => item._id.toString() === user._doc.rolesId.toString()) // Convert to string before comparing
   
@@ -78,6 +76,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
       dateOfBirth: user.dateOfBirth,
       phoneNumber: user.phoneNumber,
       credits: user.credits,
+      registeredBy: user.registeredBy,
+      commissionS: user.commissionS,
+      commission2: user.commission2,
+      commission3: user.commission3,
       roleName: user._doc.roleName, // Add this line
       // isAdmin: user.isAdmin,
     });
@@ -93,8 +95,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
   const userId = req.params.id; // Get user ID from route parameters
-  const isAdmin = req.query.isAdmin === true; // Get isAdmin from query parameters
+  const isAdmin = req.query.isAdmin === 'true';
   let query;
+
+  console.log(isAdmin, 'isAdm')
 
   if (isAdmin) {
     query = User.find({});
@@ -202,6 +206,31 @@ const updateUsersDescription = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update users commissions
+// @route   PUT /api/users/:id/commissions
+// @access  Private/Admin
+const updateUsersCommissions = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.commissionS = req.body.commissionS || user.commissionS;
+    user.commission2 = req.body.commission2 || user.commission2;
+    user.commission3 = req.body.commission3 || user.commission3;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      commissionS: updatedUser.commissionS,
+      commission2: updatedUser.commission2,
+      commission3: updatedUser.commission3,
+    });
+  } else {
+    res.status(404).json({ error: true, message: "User not found!" });
+    // throw new Error('User not found');
+  }
+});
+
 // @desc    Change Status of an user
 // @route   PUT /api/users/:id/status
 // @access  Private
@@ -257,4 +286,4 @@ const updateUsersPassword = asyncHandler(async (req, res) => {
 });
 
 
-export { authUser, getUserProfile, getUsers, registerUser, getUserById, updateUsersUsername, updateUsersDescription, updateUserStatus, logoutUser, updateUsersPassword }
+export { authUser, getUserProfile, getUsers, registerUser, getUserById, updateUsersUsername, updateUsersDescription, updateUserStatus, logoutUser, updateUsersPassword, updateUsersCommissions }

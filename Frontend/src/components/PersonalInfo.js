@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetUserProfileQuery } from '../features/apiSlice';
+import { useEditUsersUserNameMutation, useGetUserProfileQuery } from '../features/apiSlice';
 import { Button, Collapse, Input, Select } from 'antd';
 import Navbar2 from './Navbar2';
+import { toast } from 'react-toastify';
 
 const { Panel } = Collapse;
 
 const PersonalInfo = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const { data: user, isLoading, isError } = useGetUserProfileQuery({userId: userInfo?._id})
+  const { data: user, isLoading, isError, refetch } = useGetUserProfileQuery({userId: userInfo?._id})
 
-  console.log(user, 'user')
+  const [userName, setUserName] = useState('');
+
+  const [ editUserName ] = useEditUsersUserNameMutation()
+
+  const handleUserName = async () => {
+    try {
+      await editUserName({ userId: user?._id, userName });
+      toast.success('UserName updated successfully');
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
+
+  useEffect(() => {
+    if (user) {
+        setUserName(user.userName)
+    }
+}, [user])
+
 
   return (
     <>
@@ -19,9 +40,10 @@ const PersonalInfo = () => {
       <Collapse defaultActiveKey={['1']} style={{backgroundColor: '#939393', borderColor: '#939393'}}>
         <Panel header="Account Details" key="1">
           <div style={{ padding: '20px'}}>
-            <div>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <label htmlFor='input1'>UserName</label>
-                <input id='input1' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} type='text' placeholder='username' value={user?.userName} />
+                <input id='input1' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} type='text' placeholder='username' value={userName} onChange={(e) => setUserName(e.target.value)} />
+                <button type='button' onClick={handleUserName}>Ndrysho username</button>
               {/* <Input id='input1' placeholder="UserName" value={user?.userName} /> */}
             </div>
             <div style={{paddingTop: '20px'}}>

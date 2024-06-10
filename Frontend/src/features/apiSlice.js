@@ -9,7 +9,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
-          'X-RapidAPI-Key': '4722285c81mshf6c6bf5e879ddbcp1e0e6ejsn2ca812780af1',
+          'X-RapidAPI-Key': 'b257ce1b5fmsh45c65f391861a25p1cd103jsneae8f4edf029',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -18,7 +18,7 @@ export const apiSlice = createApi({
       query: (sport) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/${sport}`,  
         headers: {
-          'X-RapidAPI-Key': '4722285c81mshf6c6bf5e879ddbcp1e0e6ejsn2ca812780af1',
+          'X-RapidAPI-Key': 'b257ce1b5fmsh45c65f391861a25p1cd103jsneae8f4edf029',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -27,7 +27,7 @@ export const apiSlice = createApi({
       query: (eventId) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_event_with_markets/${eventId}`,  
         headers: {
-          'X-RapidAPI-Key': '4722285c81mshf6c6bf5e879ddbcp1e0e6ejsn2ca812780af1',
+          'X-RapidAPI-Key': 'b257ce1b5fmsh45c65f391861a25p1cd103jsneae8f4edf029',
           'X-RapidAPI-Host': ' bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -49,7 +49,7 @@ export const apiSlice = createApi({
     keepUnusedDataFor: 5,
   }),
   getAllUsers: builder.query({
-    query: (userId, isAdmin) => ({
+    query: ({userId, isAdmin}) => ({
       url: `http://localhost:5000/api/users/get/${userId}?isAdmin=${isAdmin}`,
       method: 'GET',
       credentials: 'include',
@@ -80,8 +80,8 @@ createTicket: builder.mutation({
   }),
 }),
 getAllTickets: builder.query({
-  query: () => ({
-    url: `http://localhost:5000/api/tickets`,
+  query: ({userId, isAdmin}) => ({
+    url: `http://localhost:5000/api/tickets/${userId}?isAdmin=${isAdmin}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -122,6 +122,14 @@ editUsersUserName: builder.mutation({
 editUsersDescription: builder.mutation({
   query: (data) => ({
     url: `http://localhost:5000/api/users/description/${data.userId}`,
+    method: 'PUT',
+    credentials: 'include',
+    body: data,
+  }),
+}),
+editUsersCommission: builder.mutation({
+  query: (data) => ({
+    url: `http://localhost:5000/api/users/commission/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -180,5 +188,5 @@ password: builder.mutation({
   }),
 });
 
-export const { useGetInPlayFilterQuery, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation } = apiSlice;
+export const { useGetInPlayFilterQuery, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation } = apiSlice;
 

@@ -18,7 +18,7 @@ export const checkPermissions = (pageName, operationName) => {
     if (user.isAdmin) {
       return true
     }
-    const permissions = user.permissions?.[pageName] 
+    const permissions = user?.permissions?.[pageName] 
     if (permissions) {
       
     if (permissions.read || permissions.create || permissions.update || permissions.delete) {
