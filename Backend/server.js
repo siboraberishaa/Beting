@@ -25,7 +25,7 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: 'https://666752e32425d13171ff62a0--fastidious-licorice-0d9011.netlify.app',
+  origin: 'https://website-665aeeac.ameba-rks.com',
   credentials: true
 }));
 
