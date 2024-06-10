@@ -20,18 +20,21 @@ import ticketRoutes from './routes/ticketRoutes.js'
 
 connectDB();
 
+app.use(cors({
+    origin: ["https://6666faf4a37343424a94d1ae--cozy-arithmetic-5139bc.netlify.app/"], // Set to the exact origin of your client
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    credentials: true,
+}));
+
 const port = process.env.PORT;
 const app = express();
+
+
 
 //body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({
-    origin: "https://6666faf4a37343424a94d1ae--cozy-arithmetic-5139bc.netlify.app/", // Set to the exact origin of your client
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-    credentials: true,
-}));
 
 //cookie parser middleware-allows us to access request.cookies. to access we need tto get cookie.parser.jwt
 app.use(cookieParser());
