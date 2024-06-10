@@ -20,22 +20,23 @@ import ticketRoutes from './routes/ticketRoutes.js'
 
 connectDB();
 
-
 const port = process.env.PORT;
 const app = express();
 
-app.use(cors());
+// Configure CORS
+app.use(cors({
+  origin: 'https://666752e32425d13171ff62a0--fastidious-licorice-0d9011.netlify.app',
+  credentials: true
+}));
 
-
-
-//body parser middleware
+// Body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-//cookie parser middleware-allows us to access request.cookies. to access we need tto get cookie.parser.jwt
+// Cookie parser middleware
 app.use(cookieParser());
 
+// Your routes here
 // app.use("/api/products", productRoutes);
 // app.use("/api/category", categoryRoutes);
 // app.use("/api/admin", adminRoutes);
@@ -59,16 +60,5 @@ if (process.env.NODE_ENV === "production") {
         res.send("API is running....");
     });
 }
-
-app.options('*', (req, res) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Origin', 'https://666752e32425d13171ff62a0--fastidious-licorice-0d9011.netlify.app');
-    res.sendStatus(200);
-});
-
-
-
-
 
 app.listen(port, () => console.log(`server running on port ${port}`));
