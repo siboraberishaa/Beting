@@ -23,11 +23,8 @@ connectDB();
 
 const port = process.env.PORT;
 const app = express();
-app.use(cors({
-    origin: ["https://6666faf4a37343424a94d1ae--cozy-arithmetic-5139bc.netlify.app/"], // Set to the exact origin of your client
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-    credentials: true,
-}));
+
+app.use(cors());
 
 
 
@@ -62,6 +59,13 @@ if (process.env.NODE_ENV === "production") {
         res.send("API is running....");
     });
 }
+
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Origin', 'https://666752e32425d13171ff62a0--fastidious-licorice-0d9011.netlify.app');
+    res.sendStatus(200);
+});
 
 
 
