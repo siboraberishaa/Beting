@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-    origin: "http://localhost:3000", // Set to the exact origin of your client
+    origin: "http://localhost:3000, https://beting-4.onrender.com/", // Set to the exact origin of your client
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     credentials: true,
 }));
@@ -51,16 +51,12 @@ app.use("/api/transfers", transferRoutes);
 // app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
-    const __dirname = path.resolve();
-    app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
     app.use(express.static(path.join(__dirname, "/frontend/build")));
 
     app.get("*", (req, res) =>
         res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
     );
 } else {
-    const __dirname = path.resolve();
-    app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
     app.get("/", (req, res) => {
         res.send("API is running....");
     });
