@@ -30,6 +30,9 @@ const authUser = asyncHandler(async (req, res) => {
       if (user._doc.isAdmin) {
         obj.isAdmin = user._doc.isAdmin;
       }
+      if (user._doc.isAgent) {
+        obj.isAgent = user._doc.isAgent;
+      }
       res.json(obj);
     } else if (!user.status) {
       res
@@ -96,11 +99,12 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   const userId = req.params.id; // Get user ID from route parameters
   const isAdmin = req.query.isAdmin === 'true';
+  const isAgent = req.query.isAgent === 'true';
   let query;
 
   console.log(isAdmin, 'isAdm')
 
-  if (isAdmin) {
+  if (isAdmin || isAgent) {
     query = User.find({});
   } else {
     query = User.find({ registeredBy: userId });
@@ -210,9 +214,15 @@ const updateUsersDescription = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id/commissions
 // @access  Private/Admin
 const updateUsersCommissions = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).populate('rolesId');
+  const loggedInUser = await User.findById(req.user._id).populate('rolesId');
 
-  if (user) {
+  if (user && loggedInUser) {
+    // Check if the logged-in user is a Super Admin and the user to be updated is a Manager
+    if (loggedInUser.rolesId.name === 'Super Admin' && user.rolesId.name === 'Manager') {
+      return res.status(403).json({ error: true, message: "Super Admini nuk mundet te ndryshoj komisionin e menagjerit!" });
+    }
+
     user.commissionS = req.body.commissionS || user.commissionS;
     user.commission2 = req.body.commission2 || user.commission2;
     user.commission3 = req.body.commission3 || user.commission3;
@@ -227,9 +237,10 @@ const updateUsersCommissions = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404).json({ error: true, message: "User not found!" });
-    // throw new Error('User not found');
   }
 });
+
+
 
 // @desc    Change Status of an user
 // @route   PUT /api/users/:id/status

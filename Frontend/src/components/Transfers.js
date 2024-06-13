@@ -13,7 +13,7 @@ const Transfers = () => {
     const [filterApplied, setFilterApplied] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
 
-    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
+    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin, isAgent: !!userInfo?.isAgent})
     const { data: transfers } = useGetAllTransfersQuery()
 
     const startDateAdjusted = startDate && new Date(startDate.setHours(0, 0, 0, 0));
@@ -44,7 +44,7 @@ const Transfers = () => {
         onClick={() => setFilterApplied(true)}>Filtro</button>
 
         </div>
-        <div style={{ paddingLeft: '20px', paddingRight: '20px', backgroundColor: 'transparent', paddingTop: '20px'}}>
+        {userInfo?.role !== 'Player' ? <div style={{ paddingLeft: '20px', paddingRight: '20px', backgroundColor: 'transparent', paddingTop: '20px'}}>
         <select style={{width: '100%', border: 'none', height: '30px', backgroundColor: '#333333', color: '#fff', paddingLeft: '10px', paddingRight: '10px'}}
                 onChange={(e) => setSelectedUser(e.target.value)}>
             <option selected value="all">All</option>
@@ -53,12 +53,12 @@ const Transfers = () => {
             ))}
         </select>
 
-        </div>
+        </div> : null}
 
         <div>
         {filteredTransfers?.length === 0 ? <div><p>Transferi nuk u gjet!</p></div> : 
         filteredTransfers?.map((transfer) => (
-        <div key={transfer._id} style={{paddingBottom: '20px'}}>
+        <div key={transfer._id} style={{paddingTop: '20px'}}>
         <div style={{width: '100%', backgroundColor: '#9c4646', height: '30px', display: 'flex', justifyContent: 'space-between'}}>
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px', fontWeight: '600', marginLeft: '20px'}}>Prej: {transfer.transferFrom}</p>
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px', fontWeight: '600', marginRight: '20px'}}>Te: {transfer.transferTo}</p>

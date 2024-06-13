@@ -58,15 +58,15 @@ const userSchema = new mongoose.Schema({
     },
     commissionS: {
         type: Number,
-        default: 3
+        default: 0
     },
     commission2: {
         type: Number,
-        default: 5
+        default: 0
     },
     commission3: {
         type: Number,
-        default: 8
+        default: 0
     },
 }, {
     timestamps: true,

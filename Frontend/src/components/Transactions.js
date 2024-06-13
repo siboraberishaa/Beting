@@ -13,8 +13,8 @@ const Transactions = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
 
-    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
-    const { data: tickets } = useGetAllTicketsQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin })
+    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin, isAgent: !!userInfo?.isAgent})
+    const { data: tickets } = useGetAllTicketsQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin, isAgent: !!userInfo?.isAgent })
 
 
     const startDateAdjusted = startDate && new Date(startDate.setHours(0, 0, 0, 0));
@@ -48,6 +48,7 @@ const Transactions = () => {
         onClick={() => setFilterApplied(true)}>Filtro</button>
 
         </div>
+        {userInfo?.role !== 'Player' ? 
         <div style={{ paddingLeft: '20px', paddingRight: '20px', backgroundColor: 'transparent', paddingTop: '20px'}}>
         <select style={{width: '100%', border: 'none', height: '30px', backgroundColor: '#333333', color: '#fff', paddingLeft: '10px', paddingRight: '10px'}}
                 onChange={(e) => setSelectedUser(e.target.value)}>
@@ -57,11 +58,11 @@ const Transactions = () => {
             ))}
         </select>
 
-        </div>
+        </div> : null}
     <div>
     {filteredTickets?.length === 0 ? <div><p>Transaksioni nuk u gjet!</p></div> : 
     filteredTickets?.map((ticket) => (
-        <div key={ticket._id} style={{paddingBottom: '20px'}}>
+        <div key={ticket._id} style={{paddingTop: '20px'}}>
         <div style={{width: '100%', backgroundColor: '#126e51', height: '30px', display: 'flex', justifyContent: 'space-between'}}>
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px', fontWeight: '600', marginLeft: '20px'}}>Coupon Gain - Single Coupon</p>
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px', fontWeight: '600', marginRight: '20px'}}>-{ticket.playedSum} EUR</p>

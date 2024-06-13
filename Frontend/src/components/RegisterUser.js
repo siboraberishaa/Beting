@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar2 from './Navbar2'
 import { useNavigate } from 'react-router-dom';
-import { useGetRolesQuery, useRegisterUserMutation } from '../features/apiSlice';
+import { useGetRolesForAgentQuery, useGetRolesForManagerQuery, useGetRolesQuery, useRegisterUserMutation } from '../features/apiSlice';
 import { toast } from 'react-toastify';
 import { checkPermissions } from '../functions/Permissions';
 import { Button, Form, Input, Select } from 'antd';
@@ -19,10 +19,12 @@ const RegisterUser = () => {
   const navigate = useNavigate();
 
   const [register, { isLoading, }] = useRegisterUserMutation();
-  const {data: rolesData} = useGetRolesQuery()
-
+  
   const { userInfo } = useSelector((state) => state.auth);
-
+  
+  const {data: rolesData} = useGetRolesQuery()
+  const {data: getRolesForManager} = useGetRolesForManagerQuery()
+  const {data: getRolesForAgent} = useGetRolesForAgentQuery()
 
   const onFinish = async (values) => {
     if (values.password !== values.confirmPassword) {
@@ -62,7 +64,7 @@ const RegisterUser = () => {
               <Form.Item label="Konfirmo fjalekalimin" name="confirmPassword" rules={[{ required: true, message: 'konfirmo passwordin!' }]}>
                 <Input.Password style={{backgroundColor: '#3A3A3A', border: 'none', height: '40px'}} placeholder="konfirmo fjalekalimin" />
               </Form.Item>
-              <Form.Item label="Selekto rolin" name="role" rules={[{ required: true, message: 'sekeltoni nje rol!' }]}>
+              {userInfo?.isAdmin ? <Form.Item label="Selekto rolin" name="role" rules={[{ required: true, message: 'sekeltoni nje rol!' }]}>
                 <Select style={{ width: '100%' }} className='selector' defaultValue='Select'>
                   <Option disabled>Select</Option>
                   {rolesData && rolesData.map((rl) => (
@@ -71,7 +73,25 @@ const RegisterUser = () => {
                     </Option>
                   ))}
                 </Select>
-              </Form.Item>
+              </Form.Item> : userInfo?.role === 'Manager' ? <Form.Item label="Selekto rolin" name="role" rules={[{ required: true, message: 'sekeltoni nje rol!' }]}>
+                <Select style={{ width: '100%' }} className='selector' defaultValue='Select'>
+                  <Option disabled>Select</Option>
+                  {getRolesForManager && getRolesForManager.map((rl) => (
+                    <Option key={rl._id} value={rl._id}>
+                      {rl.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item> : userInfo?.role === 'Agent' ? <Form.Item label="Selekto rolin" name="role" rules={[{ required: true, message: 'sekeltoni nje rol!' }]}>
+                <Select style={{ width: '100%' }} className='selector' defaultValue='Select'>
+                  <Option disabled>Select</Option>
+                  {getRolesForAgent && getRolesForAgent.map((rl) => (
+                    <Option key={rl._id} value={rl._id}>
+                      {rl.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item> : null }
               <Form.Item>
                 <Button loading={isLoading} type="primary" htmlType="submit">Regjistro perdoruesin</Button>
               </Form.Item>

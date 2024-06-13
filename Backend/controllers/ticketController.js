@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Ticket from "../models/ticketModel.js";
 import User from "../models/userModel.js";
+import { createFinance } from "./financeController.js";
 
 
 async function randomString(length) {
@@ -20,7 +21,7 @@ async function randomString(length) {
 //@route POST/api/tickets
 //@access Public
 const createTicket = asyncHandler(async (req, res) => {
-    const { userName, ticketWin, playedSum, playerOf } = req.body;
+    const { userName, ticketWin, playedSum, playerOf, playerId, ticketType, games } = req.body;
 
     // Find the user
     const user = await User.findOne({ userName: userName });
@@ -38,7 +39,10 @@ const createTicket = asyncHandler(async (req, res) => {
         userName,
         ticketWin,
         playedSum,
-        playerOf
+        playerOf,
+        playerId,
+        ticketType,
+        games
     });
 
     if (ticket) {
@@ -49,13 +53,18 @@ const createTicket = asyncHandler(async (req, res) => {
             { new: true } // This option returns the updated document
         );
 
+        await createFinance(ticket);
+
         res.status(201).json({
             _id: ticket._id,
             ticketId: ticket.ticketId,
             userName: ticket.userName,
             ticketWin: ticket.ticketWin,
             playedSum: ticket.playedSum,
-            playerOf: ticket.playerOf
+            playerOf: ticket.playerOf,
+            playerId: ticket.playerId,
+            ticketType: ticket.ticketType,
+            games: ticket.games,
         });
     } else {
         res.status(400);
@@ -69,19 +78,21 @@ const createTicket = asyncHandler(async (req, res) => {
 //@route GET/api/tickets/:id?isAdmin=value
 //@access private
 const getTickets = asyncHandler(async (req, res) => {
-    const userId = req.params.id;
-    const isAdmin = req.query.isAdmin === 'true';
-    let query;
+    const loggedInUser = await User.findById(req.user._id).populate('rolesId'); 
   
-    if (isAdmin) {
+    let query;
+    if (loggedInUser.rolesId.name === 'Player') {
+      query = Ticket.find({ playerId: req.user._id });
+    } else if (req.query.isAdmin === 'true' || req.query.isAgent === 'true') {
       query = Ticket.find({});
     } else {
-      query = Ticket.find({ playerOf: userId });
+      query = Ticket.find({ playerOf: req.params.id });
     }
   
     const tickets = await query.sort({ createdAt: -1 });
     res.json(tickets);
   });
+  
   
 
 export { createTicket, getTickets }

@@ -11,6 +11,23 @@ const getRoles = asyncHandler( async (req, res) => {
   res.json(roles);
 });
 
+//@desc fetches roles for manager
+//@route GET/api/roles/manager
+//@access Public
+const getRolesForManager = asyncHandler( async (req, res) => {
+  const roles = await Roles.find({ name: { $in: ['Agent', 'Player'] } });
+  res.json(roles);
+});
+
+//@desc fetches roles for agent
+//@route GET/api/roles/agent
+//@access Public
+const getRolesForAgent = asyncHandler( async (req, res) => {
+  const roles = await Roles.find({ name: { $in: ['Player'] } });
+  res.json(roles);
+});
+
+
 
 //@desc create a new roles
 //@route POST/api/roles
@@ -62,9 +79,15 @@ const updateRoles = asyncHandler(async (req, res) => {
   const roles = await Roles.findById(req.params.id);
 
   if (roles) {
-    console.log(req.body, "sjdjsijhdihd")
-    roles.name = req.body.name;
-    roles.permissions = req.body.permissions
+    if (roles.name === 'Agent' && req.body.name && req.body.name !== 'Agent') {
+      return res.status(403).json({ error: true, message: "Emri i rolit te agjentit nuk mund te ndryshohet!" });
+    }
+
+    if (req.body.name) {
+      roles.name = req.body.name;
+    }
+
+    roles.permissions = req.body.permissions;
     const updatedRoles = await roles.save();
 
     res.json({
@@ -74,9 +97,9 @@ const updateRoles = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404).json({error: true, message: 'Roles not found!'});
-    // throw new Error('Roles not found');
   }
 });
+
 
     
 
@@ -105,4 +128,4 @@ const deleteRoles = asyncHandler(async (req, res) => {
     
 
 
-export { getRoles, createRoles, updateRoles, deleteRoles, getRolesById }
+export { getRoles, getRolesForAgent, getRolesForManager, createRoles, updateRoles, deleteRoles, getRolesById }

@@ -1,10 +1,26 @@
 import mongoose from "mongoose";
 
+
+const gamesSchema = mongoose.Schema({
+    team1: {
+      type: String,
+      required: true,
+    },
+    team2: {
+      type: String,
+      required: true,
+    },
+  });
+  
 const ticketSchema = mongoose.Schema({
     ticketId: {
         type: Number,
         required: true,
         unique: true
+    },
+    playerId: {
+        type: String,
+        required: true
     },
     userName: {
         type: String,
@@ -21,6 +37,10 @@ const ticketSchema = mongoose.Schema({
     playerOf: {
         type: String,
     },
+    ticketType: {
+        type: String,
+    },
+    games: [gamesSchema]
 
 },{
     timestamps: true,

@@ -219,7 +219,24 @@ if (Array.isArray(bets)) {
   const submitTicket = async(e) => {
     e.preventDefault()
     try {
-      await createTicket({userName: userInfo?.userName, ticketWin: winningChance.toFixed(2), playedSum: parseFloat(price), playerOf: user?.registeredBy})
+      const ticketType = bets.length > 1 ? 'Combined' : 'Single';
+  
+      // Create an array of games from the bets
+      const games = bets.map(bet => ({
+        team1: bet.teams.team1,
+        team2: bet.teams.team2,
+      }));
+  
+      await createTicket({
+        userName: userInfo?.userName,
+        ticketWin: winningChance.toFixed(2),
+        playedSum: parseFloat(price),
+        playerOf: user?.registeredBy,
+        playerId: userInfo?._id,
+        ticketType: ticketType, 
+        games: games, 
+      })
+  
       toast.success('Ticket created successfully')
       setPrice('')
       dispatch(clearBets())
@@ -230,6 +247,8 @@ if (Array.isArray(bets)) {
       console.log(error, 'error while making bets')
     }
   }
+  
+  
   
   
 

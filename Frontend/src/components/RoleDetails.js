@@ -83,7 +83,7 @@ const RoleDetails = () => {
         }
         required
       />
-    </div>
+    </div> 
     <table style={{ width: '100%', borderCollapse: 'collapse', color: '#fff', fontFamily: 'Arial, Helvetica, sans-serif' }}>
   <thead>
     <tr>

@@ -15,6 +15,7 @@ import userRoutes from "./routes/userRoutes.js";
 import transferRoutes from './routes/transferRoutes.js';
 import rolesRoutes from './routes/rolesRoutes.js'
 import ticketRoutes from './routes/ticketRoutes.js'
+import financeRoutes from './routes/financeRoutes.js'
 // import cron from 'node-cron';
 // import { backUpDB } from "./backupDB.js";
 
@@ -44,6 +45,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/roles", rolesRoutes);
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/transfers", transferRoutes);
+app.use("/api/finances", financeRoutes);
 // app.use("/api/partners", partnerRoutes);
 // app.use("/api/contact", contactRoutes);
 // app.use("/api/newsletter", newsletterRoutes);

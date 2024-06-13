@@ -9,7 +9,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
-          'X-RapidAPI-Key': 'c7e768bb4cmsh66166ad20430766p1789f4jsn0f1043b60cd7',
+          'X-RapidAPI-Key': '161b29081amsh6bab4a34d4e0d63p1b5277jsnd4327585b5cd',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -18,7 +18,7 @@ export const apiSlice = createApi({
       query: (sport) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/${sport}`,  
         headers: {
-          'X-RapidAPI-Key': 'c7e768bb4cmsh66166ad20430766p1789f4jsn0f1043b60cd7',
+          'X-RapidAPI-Key': '161b29081amsh6bab4a34d4e0d63p1b5277jsnd4327585b5cd',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -27,7 +27,7 @@ export const apiSlice = createApi({
       query: (eventId) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_event_with_markets/${eventId}`,  
         headers: {
-          'X-RapidAPI-Key': 'c7e768bb4cmsh66166ad20430766p1789f4jsn0f1043b60cd7',
+          'X-RapidAPI-Key': '161b29081amsh6bab4a34d4e0d63p1b5277jsnd4327585b5cd',
           'X-RapidAPI-Host': ' bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -49,8 +49,8 @@ export const apiSlice = createApi({
     keepUnusedDataFor: 5,
   }),
   getAllUsers: builder.query({
-    query: ({userId, isAdmin}) => ({
-      url: `https://beting.onrender.com/api/users/get/${userId}?isAdmin=${isAdmin}`,
+    query: ({userId, isAdmin, isAgent}) => ({
+      url: `https://beting.onrender.com/api/users/get/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
       method: 'GET',
       credentials: 'include',
     }),
@@ -66,9 +66,26 @@ export const apiSlice = createApi({
   }),
   getRoles: builder.query({
     query: () => ({
-        url: `https://beting.onrender.com/api/roles`,
+        url: `https://beting.onrender.com/api/roles/get`,
     }),
-    providesTags: ['Roles'],
+    method: 'GET',
+    credentials: 'include',
+    keepUnusedDataFor: 5
+}),
+  getRolesForManager: builder.query({
+    query: () => ({
+        url: `https://beting.onrender.com/api/roles/get/manager`,
+    }),
+    method: 'GET',
+    credentials: 'include',
+    keepUnusedDataFor: 5
+}),
+  getRolesForAgent: builder.query({
+    query: () => ({
+        url: `https://beting.onrender.com/api/roles/get/agent`,
+    }),
+    method: 'GET',
+    credentials: 'include',
     keepUnusedDataFor: 5
 }),
 createTicket: builder.mutation({
@@ -80,8 +97,8 @@ createTicket: builder.mutation({
   }),
 }),
 getAllTickets: builder.query({
-  query: ({userId, isAdmin}) => ({
-    url: `https://beting.onrender.com/api/tickets/${userId}?isAdmin=${isAdmin}`,
+  query: ({userId, isAdmin, isAgent}) => ({
+    url: `https://beting.onrender.com/api/tickets/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -183,10 +200,18 @@ password: builder.mutation({
     body: data,
   }),
 }),
+getAllFinances: builder.query({
+  query: ({userId, isAdmin, isAgent}) => ({
+    url: `https://beting.onrender.com/api/finances/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
+    method: 'GET',
+    credentials: 'include',
+  }),
+  keepUnusedDataFor: 5,
+}),
 
       
   }),
 });
 
-export const { useGetInPlayFilterQuery, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation } = apiSlice;
+export const { useGetInPlayFilterQuery, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useGetRolesForAgentQuery, useGetRolesForManagerQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation, useGetAllFinancesQuery } = apiSlice;
 

@@ -9,6 +9,10 @@ const transferSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    transferToId: {
+        type: String,
+        required: true,
+    },
     transferSum: {
         type: Number,
         required: true

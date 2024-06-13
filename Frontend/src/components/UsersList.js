@@ -12,7 +12,7 @@ const UsersList = () => {
   const navigate = useNavigate()
   const { userInfo } = useSelector((state) => state.auth);
   const { data: user, isLoading, isError } = useGetUserProfileQuery({userId: userInfo?._id})
-  const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
+  const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin, isAgent: !!userInfo?.isAgent})
   const [list, setlist] = useState([])
   const [searchText, setSearchText] = useState('')
 

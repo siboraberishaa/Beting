@@ -33,17 +33,23 @@ const UserInfo = () => {
 
 
     const [transferSum, setTransferSum] = useState(0);
+    const [userCredits, setUserCredits] = useState(0);
+
 
     const handleButtonClick = (value) => {
-        setTransferSum(transferSum + value);
+      setTransferSum(value);
     };
+
+    const displaySum = userCredits + transferSum
+    
 
     const handleSubmit = async () => {
         try {
-          await createTransfer({ transferFrom: userInfo?.userName, transferTo: user?.userName, transferSum: transferSum });
+          await createTransfer({ transferFrom: userInfo?.userName, transferTo: user?.userName, transferSum: transferSum, transferToId: user?._id  });
           toast.success('Transfer created successfully')
           refetch()
           setModal2Open(false)
+          setTransferSum(0)
         } catch (error) {
           console.log(error, 'error while making transfer');
         }
@@ -84,25 +90,37 @@ const UserInfo = () => {
 
       const handleCommission = async () => {
         try {
-          await updateUserCommission({ userId, commissionS, commission2, commission3 });
+          const response = await updateUserCommission({ userId, commissionS, commission2, commission3 });
+      
+          // Check if the response indicates a failure
+          if (response.error) {
+            throw response.error; // Throw the error object directly
+          }
           toast.success('Komisioni u perditesua');
           setModal3Open(false)
           refetch();
         } catch (err) {
-          toast.error(err?.data?.message || err.error);
+          const errorMessage = err.data?.message || JSON.stringify(err);
+          toast.error(errorMessage);
+          setCommissionS(user?.commissionS)
+          setCommission2(user?.commission2)
+          setCommission3(user?.commission3)
         }
+        
       };
+      
+      
       
       
       
     useEffect(() => {
         if (user) {
-            setTransferSum(user.credits)
             setUserName(user.userName)
             setDescription(user.description)
             setCommissionS(user.commissionS)
             setCommission2(user.commission2)
             setCommission3(user.commission3)
+            setUserCredits(user.credits)
         }
     }, [user])
       
@@ -130,11 +148,12 @@ const UserInfo = () => {
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{user?.userName}</p>
             </div>
         </div>
+        {userInfo?.role !== 'Agent' ? 
         <div style={{paddingLeft: '10px', paddingRight: '10px'}} onClick={() => setModal3Open(true)}>
             <div style={{backgroundColor: '#474747', padding: '10px', border: '1px solid #fff'}}>
                 <p style={{color: '#fff',fontFamily: 'Arial, Helvetica, sans-serif'}}>Komisioni</p>
             </div>
-        </div>
+        </div> : null}
         <div style={{paddingLeft: '10px', paddingRight: '10px'}}>
             <div style={{backgroundColor: '#474747', padding: '10px', border: '1px solid #fff'}} onClick={() => setModal4Open(true)}>
                 <p style={{color: '#fff',fontFamily: 'Arial, Helvetica, sans-serif'}}>Perqindja</p>
@@ -154,7 +173,7 @@ const UserInfo = () => {
         <div style={{paddingLeft: '10px', paddingRight: '10px'}}>
             <div style={{backgroundColor: '#474747', padding: '10px', border: '1px solid #fff', display: 'flex', justifyContent: 'space-between'}}>
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>Bonus</p>
-            <Switch />
+            <Switch disabled />
             </div>
         </div>
         <div style={{paddingLeft: '10px', paddingRight: '10px', paddingTop: '20px'}} onClick={() => setModal2Open(true)}>
@@ -172,13 +191,13 @@ const UserInfo = () => {
         onOk={() => setModal2Open(false)}
         onCancel={() => setModal2Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <button onClick={handleSubmit} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
+            <button disabled={!transferSum} onClick={handleSubmit} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
         </div>}
         width='80%'
         closeIcon={null}
       >
         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '20px'}}>
-            <input type='number' disabled style={{width: '60%', padding: '10px', border: '1px solid #000'}} value={transferSum} />
+            <input type='number' disabled style={{width: '60%', padding: '10px', border: '1px solid #000'}} value={displaySum} />
         </div>
         <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
             <button onClick={() => handleButtonClick(10)} style={{width: '20%', padding: '10px', backgroundColor: '#b7b7b7', border: 'none', fontWeight: '600'}}>10</button>
