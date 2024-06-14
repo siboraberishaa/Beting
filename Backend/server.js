@@ -24,8 +24,11 @@ connectDB();
 const port = process.env.PORT;
 const app = express();
 
-// Disable CORS
-app.use(cors());
+app.use(cors({
+    origin: 'https://website-665aeeac.ameba-rks.com', // replace with your actual origin
+    credentials: true,
+  }));
+  
 
 // Body parser middleware
 app.use(express.json());

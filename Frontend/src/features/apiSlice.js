@@ -44,7 +44,7 @@ export const apiSlice = createApi({
     query: ({ userId }) => ({
       url: `https://beting.onrender.com/api/users/profile/${userId}`,
       method: 'GET',
-      // credentials: 'include',
+      credentials: 'include',
     }),
     keepUnusedDataFor: 5,
   }),
