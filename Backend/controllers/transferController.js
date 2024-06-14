@@ -14,13 +14,22 @@ const createTransfer = asyncHandler(async (req, res) => {
         transferSum,
         transferToId
     });
-    const user = await User.findOne({ userName: transferTo });
 
-    if (user) {
-        // Update the user's credits
+    const userTo = await User.findOne({ userName: transferTo });
+    const userFrom = await User.findOne({ userName: transferFrom });
+
+    if (userTo && userFrom) {
+        // Update the receiver's credits
         await User.findOneAndUpdate(
             { userName: transferTo }, 
             { $inc: { credits: transferSum } },
+            { new: true } 
+        );
+
+        // Update the sender's credits
+        await User.findOneAndUpdate(
+            { userName: transferFrom }, 
+            { $inc: { credits: -transferSum } },
             { new: true } 
         );
     
@@ -34,8 +43,8 @@ const createTransfer = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Invalid transfer data');
     }
-    
 });
+
 
 //@desc fetches all transfers
 //@route GET/api/transfers
