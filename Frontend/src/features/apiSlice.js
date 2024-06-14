@@ -190,6 +190,7 @@ logout: builder.mutation({
   query: () => ({
     url: `https://beting.onrender.com/api/users/logout`,
     method: 'POST',
+    credentials: 'include'
   }),
 }),
 password: builder.mutation({
