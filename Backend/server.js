@@ -26,7 +26,7 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: 'https://website-665aeeac.ameba-rks.com',
+  origin: 'https://website-665aeeac.ameba-rks.com/',
   credentials: true
 }));
 
