@@ -6,7 +6,8 @@ const users = [
     lastName: 'Super Admin',
     userName: 'admin123',
     password: bcrypt.hashSync('123456', 10),
-    rolesId: "Super Admin"
+    rolesId: "Super Admin",
+    isAdmin: true
   },
   {
     firstName: 'Manager',

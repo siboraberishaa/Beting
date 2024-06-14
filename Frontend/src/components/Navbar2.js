@@ -98,7 +98,7 @@ const logoutHandler = async () => {
         label: <span>Perdoruesi: {user?.userName}</span>,
         key: '0',
       },
-      {
+      userInfo?.isAdmin ? null : {
         label: <span>Krediti: {user?.credits}</span>,
         key: '1',
       },
@@ -133,10 +133,10 @@ const logoutHandler = async () => {
       {
         type: 'divider',
       },
-      userInfo && checkAnyTrue('roles') &&{
-        label: <Link to={'/role/create'}>Krijo Rol</Link>,
-        key: '7',
-      },
+      // userInfo && checkAnyTrue('roles') &&{
+      //   label: <Link to={'/role/create'}>Krijo Rol</Link>,
+      //   key: '7',
+      // },
       {
         type: 'divider',
       },

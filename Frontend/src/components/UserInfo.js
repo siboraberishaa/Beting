@@ -24,8 +24,8 @@ const UserInfo = () => {
 
     const { userInfo } = useSelector((state) => state.auth);
 
-    const { data: user, isLoading, isError, refetch } = useGetUserByIdQuery(userId)
-    const [ createTransfer ] = useCreateTransferMutation()
+    const { data: user, isLoading, refetch } = useGetUserByIdQuery(userId)
+    const [ createTransfer, {isError, error} ] = useCreateTransferMutation()
     const [ editUserName ] = useEditUsersUserNameMutation()
     const [ editDescription ] = useEditUsersDescriptionMutation()
     const [ updateUserStatus ] = useUpdateUsersStatusMutation()
@@ -46,13 +46,16 @@ const UserInfo = () => {
     const handleSubmit = async () => {
         try {
           await createTransfer({ transferFrom: userInfo?.userName, transferTo: user?.userName, transferSum: transferSum, transferToId: user?._id  });
-          toast.success('Transfer created successfully')
+          toast.success('')
           refetch()
           setModal2Open(false)
           setTransferSum(0)
         } catch (error) {
-          console.log(error, 'error while making transfer');
-        }
+          console.log(error);
+      }
+      
+      
+      
       };
 
       const handleUserName = async () => {
@@ -197,7 +200,7 @@ const UserInfo = () => {
         closeIcon={null}
       >
         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '20px'}}>
-            <input type='number' disabled style={{width: '60%', padding: '10px', border: '1px solid #000'}} value={displaySum} />
+            <input type='number' onChange={(e) => setTransferSum(e.target.value)} style={{width: '60%', padding: '10px', border: '1px solid #000'}}  />
         </div>
         <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
             <button onClick={() => handleButtonClick(10)} style={{width: '20%', padding: '10px', backgroundColor: '#b7b7b7', border: 'none', fontWeight: '600'}}>10</button>
