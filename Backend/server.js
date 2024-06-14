@@ -26,9 +26,8 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-    origin: process.env.CLIENT_DOMAIN,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  origin: 'https://website-665aeeac.ameba-rks.com',
+  credentials: true
 }));
 
 // Body parser middleware

@@ -11,7 +11,7 @@ const generateToken = (res, userId) => {
   res.cookie('jwt', token, {
     httpOnly: true,
     secure: true, // Use secure cookies in production
-    sameSite: 'Lax', // Allow the cookie to be sent in cross-origin requests
+    sameSite: 'none', // Allow the cookie to be sent in cross-origin requests
     domain: process.env.CLIENT_DOMAIN, // Set the domain to your client's domain
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
