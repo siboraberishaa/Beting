@@ -9,7 +9,7 @@ const generateToken = (res, userId) => {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
     sameSite: 'none',
-    domain: process.env.NODE_ENV === 'development' ? undefined : '.ameba-rks.com', // Match the domain used when setting the cookie
+    domain: '.ameba-rks.com', // Match the domain used when setting the cookie
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 };

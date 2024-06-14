@@ -268,7 +268,7 @@ const logoutUser = (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
     sameSite:'none',
-    domain: process.env.NODE_ENV === 'development' ? undefined : '.ameba-rks.com', // Match the domain used when setting the cookie
+    domain: '.ameba-rks.com', // Match the domain used when setting the cookie
   });
   res.status(200).json({ message: 'Logged out successfully' });
 };
