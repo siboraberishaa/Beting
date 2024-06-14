@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 const corsOptions = {
-    origin: 'https://website-665aeeac.ameba-rks.com', // replace with your actual origin
+    origin: ['https://website-665aeeac.ameba-rks.com', 'https://666cb2f5e04051d4e29de3a6--admirable-creponne-e5f66c.netlify.app'], // replace with your actual origin
     credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
