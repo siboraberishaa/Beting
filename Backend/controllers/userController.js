@@ -264,9 +264,14 @@ const updateUserStatus = asyncHandler(async (req, res) => {
 //@route POST/api/users/logout
 //@access Private
 const logoutUser = (req, res) => {
-  res.clearCookie('jwt');
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite:'none',
+  });
   res.status(200).json({ message: 'Logged out successfully' });
 };
+
 
 // @desc    Update user password
 // @route   PUT /api/users/password
