@@ -127,31 +127,37 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400).json({ error: true, message: "User already exists!" });
-    // throw new Error('User already exists');
-  }
-
-  const user = await User.create({
-    userName,
-    password,
-    rolesId,
-    registeredBy: userId,
-    status: true,
-  });
-
-  if (user) {
-    // Do not automatically log in as the new user
-    // Just send back the user data
-    res.status(201).json({
-      _id: user._id,
-      userName: user.userName,
-      rolesId: user.rolesId,
-      message: "User created successfully",
-    });
   } else {
-    res.status(400).json({ error: true, message: "Invalid user data!" });
-    // throw new Error('Invalid user data');
+    // Find the role by its ID
+    const role = await Roles.findById(rolesId);
+
+    // Check if the role name is 'Agent'
+    const isAgent = role && role.name === 'Agent';
+
+    const user = await User.create({
+      userName,
+      password,
+      rolesId,
+      registeredBy: userId,
+      status: true,
+      // Set isAgent field based on the role check
+      isAgent: isAgent
+    });
+
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        userName: user.userName,
+        rolesId: user.rolesId,
+        isAgent: user.isAgent,
+        message: "User created successfully",
+      });
+    } else {
+      res.status(400).json({ error: true, message: "Invalid user data!" });
+    }
   }
 });
+
 
 // @desc    Get user by ID
 // @route   GET /api/users/:id
