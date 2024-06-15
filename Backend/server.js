@@ -50,9 +50,12 @@ app.use('/api/transfers', transferRoutes);
 app.use('/api/finances', financeRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  app.get('/', (req, res) => {
-    res.send('API is running....');
-  });
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, '/Frontend/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'Frontend', 'build', 'index.html'))
+  );
 } else {
   app.get('/', (req, res) => {
     res.send('API is running....');
