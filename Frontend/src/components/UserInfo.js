@@ -195,7 +195,7 @@ const UserInfo = () => {
         onOk={() => setModal2Open(false)}
         onCancel={() => setModal2Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <Button loading={loading} disabled={!transferSum} onClick={handleSubmit} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</Button>
+            <Button loading={loading} disabled={!transferSum} onClick={handleSubmit} style={{backgroundColor: '#126e51', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</Button>
         </div>}
         width='80%'
         closeIcon={null}
@@ -220,7 +220,7 @@ const UserInfo = () => {
         onOk={() => setModal1Open(false)}
         onCancel={() => setModal1Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <Button loading={loadingUN} disabled={!userName} onClick={handleUserName} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</Button>
+            <Button loading={loadingUN} disabled={!userName} onClick={handleUserName} style={{backgroundColor: '#126e51', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</Button>
         </div>}
         width='80%'
         closeIcon={null}

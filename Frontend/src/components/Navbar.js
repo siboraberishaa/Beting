@@ -14,7 +14,7 @@ import ModalLogin from './ModalLogin'; // Importo ModalLogin.js
 import { useDispatch, useSelector } from 'react-redux';
 import { clearBets, clearOdds, deleteBet, toggleOdd } from '../features/betSlice';
 import { PiUserCircleLight } from "react-icons/pi";
-import { Dropdown } from "antd";
+import { Button, Dropdown } from "antd";
 import { toast } from 'react-toastify';
 import { logout } from '../features/authSlice';
 import { checkAnyTrue } from '../functions/Permissions';
@@ -403,7 +403,7 @@ if (Array.isArray(bets)) {
               </div>
 
               <div className="place-bet-section">
-                <button className="place-bet-btn" onClick={submitTicket}>Place Bet</button>    
+                <Button style={{backgroundColor: '#4b4b4b', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={submitTicket}>Place Bet</Button>    
               </div>
             </div>
           </div>
