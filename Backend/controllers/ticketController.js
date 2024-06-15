@@ -27,7 +27,7 @@ const createTicket = asyncHandler(async (req, res) => {
     const user = await User.findOne({ userName: userName });
 
     // Check if the user's credits are 0
-    if (user.credits === 0) {
+    if (user.credits === 0 && !user.isAdmin) {
         res.status(400);
         throw new Error('Insufficient credits');
     }
