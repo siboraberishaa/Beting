@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../features/apiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/authSlice";
+import { Button } from "antd";
 
 function ModalLogin({ isOpen, onClose }) {
   const [userName, setUserName] = useState("");
@@ -10,7 +11,7 @@ function ModalLogin({ isOpen, onClose }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [login] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation()
 
   const submitHandler = async (event) => {
     event.preventDefault()
@@ -48,9 +49,9 @@ function ModalLogin({ isOpen, onClose }) {
             onChange={(e) => setPassword(e.target.value)}
             name="password"
           />
-          <button type="submit" className="submit-button">
+          <Button loading={isLoading} disabled={!userName && !password} type="submit" className="submit-button">
             LOGIN
-          </button>
+          </Button>
           <button type="button" className="close-button" onClick={onClose}>
             Close
           </button>

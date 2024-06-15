@@ -3,7 +3,7 @@ import Navbar2 from './Navbar2'
 import { checkPermissions } from '../functions/Permissions'
 import { useParams } from 'react-router-dom'
 import { useCreateTransferMutation, useEditUsersCommissionMutation, useEditUsersDescriptionMutation, useEditUsersUserNameMutation, useGetUserByIdQuery, useUpdateUsersStatusMutation } from '../features/apiSlice'
-import { Modal, Switch } from 'antd'
+import { Button, Modal, Switch } from 'antd'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
@@ -21,12 +21,13 @@ const UserInfo = () => {
     const [commissionS, setCommissionS] = useState(0);
     const [commission2, setCommission2] = useState(0);
     const [commission3, setCommission3] = useState(0);
+    const [loadB, setLoadB] = useState(false);
 
     const { userInfo } = useSelector((state) => state.auth);
 
     const { data: user, isLoading, refetch } = useGetUserByIdQuery(userId)
-    const [ createTransfer, {isError, error} ] = useCreateTransferMutation()
-    const [ editUserName ] = useEditUsersUserNameMutation()
+    const [ createTransfer, {isLoading: loading} ] = useCreateTransferMutation()
+    const [ editUserName, {isLoading: loadingUN} ] = useEditUsersUserNameMutation()
     const [ editDescription ] = useEditUsersDescriptionMutation()
     const [ updateUserStatus ] = useUpdateUsersStatusMutation()
     const [ updateUserCommission ] = useEditUsersCommissionMutation()
@@ -194,7 +195,7 @@ const UserInfo = () => {
         onOk={() => setModal2Open(false)}
         onCancel={() => setModal2Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <button disabled={!transferSum} onClick={handleSubmit} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
+            <Button loading={loading} disabled={!transferSum} onClick={handleSubmit} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</Button>
         </div>}
         width='80%'
         closeIcon={null}
@@ -219,7 +220,7 @@ const UserInfo = () => {
         onOk={() => setModal1Open(false)}
         onCancel={() => setModal1Open(false)}
         footer={<div style={{backgroundColor: '#dddd', padding: '10px', display: 'flex', justifyContent: 'center'}}>
-            <button onClick={handleUserName} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</button>
+            <Button loading={loadingUN} disabled={!userName} onClick={handleUserName} style={{backgroundColor: '#126e51', padding: '10px', width: '20%', border: 'none', color: '#fff', fontWeight: '600'}}>Submit</Button>
         </div>}
         width='80%'
         closeIcon={null}
