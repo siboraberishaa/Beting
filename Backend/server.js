@@ -17,7 +17,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-    origin: ['https://website-665aeeac.ameba-rks.com', 'https://666cb2f5e04051d4e29de3a6--admirable-creponne-e5f66c.netlify.app'], // replace with your actual origin
+    origin: ['https://website-665aeeac.ameba-rks.com', 'http://localhost:3000'], // replace with your actual origin
   credentials: true, // Include cookies in cross-origin requests
 }));
 
