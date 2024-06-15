@@ -15,7 +15,14 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(cors({
+    origin: ['https://website-665aeeac.ameba-rks.com', 'https://666cb2f5e04051d4e29de3a6--admirable-creponne-e5f66c.netlify.app'], // replace with your actual origin
+  credentials: true, // Include cookies in cross-origin requests
+}));
+
 const port = process.env.PORT || 5000;
+
 
 // Add cache-control header middleware
 app.use((req, res, next) => {
@@ -23,10 +30,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors({
-    origin: ['https://website-665aeeac.ameba-rks.com', 'https://666cb2f5e04051d4e29de3a6--admirable-creponne-e5f66c.netlify.app'], // replace with your actual origin
-  credentials: true, // Include cookies in cross-origin requests
-}));
 
 app.use(helmet());
 
@@ -36,9 +39,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use('/api/users', userRoutes);
 app.use('/api/roles', rolesRoutes);
