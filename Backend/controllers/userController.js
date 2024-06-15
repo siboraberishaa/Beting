@@ -100,19 +100,49 @@ const getUsers = asyncHandler(async (req, res) => {
   const userId = req.params.id; // Get user ID from route parameters
   const isAdmin = req.query.isAdmin === 'true';
   const isAgent = req.query.isAgent === 'true';
+  
+  // Fetch the role IDs for Manager, Agent, and Super Admin
+  const managerRole = await Roles.findOne({ name: 'Manager' });
+  const agentRole = await Roles.findOne({ name: 'Agent' });
+  const superAdminRole = await Roles.findOne({ name: 'Super Admin' });
+
+  if (!managerRole || !agentRole || !superAdminRole) {
+    return res.status(404).json({ message: 'Roles not found' });
+  }
+
   let query;
 
   console.log(isAdmin, 'isAdm')
 
   if (isAdmin || isAgent) {
-    query = User.find({});
+    // Exclude users with the Super Admin role
+    query = User.find({ rolesId: { $ne: superAdminRole._id } });
   } else {
-    query = User.find({ registeredBy: userId });
+    const currentUser = await User.findById(userId);
+
+    if (currentUser.rolesId.equals(managerRole._id)) {
+      // If the user is a manager, fetch users created by this manager and users with the Agent role, excluding Super Admins
+      query = User.find({
+        $and: [
+          { $or: [
+            { registeredBy: userId },
+            { rolesId: agentRole._id },
+            { isAgent: true },
+          ]},
+          { rolesId: { $ne: superAdminRole._id } }
+        ]
+      });
+    } else {
+      // If not admin, agent, or manager, fetch only the users registered by the current user
+      query = User.find({ registeredBy: userId });
+    }
   }
 
   const users = await query.sort({ createdAt: -1 }).select("-password");
   res.json(users);
 });
+
+
 
 
 
@@ -128,11 +158,15 @@ const registerUser = asyncHandler(async (req, res) => {
   if (userExists) {
     res.status(400).json({ error: true, message: "User already exists!" });
   } else {
-    // Find the role by its ID
-    const role = await Roles.findById(rolesId);
+    // Fetch the Agent role
+    const agentRole = await Roles.findOne({ name: 'Agent' });
 
-    // Check if the role name is 'Agent'
-    const isAgent = role && role.name === 'Agent';
+    if (!agentRole) {
+      return res.status(404).json({ error: true, message: "Agent role not found!" });
+    }
+
+    // Determine if the new user is an agent
+    const isAgent = rolesId === String(agentRole._id);
 
     const user = await User.create({
       userName,
@@ -140,7 +174,7 @@ const registerUser = asyncHandler(async (req, res) => {
       rolesId,
       registeredBy: userId,
       status: true,
-      isAgent: isAgent
+      isAgent
     });
 
     if (user) {
@@ -156,6 +190,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
   }
 });
+
 
 
 // @desc    Get user by ID

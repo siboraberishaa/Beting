@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
     isAdmin: { type: Boolean, default: false },
-    isManager: { type: Boolean, default: false }
+    isAgent: { type: Boolean, default: false }
 }, {
     timestamps: true,
 })

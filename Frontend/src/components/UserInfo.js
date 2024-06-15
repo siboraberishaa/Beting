@@ -203,12 +203,12 @@ const UserInfo = () => {
         <div style={{display: 'flex', justifyContent: 'center', paddingTop: '20px'}}>
             <input type='number' onChange={(e) => setTransferSum(e.target.value)} style={{width: '60%', padding: '10px', border: '1px solid #000'}}  />
         </div>
-        <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
+        {/* <div style={{display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
             <button onClick={() => handleButtonClick(10)} style={{width: '20%', padding: '10px', backgroundColor: '#b7b7b7', border: 'none', fontWeight: '600'}}>10</button>
             <button onClick={() => handleButtonClick(50)} style={{width: '20%', padding: '10px', backgroundColor: '#b7b7b7', border: 'none', fontWeight: '600'}}>50</button>
             <button  onClick={() => handleButtonClick(100)} style={{width: '20%', padding: '10px', backgroundColor: '#b7b7b7', border: 'none', fontWeight: '600'}}>100</button>
             <button  onClick={() => handleButtonClick(200)} style={{width: '20%', padding: '10px', backgroundColor: '#b7b7b7', border: 'none', fontWeight: '600'}}>200</button>
-        </div>
+        </div> */}
       </Modal>
       </div>
 

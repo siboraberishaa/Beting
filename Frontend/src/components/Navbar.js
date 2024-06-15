@@ -18,6 +18,7 @@ import { Button, Dropdown } from "antd";
 import { toast } from 'react-toastify';
 import { logout } from '../features/authSlice';
 import { checkAnyTrue } from '../functions/Permissions';
+import BetSlipForMobile from './BetSlipForMobile';
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function Navbar() {
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false); // Shto state për modalin e loginit
   const [price, setPrice] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -44,9 +46,16 @@ function Navbar() {
   
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      setIsMobile(width <= 768); // Check if the width is less than or equal to 768 pixels
     };
+
     window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -408,7 +417,7 @@ if (Array.isArray(bets)) {
             </div>
           </div>
 
-
+        {isMobile ? <BetSlipForMobile /> : null}
     </div> 
 </div> 
      
