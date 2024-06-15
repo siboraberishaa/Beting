@@ -140,7 +140,6 @@ const registerUser = asyncHandler(async (req, res) => {
       rolesId,
       registeredBy: userId,
       status: true,
-      // Set isAgent field based on the role check
       isAgent: isAgent
     });
 
