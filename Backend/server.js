@@ -26,9 +26,10 @@ const port = process.env.PORT || 5000;
 
 // Add cache-control header middleware
 app.use((req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store');
+  res.header("Content-Security-Policy", "default-src 'self'; connect-src 'https://bet365-api-inplay.p.rapidapi.com'");
   next();
 });
+
 
 
 app.use(helmet());
