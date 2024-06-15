@@ -9,6 +9,7 @@ import transferRoutes from './routes/transferRoutes.js';
 import rolesRoutes from './routes/rolesRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import financeRoutes from './routes/financeRoutes.js';
+import helmet from 'helmet';
 
 dotenv.config();
 connectDB();
@@ -26,6 +27,14 @@ app.use(cors({
     origin: ['https://website-665aeeac.ameba-rks.com', 'https://666cb2f5e04051d4e29de3a6--admirable-creponne-e5f66c.netlify.app'], // replace with your actual origin
   credentials: true, // Include cookies in cross-origin requests
 }));
+
+app.use(helmet());
+
+// Additional custom headers if needed
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

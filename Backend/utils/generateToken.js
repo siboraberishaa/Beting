@@ -5,6 +5,12 @@ const generateToken = (res, userId) => {
     expiresIn: '30d',
   });
 
+  if (!token) {
+    console.error("Failed to generate JWT token");
+  } else {
+    console.log("Generated JWT token:", token);
+  }
+
   res.cookie('jwt', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
