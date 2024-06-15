@@ -32,7 +32,16 @@ app.use((req, res, next) => {
 
 
 
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'https://bet365-api-inplay.p.rapidapi.com'", "'self'"],
+      // Add other directives as needed
+    },
+  })
+);
+
 
 // Additional custom headers if needed
 app.use((req, res, next) => {
