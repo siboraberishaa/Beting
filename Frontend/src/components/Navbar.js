@@ -36,7 +36,7 @@ function Navbar() {
 
   const { data: sports, isLoading, isError, refetch } = useGetInPlayFilterQuery();
   const { data: user, refetch: refetchUser } = useGetUserProfileQuery({userId: userInfo?._id});
-  const [ createTicket ] = useCreateTicketMutation();
+  const [ createTicket, {isLoading: load} ] = useCreateTicketMutation();
 
 
 
@@ -403,7 +403,7 @@ if (Array.isArray(bets)) {
               </div>
 
               <div className="place-bet-section">
-                <Button style={{backgroundColor: '#4b4b4b', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={submitTicket}>Place Bet</Button>    
+                <Button disabled={!price} loading={load} style={{backgroundColor: '#4b4b4b', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={submitTicket}>Place Bet</Button>    
               </div>
             </div>
           </div>
