@@ -9,10 +9,10 @@ router.get("/profile/:id", protect, getUserProfile);
 router.get("/get/:id", protect, authorize('read', 'users'), getUsers);
 router.post("/register",protect, authorize('create', 'users'),registerUser);
 router.get("/:id", protect, authorize('read', 'users'), getUserById);
-router.put("/userName/:id", protect, authorize('update', 'users'), updateUsersUsername);
-router.put("/description/:id", protect, authorize('update', 'users'), updateUsersDescription);
-router.put("/commission/:id", protect, authorize('update', 'users'), updateUsersCommissions);
-router.route("/status/:id").put( protect, authorize('update', 'users'), updateUserStatus);
+router.put("/userName/:id", protect, updateUsersUsername);
+router.put("/description/:id", protect, updateUsersDescription);
+router.put("/commission/:id", protect, updateUsersCommissions);
+router.route("/status/:id").put( protect, updateUserStatus);
 router.post("/logout", logoutUser);
 router.put("/password", protect, updateUsersPassword);
 

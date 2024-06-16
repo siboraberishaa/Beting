@@ -230,64 +230,7 @@ const logoutHandler = async () => {
 
       <ModalLogin isOpen={loginModalOpen} onClose={closeLoginModal} />
     </div>
-    <div  className='bodyy'>
-      {/* Sidebar */}
-      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-              
-              <div className="search-input" onClick={() => {toggleSearch(); openWelcomeModal();}}>
-                <img className="search-icon" src={search} alt="Star" />Search
-              </div>   
-               
-                  <div className='sidebar-none'>
-                      <div className='sidebar-menu'> 
-                          <Link className='sidebar-menu-a' to="/">
-                            <img className='icon-menuu' src={sport} alt='Sports'/> 
-                            <p>Sports</p>
-                          </Link> 
-                          <Link className='sidebar-menu-a' to="/live">
-                            <img className='icon-menuu' src={sportlive} alt='Sports'/> 
-                            <p>Live</p>
-                          </Link> 
-                          <Link className='sidebar-menu-a' to="/">
-                            <img className='icon-menuu' src={cards} alt='Sports'/> 
-                            <p>LOJRA</p>
-                          </Link> 
-                          <Link className='sidebar-menu-a' to="/">
-                            <img className='icon-menuu' src={offer} alt='Sports'/> 
-                            <p>Offers</p>
-                          </Link> 
-                      </div>  
-                  </div>
-                  <Link className="sidebar-link-home" to="/">Home</Link>
-
-                  {Object.keys(sports).map((index) => (
-                  <Link key={index} className="sidebar-link" to={`/${sports[index].toLowerCase()}`}>
-                    {sports[index].charAt(0).toUpperCase() + sports[index].slice(1)}
-                    <img className="star-icon" src={Star} alt="Star" />
-                  </Link>
-                  ))}
-
-               
-
-                
-          </div>
-          
-                {/* Dark overlay */}
-                {sidebarOpen && (
-                  <div className="dark-overlay" onClick={toggleSidebar}></div>
-                )}
-            
-                
-              {/* Search Modal */}
-                {welcomeModalOpen && (
-                  <div className="search-slide">
-                    <div className="search-content"> 
-                      <input type="text" className="search-inputt" placeholder="Search..." /> 
-                      <button className="search-button" onClick={() => {toggleSearch(); closeWelcomeModal();}}>Close</button>
-                    </div>
-                  </div>
-                )}
-    </div>
+    
     </>
   )
 }

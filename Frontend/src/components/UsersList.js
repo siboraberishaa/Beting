@@ -69,7 +69,7 @@ useEffect(() => {
                 <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>EUR</p>
             </div>
             {list?.map((usser) => (
-                <div key={usser._id} onClick={() => navigate(`/user/${usser._id}`)} style={{backgroundColor: '#cccccc', border: '1px solid #666', padding: '7px', display: 'flex', justifyContent: 'space-between'}}>
+                <div key={usser._id} onClick={() => navigate(`/user/${usser._id}`)} style={{backgroundColor: '#cccccc', border: '1px solid #666', padding: '7px', display: 'flex', justifyContent: 'space-between', cursor: 'pointer'}}>
                     <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.userName}</p>
                     <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.credits}</p>
                 </div>
