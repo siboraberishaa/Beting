@@ -232,7 +232,7 @@ const logoutHandler = async () => {
     </div>
     <div  className='bodyy'>
       {/* Sidebar */}
-      <div className={`sidebar ${windowWidth > 1300 || sidebarOpen ? 'open' : ''}`}>
+      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
               
               <div className="search-input" onClick={() => {toggleSearch(); openWelcomeModal();}}>
                 <img className="search-icon" src={search} alt="Star" />Search
