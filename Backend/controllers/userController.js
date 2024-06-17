@@ -99,7 +99,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   const userId = req.params.id; // Get user ID from route parameters
   const isAdmin = req.query.isAdmin === 'true';
-  const isAgent = req.query.isAgent === 'true';
   
   // Fetch the role IDs for Manager, Agent, and Super Admin
   const managerRole = await Roles.findOne({ name: 'Manager' });
@@ -114,7 +113,7 @@ const getUsers = asyncHandler(async (req, res) => {
 
   console.log(isAdmin, 'isAdm')
 
-  if (isAdmin || isAgent) {
+  if (isAdmin) {
     // Exclude users with the Super Admin role
     query = User.find({ rolesId: { $ne: superAdminRole._id } });
   } else {

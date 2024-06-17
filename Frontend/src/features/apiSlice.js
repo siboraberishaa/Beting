@@ -54,7 +54,7 @@ export const apiSlice = createApi({
   }),
   getAllUsers: builder.query({
     query: ({userId, isAdmin, isAgent}) => ({
-      url: `http://localhost:5000/api/users/get/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
+      url: `http://localhost:5000/api/users/get/${userId}?isAdmin=${isAdmin}`,
       method: 'GET',
       credentials: 'include',
     }),

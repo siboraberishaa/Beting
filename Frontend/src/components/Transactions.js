@@ -13,7 +13,7 @@ const Transactions = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
 
-    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin, isAgent: !!userInfo?.isAgent})
+    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
     const { data: tickets } = useGetAllTicketsQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin, isAgent: !!userInfo?.isAgent })
 
 
