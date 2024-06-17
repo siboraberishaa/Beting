@@ -42,7 +42,6 @@ function Navbar() {
 
 
 
-
   
   useEffect(() => {
     const handleResize = () => {
@@ -225,8 +224,7 @@ if (Array.isArray(bets)) {
     },
   ].filter(Boolean);
 
-  const submitTicket = async(e) => {
-    e.preventDefault()
+  const submitTicket = async() => {
     try {
       const ticketType = bets.length > 1 ? 'Combined' : 'Single';
   
@@ -258,7 +256,13 @@ if (Array.isArray(bets)) {
   }
   
   
-  
+  const handleClick = () => {
+    if (userInfo) {
+      submitTicket();
+    } else {
+      openLoginModal();
+    }
+  };
   
 
 
@@ -412,7 +416,7 @@ if (Array.isArray(bets)) {
               </div>
 
               <div className="place-bet-section">
-                <Button disabled={!price} loading={load} style={{backgroundColor: '#4b4b4b', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={submitTicket}>Place Bet</Button>    
+                <Button disabled={price === 0} loading={load} style={{backgroundColor: '#4b4b4b', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={handleClick}>Place Bet</Button>    
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../features/apiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/authSlice";
+import { toast } from "react-toastify";
 
 function ModalLogin({ isOpen, onClose }) {
   const [userName, setUserName] = useState("");
@@ -20,8 +21,9 @@ function ModalLogin({ isOpen, onClose }) {
         onClose()
         setUserName('')
         setPassword('')
+        toast.success('Login successful')
     } catch (error) {
-        console.log(error?.data?.message || error.error)
+        toast.error(error?.data?.message || error.error)
     }
 }
 
