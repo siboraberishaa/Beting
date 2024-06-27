@@ -44,7 +44,7 @@ useEffect(() => {
             <h3 style={{textAlign: 'center', color: '#fff', fontFamily: 'Arial, Helvetica, sans-serif'}}>Lista e perdorueseve</h3>
         </div>
 
-        <div style={{paddingTop: '10px', paddingLeft: '15px', paddingRight: '15px'}}>
+        {userInfo?.isAdmin ? null : <div style={{paddingTop: '10px', paddingLeft: '15px', paddingRight: '15px'}}>
             <div style={{backgroundColor: '#126e51', padding: '7px'}}>
                 <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif'}}>Bilanci im</p>
             </div>
@@ -56,7 +56,7 @@ useEffect(() => {
                 <p style={{color: '#000', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{user?.credits}</p>
             </div>
 
-        </div>
+        </div>}
         <div style={{paddingTop: '10px', paddingLeft: '15px', paddingRight: '15px'}}>
             <div style={{backgroundColor: '#126e51', padding: '7px'}}>
                 <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', textAlign: 'center'}}>Balanca e perdorueseve</p>

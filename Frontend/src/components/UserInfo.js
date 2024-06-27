@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar2 from './Navbar2'
 import { checkPermissions } from '../functions/Permissions'
 import { useParams } from 'react-router-dom'
-import { useCreateTransferMutation, useEditUsersCommissionMutation, useEditUsersDescriptionMutation, useEditUsersUserNameMutation, useGetUserByIdQuery, useUpdateUsersStatusMutation } from '../features/apiSlice'
+import { useCreateTransferMutation, useEditUsersCommissionMutation, useEditUsersDescriptionMutation, useEditUsersUserNameMutation, useGetUserByIdQuery, useGetUserProfileQuery, useUpdateUsersStatusMutation } from '../features/apiSlice'
 import { Button, Modal, Switch } from 'antd'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -26,7 +26,8 @@ const UserInfo = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const { data: user, isLoading, refetch } = useGetUserByIdQuery(userId)
-    const [ createTransfer, {isLoading: loading} ] = useCreateTransferMutation()
+    const { data: user2, refetch: refetchUser } = useGetUserProfileQuery({userId: userInfo?._id});
+    const [ createTransfer, {isLoading: loading, isError} ] = useCreateTransferMutation()
     const [ editUserName, {isLoading: loadingUN} ] = useEditUsersUserNameMutation()
     const [ editDescription ] = useEditUsersDescriptionMutation()
     const [ updateUserStatus ] = useUpdateUsersStatusMutation()
@@ -45,19 +46,30 @@ const UserInfo = () => {
     
 
     const handleSubmit = async () => {
-        try {
-          await createTransfer({ transferFrom: userInfo?.userName, transferTo: user?.userName, transferSum: transferSum, transferToId: user?._id  });
-          toast.success('')
-          refetch()
-          setModal2Open(false)
-          setTransferSum(0)
-        } catch (error) {
-          console.log(error);
+      try {
+        const transferData = {
+          transferFrom: userInfo?.userName,
+          transferTo: user?.userName,
+          transferSum: transferSum,
+          transferToId: user?._id,
+          userOf: user?.registeredBy
+        };
+    
+        const response = await createTransfer(transferData).unwrap();
+    
+        toast.success('Transferi u krye me sukses');
+        refetch();
+        refetchUser();
+        setModal2Open(false);
+        setTransferSum(0);
+      } catch (err) {
+        console.error('Error object:', err);
+        const errorMessage = err?.data?.message || err.message || "An unknown error occurred";
+        toast.error(errorMessage);
       }
-      
-      
-      
-      };
+    };
+  
+  
 
       const handleUserName = async () => {
         try {
@@ -152,7 +164,7 @@ const UserInfo = () => {
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{user?.userName}</p>
             </div>
         </div>
-        {userInfo?.role !== 'Agent' ? 
+        {userInfo?.role !== 'Super Admin' && userInfo?.role !== 'Agent'  ? 
         <div style={{paddingLeft: '10px', paddingRight: '10px'}} onClick={() => setModal3Open(true)}>
             <div style={{backgroundColor: '#474747', padding: '10px', border: '1px solid #fff'}}>
                 <p style={{color: '#fff',fontFamily: 'Arial, Helvetica, sans-serif'}}>Komisioni</p>

@@ -10,6 +10,30 @@ const gamesSchema = mongoose.Schema({
       type: String,
       required: true,
     },
+    coefficientPlayed: {
+        type: String,
+        required: true
+    },
+    hasWon: {
+        type: Boolean,
+        default: null
+    },
+    isOver: {
+        type: Boolean,
+        default: false
+    },
+    eventId: {
+        type: String,
+        required: true
+    },
+    startTime: {
+        type: String,
+        required: true
+    },
+    frequentCheckScheduled: {
+        type: Boolean,
+        default: false,
+      },
   });
   
 const ticketSchema = mongoose.Schema({

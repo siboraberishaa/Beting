@@ -31,7 +31,7 @@ const MatchOdds = ({ eventId, teams }) => {
   if (isLoading) return <div>Loading odds...</div>;
   if (isError) return <div>Error: {isError.message}</div>;
 
-  const handleOddClick = (index, coef) => {
+  const handleOddClick = (index, coef, n2, timer) => {
     let id = idMap[index];
     if (!id) {
       id = uuidv4();
@@ -49,6 +49,9 @@ const MatchOdds = ({ eventId, teams }) => {
           id: id,
           coef: Number(coef).toFixed(2),
           teams: teams,
+          n2,
+          eventId,
+          timer
         })
       );
     }
@@ -105,7 +108,7 @@ const MatchOdds = ({ eventId, teams }) => {
             backgroundColor: clickedOdds[idMap[index]] ? "#fff" : "",
             cursor: "pointer",
           }}
-          onClick={() => handleOddClick(index, odds?.markets[index]?.coef)}
+          onClick={() => handleOddClick(index, odds?.markets[index]?.coef, odds?.markets[index]?.n2, odds?.timer)}
         >
           <p>
             {!isNaN(odds?.markets[index]?.coef)
@@ -126,19 +129,15 @@ const Livematch = () => {
     data: sports,
     isLoading,
     isError,
+    refetch,
   } = useGetInPlayOdssQuery(selectedSport); //get ods of the games
   const [selectedMatch, setSelectedMatch] = useState(null);
   const {
     data: sportss,
     isLoading: loading,
     isError: err,
-  } = useGetInPlayFilterQuery(); //get sports for example soccer, basketball
+  } = useGetInPlayFilterQuery(); 
 
-  useEffect(() => {
-    if (sports) {
-      console.log("Sports data:", sports);
-    }
-  }, [sports]);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {isError.message}</div>;

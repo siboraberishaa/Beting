@@ -28,8 +28,9 @@ function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false); // Shto state për modalin e loginit
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [disabled, setDisabled] = useState(false)
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -65,6 +66,14 @@ function Navbar() {
       refetch()
     }
   }, [userInfo, refetch]);
+
+  useEffect(() => {
+    if (!price) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [price]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -142,66 +151,66 @@ if (Array.isArray(bets)) {
       key: '0',
     },
     userInfo?.isAdmin ? null : {
-      label: <span>Krediti: {user?.credits}</span>,
+      label: <span>Krediti: {user?.credits.toFixed(2)}</span>,
       key: '1',
+    },
+    userInfo?.isAdmin ? null : {
+      type: 'divider',
+    },
+    {
+      label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
+      key: '3',
     },
     {
       type: 'divider',
     },
-    // {
-    //   label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
-    //   key: '3',
-    // },
-    // {
-    //   type: 'divider',
-    // },
     userInfo && checkAnyTrue('transfers') && {
       label: <Link to={'/transfers'}>Transfertat</Link>,
       key: '4',
     },
-    {
+    userInfo && checkAnyTrue('transfers') && {
       type: 'divider',
     },
-    userInfo && checkAnyTrue('transactions') &&{
+    userInfo && checkAnyTrue('transactions') && {
       label: <Link to={'/transactions'}>Transaksionet</Link>,
       key: '5',
     },
-    {
+    userInfo && checkAnyTrue('transactions') && {
       type: 'divider',
     },
-    userInfo && checkAnyTrue('roles') &&{
+    userInfo && checkAnyTrue('roles') && {
       label: <Link to={'/roles'}>Rolet</Link>,
       key: '6',
     },
-    {
+    userInfo && checkAnyTrue('roles') && {
       type: 'divider',
     },
     // userInfo && checkAnyTrue('roles') &&{
     //   label: <Link to={'/role/create'}>Krijo Rol</Link>,
     //   key: '7',
     // },
-    {
-      type: 'divider',
-    },
-    userInfo && checkAnyTrue('finances') &&{
+    // {
+    //   type: 'divider',
+    // },
+    userInfo && checkAnyTrue('finances') && {
       label: <Link to={'/finances'}>Financat</Link>,
       key: '8',
     },
-    {
+    userInfo && checkAnyTrue('finances') && {
       type: 'divider',
     },
-    userInfo && checkAnyTrue('users') &&{
+    userInfo && checkAnyTrue('users') && {
       label: <Link to={'/users-list'}>Lista Perdorueseve</Link>,
       key: '9',
     },
-    {
+    userInfo && checkAnyTrue('users') && {
       type: 'divider',
     },
-    userInfo && checkAnyTrue('users') &&{
+    userInfo && checkAnyTrue('users') && {
       label: <Link to={'/user-create'}>Krijo Perdorues</Link>,
       key: '10',
     },
-    {
+    userInfo && checkAnyTrue('users') && {
       type: 'divider',
     },
     {
@@ -211,11 +220,11 @@ if (Array.isArray(bets)) {
     {
       type: 'divider',
     },
-    {
+    userInfo?.role === 'Player' ? null : {
       label: <Link to={'/bonuss'}>Bonuset dhe promocionet</Link>,
       key: '12',
     },
-    {
+    userInfo?.role === 'Player' ? null : {
       type: 'divider',
     },
     {
@@ -226,34 +235,44 @@ if (Array.isArray(bets)) {
 
   const submitTicket = async() => {
     try {
-      const ticketType = bets.length > 1 ? 'Combined' : 'Single';
+        const ticketType = bets?.length > 1 ? 'Combined' : 'Single';
   
-      // Create an array of games from the bets
-      const games = bets.map(bet => ({
-        team1: bet.teams.team1,
-        team2: bet.teams.team2,
-      }));
+        // Create an array of games from the bets
+        const games = bets?.map(bet => ({
+            team1: bet.teams.team1,
+            team2: bet.teams.team2,
+            coefficientPlayed: bet.n2,
+            eventId: bet.eventId,
+            startTime: bet.timer
+        }));
   
-      await createTicket({
-        userName: userInfo?.userName,
-        ticketWin: winningChance.toFixed(2),
-        playedSum: parseFloat(price),
-        playerOf: user?.registeredBy,
-        playerId: userInfo?._id,
-        ticketType: ticketType, 
-        games: games, 
-      })
-  
-      toast.success('Ticket created successfully')
-      setPrice('')
-      dispatch(clearBets())
-      dispatch(clearOdds())
-      refetchUser()
-    } catch (error) {
-      toast.error(error)
-      console.log(error, 'error while making bets')
-    }
+        const response = await createTicket({
+            userName: userInfo?.userName,
+            ticketWin: winningChance.toFixed(2),
+            playedSum: parseFloat(price),
+            playerOf: user?.registeredBy,
+            playerId: userInfo?._id,
+            ticketType: ticketType, 
+            games: games, 
+        })
+
+        console.log('Response:', response);
+        
+        if (response.data) {
+          toast.success('Ticket created successfully')
+          setPrice(null)
+          dispatch(clearBets())
+          dispatch(clearOdds())
+          refetchUser()
+        }else if (response.error) {
+          toast.error(response.error.data.message);
+        }
+    } catch (err) {
+      console.error('Error object:', err);
+      const errorMessage = err?.error?.data?.message || err.message || "An unknown error occurred";
+      toast.error(errorMessage);
   }
+}
   
   
   const handleClick = () => {
@@ -367,12 +386,6 @@ if (Array.isArray(bets)) {
                       </div>
                     </div>
                   )}
-
-  
-
-
-
-          
 {/* tabela e qmimit */}
 
           <div className="bet-slip-container">
@@ -407,16 +420,16 @@ if (Array.isArray(bets)) {
               <div className="bet-input">
                 <div className="price-section">
                   <p className="price-label">Price</p>
-                  <input value={price}  type="text" className="price-input" placeholder="Ps. 2.00" onChange={handlePriceChange} />
+                  <input value={price === null ? 0 : price}  type="number" className="price-input" placeholder="Ps. 2.00" onChange={handlePriceChange} />
                 </div>
                 <div className="winning-chance-section">
                   <p className="winning-chance-label">Winning Chance: </p>
-                  <p className="winning-chance-rezult">{price.length !== 0 ? winningChance.toFixed(2) : '0.00'}</p>
+                  <p className="winning-chance-rezult">{price?.length !== null ? winningChance.toFixed(2) : '0.00'}</p>
                 </div>
               </div>
 
               <div className="place-bet-section">
-                <Button disabled={price === 0} loading={load} style={{backgroundColor: '#4b4b4b', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={handleClick}>Place Bet</Button>    
+                <Button disabled={disabled} loading={load} style={{backgroundColor: disabled ? '#4b4b4b' : '#126e51', border: 'none', color: 'white', width: '100%', height: '100%', textAlign: 'center', display: 'inline-block', fontSize: '16px', cursor: 'pointer'}} onClick={handleClick}>Place Bet</Button>    
               </div>
             </div>
           </div>

@@ -36,37 +36,47 @@ const BetSlipForMobile = () => {
     
       const winningChance = price * totalCoef;
 
-      const submitTicket = async(e) => {
-        e.preventDefault()
+      const submitTicket = async() => {
         try {
-          const ticketType = bets.length > 1 ? 'Combined' : 'Single';
+            const ticketType = bets?.length > 1 ? 'Combined' : 'Single';
       
-          // Create an array of games from the bets
-          const games = bets.map(bet => ({
-            team1: bet.teams.team1,
-            team2: bet.teams.team2,
-          }));
+            // Create an array of games from the bets
+            const games = bets?.map(bet => ({
+                team1: bet.teams.team1,
+                team2: bet.teams.team2,
+                coefficientPlayed: bet.n2,
+                eventId: bet.eventId,
+                startTime: bet.timer
+            }));
       
-          await createTicket({
-            userName: userInfo?.userName,
-            ticketWin: winningChance.toFixed(2),
-            playedSum: parseFloat(price),
-            playerOf: user?.registeredBy,
-            playerId: userInfo?._id,
-            ticketType: ticketType, 
-            games: games, 
-          })
-      
-          toast.success('Ticket created successfully')
-          setPrice('')
-          dispatch(clearBets())
-          dispatch(clearOdds())
-          refetchUser()
-        } catch (error) {
-          toast.error(error)
-          console.log(error, 'error while making bets')
-        }
+            const response = await createTicket({
+                userName: userInfo?.userName,
+                ticketWin: winningChance.toFixed(2),
+                playedSum: parseFloat(price),
+                playerOf: user?.registeredBy,
+                playerId: userInfo?._id,
+                ticketType: ticketType, 
+                games: games, 
+            })
+
+            console.log('Response:', response);
+            
+            if (response.data) {
+              toast.success('Ticket created successfully')
+              setPrice(null)
+              dispatch(clearBets())
+              dispatch(clearOdds())
+              refetchUser()
+            }else if (response.error) {
+              toast.error(response.error.data.message);
+            }
+        } catch (err) {
+          console.error('Error object:', err);
+          const errorMessage = err?.error?.data?.message || err.message || "An unknown error occurred";
+          toast.error(errorMessage);
       }
+    }
+    
 
   return (
     <div style={bets?.length === 0 ? {display: 'none'} : {display: 'block'}} className="bet-slip-container2">
@@ -105,7 +115,7 @@ const BetSlipForMobile = () => {
                 </div>
                 <div className="winning-chance-section">
                   <p className="winning-chance-label">Winning Chance: </p>
-                  <p className="winning-chance-rezult">{price.length !== 0 ? winningChance.toFixed(2) : '0.00'}</p>
+                  <p className="winning-chance-rezult">{price?.length !== 0 ? winningChance.toFixed(2) : '0.00'}</p>
                 </div>
               </div>
 

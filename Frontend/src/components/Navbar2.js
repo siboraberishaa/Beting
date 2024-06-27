@@ -112,63 +112,63 @@ const logoutHandler = async () => {
         label: <span>Krediti: {user?.credits}</span>,
         key: '1',
       },
+      userInfo?.isAdmin ? null : {
+        type: 'divider',
+      },
+      {
+        label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
+        key: '3',
+      },
       {
         type: 'divider',
       },
-      // {
-      //   label: <Link to={'/personal-info'}>Informacionet Personale</Link>,
-      //   key: '3',
-      // },
-      // {
-      //   type: 'divider',
-      // },
       userInfo && checkAnyTrue('transfers') && {
         label: <Link to={'/transfers'}>Transfertat</Link>,
         key: '4',
       },
-      {
+      userInfo && checkAnyTrue('transfers') && {
         type: 'divider',
       },
       userInfo && checkAnyTrue('transactions') &&{
         label: <Link to={'/transactions'}>Transaksionet</Link>,
         key: '5',
       },
-      {
+      userInfo && checkAnyTrue('transactions') && {
         type: 'divider',
       },
-      userInfo && checkAnyTrue('roles') &&{
+      userInfo && checkAnyTrue('roles') && {
         label: <Link to={'/roles'}>Rolet</Link>,
         key: '6',
       },
-      {
+      userInfo && checkAnyTrue('roles') && {
         type: 'divider',
       },
       // userInfo && checkAnyTrue('roles') &&{
       //   label: <Link to={'/role/create'}>Krijo Rol</Link>,
       //   key: '7',
       // },
-      {
-        type: 'divider',
-      },
-      userInfo && checkAnyTrue('finances') &&{
+      // {
+      //   type: 'divider',
+      // },
+      userInfo && checkAnyTrue('finances') && {
         label: <Link to={'/finances'}>Financat</Link>,
         key: '8',
       },
-      {
+      userInfo && checkAnyTrue('finances') && {
         type: 'divider',
       },
-      userInfo && checkAnyTrue('users') &&{
+      userInfo && checkAnyTrue('users') && {
         label: <Link to={'/users-list'}>Lista Perdorueseve</Link>,
         key: '9',
       },
-      {
+      userInfo && checkAnyTrue('users') && {
         type: 'divider',
       },
       userInfo && checkAnyTrue('users') &&{
         label: <Link to={'/user-create'}>Krijo Perdorues</Link>,
         key: '10',
       },
-      {
+      userInfo && checkAnyTrue('users') &&{
         type: 'divider',
       },
       {
@@ -178,11 +178,11 @@ const logoutHandler = async () => {
       {
         type: 'divider',
       },
-      {
+      userInfo?.role === 'Player' ? null : {
         label: <Link to={'/bonuss'}>Bonuset dhe promocionet</Link>,
         key: '12',
       },
-      {
+      userInfo?.role === 'Player' ? null :{
         type: 'divider',
       },
       {

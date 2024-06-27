@@ -1,124 +1,124 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useEditUsersUserNameMutation, useGetUserProfileQuery } from '../features/apiSlice';
-import { Button, Collapse, Input, Select } from 'antd';
+import { useGetUserProfileQuery, useUpdateUserMutation } from '../features/apiSlice';
 import Navbar2 from './Navbar2';
 import { toast } from 'react-toastify';
 
-const { Panel } = Collapse;
 
 const PersonalInfo = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const { data: user, isLoading, isError, refetch } = useGetUserProfileQuery({userId: userInfo?._id})
+  const [updateUser, { isLoading: isUpdating, error: updateError }] = useUpdateUserMutation();
 
-  const [userName, setUserName] = useState('');
+  const [ userName, setUserName ] = useState('')
+  const [ firstName, setFirstName] = useState('')
+  const [ lastName, setLastName ] = useState('')
+  const [ dateOfBirth, setDateOfBirth ] = useState('')
+  const [ country, setCountry ] = useState('')
+  const [ city, setCity ] = useState('')
+  const [ postalCode, setPostalCode ] = useState('')
+  const [ street, setStreet ] = useState('')
 
-  const [ editUserName ] = useEditUsersUserNameMutation()
 
-  const handleUserName = async () => {
+  const handleSubmit = async () => {
     try {
-      await editUserName({ userId: user?._id, userName });
-      toast.success('UserName updated successfully');
-      refetch();
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
+        const updatedUser = await updateUser({
+            userId: userInfo?._id,
+            firstName,
+            lastName,
+            userName,
+            dateOfBirth,
+            country,
+            city,
+            postalCode: postalCode,
+            street,
+        });
+        toast.success('User updated successfully');
+    } catch (error) {
+        toast.error('Failed to update user');
     }
-  };
+};
 
 
-  useEffect(() => {
-    if (user) {
-        setUserName(user.userName)
-    }
-}, [user])
 
+ useEffect(() => {
+
+  if(user){
+    setUserName(user.userName)
+    setFirstName(user.firstName)
+    setLastName(user.lastName)
+    setDateOfBirth(user.dateOfBirth)
+    setCountry(user.country)
+    setCity(user.city)
+    setPostalCode(user.postalCode)
+    setStreet(user.street)
+  }
+
+ }, [user])
 
   return (
     <>
     <Navbar2 />
-    <div style={{marginTop: '50px'}}>
-      <Collapse defaultActiveKey={['1']} style={{backgroundColor: '#939393', borderColor: '#939393'}}>
-        <Panel header="Account Details" key="1">
-          <div style={{ padding: '20px'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <label htmlFor='input1'>UserName</label>
-                <input id='input1' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} type='text' placeholder='username' value={userName} onChange={(e) => setUserName(e.target.value)} />
-                <button type='button' onClick={handleUserName}>Ndrysho username</button>
-              {/* <Input id='input1' placeholder="UserName" value={user?.userName} /> */}
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input2'>Role</label>
-              <input id='input2' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="Role" value={user?.roleName} disabled />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input3'>Krediti</label>
-              <input id='input3' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="Krediti" value={user?.credits} disabled />
-            </div>
-          </div>
-          
-        </Panel>
-        <Panel header="User Information" key="2">
-        <div style={{ padding: '20px'}}>
-            <div>
-              <label htmlFor='input4'>First Name</label>
-              <input id='input4' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="First name" value={user?.firstName} />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input5'>Last Name</label>
-              <input id='input5' type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="Last name" value={user?.lastName} />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input6'>Date of birth</label>
-              <input id='input6' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} placeholder="date of birth" value={user?.dateOfBirth} type='date' />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label for="input7">Citizenship</label>
-              <select style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id="input7">
-                  <option value="select" disabled>Select</option>
-                  <option value="Shqiptar">Shqiptar</option>
-              </select>
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input8'>Country</label>
-            <select style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id="input8">
-                  <option value="select" disabled>Select</option>
-                  <option value="Kosove">Kosove</option>
-              </select>
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label for="input9">City</label>
-            <select id="input9" style={{width: '100%', padding: '10px', border:'1px solid #ddd'}}>
-                <option value="select" disabled>Select</option>
-                <option value="Prishtine">Prishtine</option>
-                <option value="Mitrovice">Mitrovice</option>
-                <option value="Pej">Pej</option>
-                <option value="Prizren">Prizren</option>
-                <option value="Ferizaj">Ferizaj</option>
-                <option value="Gjilan">Gjilan</option>
-                <option value="Gjakov">Gjakov</option>
-            </select>
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input10'>Post code</label>
-              <input type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id='input10' placeholder="post code" value={user?.postCode} />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input11'>Street</label>
-              <input type='text' style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id='input11' placeholder="street" value={user?.street} />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-            <label htmlFor='input12'>Phone Number</label>
-              <input style={{width: '100%', padding: '10px', border:'1px solid #ddd'}} id='input12' placeholder="phone number" value={user?.phoneNumber} type='number' />
-            </div>
-            <div style={{paddingTop: '20px'}}>
-              <Button type='primary'>Ruaj ndryshimet</Button>
-            </div>
-          </div>
-        </Panel>
-      </Collapse>
+
+    <div style={{width: '100%', backgroundColor: '#474747', padding: '10px'}}>
+      <h3 style={{textAlign: 'center', color: '#fff', fontFamily: 'Arial, Helvetica, sans-serif'}}>Informacionet personale</h3>
     </div>
+        <div style={{backgroundColor: '#666'}}>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='1'>Username</label>
+                <input value={userName} onChange={(e) => setUserName(e.target.value)} style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='1' type='text' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='2'>Roli</label>
+                <input value={user?.roleName} style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='2' type='text' disabled={true} />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='3'>Kreditat</label>
+                <input value={user?.credits}  style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='3' type='text' disabled={true} />
+            </div>
+        </div>
+
+        <div style={{backgroundColor: '#666', paddingTop: '30px', paddingBottom: '20px'}}>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='4'>Emri</label>
+                <input value={firstName} onChange={(e) => setFirstName(e.target.value)} style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='4' type='text' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='5'>Mbiemri</label>
+                <input value={lastName} onChange={(e) => setLastName(e.target.value)} style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='5' type='text' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='6'>Data e lindjes</label>
+                <input value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)}  style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='6' type='date' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='7'>Shteti</label>
+                <input value={country} onChange={(e) => setCountry(e.target.value)}  style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='7' type='text' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='8'>Qyteti</label>
+                <input value={city} onChange={(e) => setCity(e.target.value)}  style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='8' type='text' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='9'>Kodi postar</label>
+                <input value={postalCode} onChange={(e) => setPostalCode(e.target.value)}  style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='9' type='text' />
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '30px', paddingRight: '30px', paddingTop: '30px'}}>
+                <label style={{color: '#fff', fontWeight: '600', paddingBottom: '10px', fontFamily: 'Arial, Helvetica, sans-serif' }} htmlFor='10'>Vendbanimi</label>
+                <input value={street} onChange={(e) => setStreet(e.target.value)}  style={{color: '#fff', backgroundColor: '#444444', border: 'none', padding: '10px'}} id='10' type='text' />
+            </div>
+
+            <div style={{ textAlign: 'center', paddingTop: '30px' }}>
+            <button onClick={handleSubmit} style={{ width: '90%', fontWeight: '400', textAlign: 'center', verticalAlign: 'middle', cursor: 'pointer', border: '1px solid transparent', padding: '.375rem .75rem', fontSize: '1rem', lineHeight: '1.5', borderRadius: '.25rem', color: '#fff', backgroundColor: '#126e51', borderColor: '#126e51' }} >
+                Submit
+            </button>
+            </div>
+        </div>
+    
     </>
   );
 }
+
+
 
 export default PersonalInfo;

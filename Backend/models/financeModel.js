@@ -9,6 +9,10 @@ const financeSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    ticketId: {
+        type: Number,
+        required: true,
+    },
     playerOf: {
         type: String,
     },

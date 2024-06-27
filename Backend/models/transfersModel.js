@@ -16,7 +16,11 @@ const transferSchema = mongoose.Schema({
     transferSum: {
         type: Number,
         required: true
-    }
+    },
+    userOf: {
+        type: String,
+        required: true,
+    },
 
 },{
     timestamps: true,

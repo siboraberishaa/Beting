@@ -21,7 +21,7 @@ function ModalLogin({ isOpen, onClose }) {
         onClose()
         setUserName('')
         setPassword('')
-        toast.success('Login successful')
+        toast.success('Kyçje e suksesshme')
     } catch (error) {
         toast.error(error?.data?.message || error.error)
     }

@@ -13,7 +13,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
-          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
+          'X-RapidAPI-Key': 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
       query: (sport) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/${sport}`,  
         headers: {
-          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
+          'X-RapidAPI-Key': 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -31,14 +31,14 @@ export const apiSlice = createApi({
       query: (eventId) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_event_with_markets/${eventId}`,  
         headers: {
-          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
+          'X-RapidAPI-Key': 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1',
           'X-RapidAPI-Host': ' bet365-api-inplay.p.rapidapi.com'
         },
       }),
     }),
     login: builder.mutation({
       query: (data) => ({
-        url: `https://beting-1.onrender.com/api/users/login`,
+        url: `http://localhost:5000/api/users/login`,
         method: 'POST',
         body: data,
         credentials: 'include',
@@ -46,7 +46,7 @@ export const apiSlice = createApi({
   }),
   getUserProfile: builder.query({
     query: ({ userId }) => ({
-      url: `https://beting-1.onrender.com/api/users/profile/${userId}`,
+      url: `http://localhost:5000/api/users/profile/${userId}`,
       method: 'GET',
       credentials: 'include',
     }),
@@ -54,7 +54,15 @@ export const apiSlice = createApi({
   }),
   getAllUsers: builder.query({
     query: ({userId, isAdmin}) => ({
-      url: `https://beting-1.onrender.com/api/users/get/${userId}?isAdmin=${isAdmin}`,
+      url: `http://localhost:5000/api/users/get/${userId}?isAdmin=${isAdmin}`,
+      method: 'GET',
+      credentials: 'include',
+    }),
+    keepUnusedDataFor: 5,
+  }),  
+  getUsersList: builder.query({
+    query: ({userId, isAdmin}) => ({
+      url: `http://localhost:5000/api/users/list/${userId}?isAdmin=${isAdmin}`,
       method: 'GET',
       credentials: 'include',
     }),
@@ -62,7 +70,7 @@ export const apiSlice = createApi({
   }),  
   registerUser: builder.mutation({
     query: (data) => ({
-      url: `https://beting-1.onrender.com/api/users/register`,
+      url: `http://localhost:5000/api/users/register`,
       method: 'POST',
       body: data,
       credentials: 'include',
@@ -70,7 +78,7 @@ export const apiSlice = createApi({
   }),
   getRoles: builder.query({
     query: () => ({
-        url: `https://beting-1.onrender.com/api/roles/get`,
+        url: `http://localhost:5000/api/roles/get`,
     }),
     method: 'GET',
     credentials: 'include',
@@ -78,7 +86,7 @@ export const apiSlice = createApi({
 }),
   getRolesForManager: builder.query({
     query: () => ({
-        url: `https://beting-1.onrender.com/api/roles/get/manager`,
+        url: `http://localhost:5000/api/roles/get/manager`,
     }),
     method: 'GET',
     credentials: 'include',
@@ -86,7 +94,7 @@ export const apiSlice = createApi({
 }),
   getRolesForAgent: builder.query({
     query: () => ({
-        url: `https://beting-1.onrender.com/api/roles/get/agent`,
+        url: `http://localhost:5000/api/roles/get/agent`,
     }),
     method: 'GET',
     credentials: 'include',
@@ -94,7 +102,7 @@ export const apiSlice = createApi({
 }),
 createTicket: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/tickets`,
+    url: `http://localhost:5000/api/tickets`,
     method: 'POST',
     body: data,
     credentials: 'include',
@@ -102,7 +110,7 @@ createTicket: builder.mutation({
 }),
 getAllTickets: builder.query({
   query: ({userId, isAdmin, isAgent}) => ({
-    url: `https://beting-1.onrender.com/api/tickets/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
+    url: `http://localhost:5000/api/tickets/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -110,7 +118,7 @@ getAllTickets: builder.query({
 }),
 getUserById: builder.query({
   query: (userId) => ({
-    url: `https://beting-1.onrender.com/api/users/${userId}`,
+    url: `http://localhost:5000/api/users/${userId}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -118,15 +126,15 @@ getUserById: builder.query({
 }),
 createTransfer: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/transfers`,
+    url: `http://localhost:5000/api/transfers`,
     method: 'POST',
     body: data,
     credentials: 'include',
   }),
 }),
 getAllTransfers: builder.query({
-  query: () => ({
-    url: `https://beting-1.onrender.com/api/transfers`,
+  query: ({ userId, isAdmin }) => ({
+    url: `http://localhost:5000/api/transfers/${userId}?isAdmin=${isAdmin}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -134,7 +142,7 @@ getAllTransfers: builder.query({
 }),
 editUsersUserName: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/users/userName/${data.userId}`,
+    url: `http://localhost:5000/api/users/userName/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -142,7 +150,7 @@ editUsersUserName: builder.mutation({
 }),
 editUsersDescription: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/users/description/${data.userId}`,
+    url: `http://localhost:5000/api/users/description/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -150,7 +158,7 @@ editUsersDescription: builder.mutation({
 }),
 editUsersCommission: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/users/commission/${data.userId}`,
+    url: `http://localhost:5000/api/users/commission/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -158,7 +166,7 @@ editUsersCommission: builder.mutation({
 }),
 updateUsersStatus: builder.mutation({
   query: ({ userId, status }) => ({
-      url: `https://beting-1.onrender.com/api/users/status/${userId}`,
+      url: `http://localhost:5000/api/users/status/${userId}`,
       method: 'PUT',
       credentials: 'include',
       body: { status },
@@ -166,7 +174,7 @@ updateUsersStatus: builder.mutation({
 }),
 createRole: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/roles`,
+    url: `http://localhost:5000/api/roles`,
     method: 'POST',
     credentials: 'include',
     body: data
@@ -175,7 +183,7 @@ createRole: builder.mutation({
 }),
 getRoleDetails: builder.query({
   query: (roleId) => ({
-    url: `https://beting-1.onrender.com/api/roles/${roleId}`,
+    url: `http://localhost:5000/api/roles/${roleId}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -183,7 +191,7 @@ getRoleDetails: builder.query({
 }),
 updateRole: builder.mutation({
   query: ({ roleId, data }) => ({
-    url: `https://beting-1.onrender.com/api/roles/${roleId}`,
+    url: `http://localhost:5000/api/roles/${roleId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -192,31 +200,47 @@ updateRole: builder.mutation({
 }),
 logout: builder.mutation({
   query: () => ({
-    url: `https://beting-1.onrender.com/api/users/logout`,
+    url: `http://localhost:5000/api/users/logout`,
     method: 'POST',
     credentials: 'include'
   }),
 }),
 password: builder.mutation({
   query: (data) => ({
-    url: `https://beting-1.onrender.com/api/users/password`,
+    url: `http://localhost:5000/api/users/password`,
     method: 'PUT',
     credentials: 'include',
     body: data,
   }),
 }),
 getAllFinances: builder.query({
-  query: ({userId, isAdmin, isAgent}) => ({
-    url: `https://beting-1.onrender.com/api/finances/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
+  query: ({userId, isAdmin}) => ({
+    url: `http://localhost:5000/api/finances/${userId}?isAdmin=${isAdmin}`,
     method: 'GET',
     credentials: 'include',
   }),
   keepUnusedDataFor: 5,
+}),
+updateTicketHasWon: builder.mutation({
+  query: ({ ticketId, gameId, hasWon }) => ({
+      url: `http://localhost:5000/api/tickets/${ticketId}/games/${gameId}`,
+      method: 'POST',
+      credentials: 'include',
+      body: { hasWon },
+  }),
+}),
+updateUser: builder.mutation({
+  query: (data) => ({
+    url: `http://localhost:5000/api/users/update/${data.userId}`,
+    method: 'PUT',
+    credentials: 'include',
+    body: data,
+  }),
 }),
 
       
   }),
 });
 
-export const { useGetInPlayFilterQuery, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useGetRolesForAgentQuery, useGetRolesForManagerQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation, useGetAllFinancesQuery } = apiSlice;
+export const { useGetInPlayFilterQuery, useUpdateUserMutation, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useGetRolesForAgentQuery, useGetRolesForManagerQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation, useGetAllFinancesQuery, useGetUsersListQuery, useUpdateTicketHasWonMutation } = apiSlice;
 

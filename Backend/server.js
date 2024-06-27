@@ -11,6 +11,8 @@ import ticketRoutes from './routes/ticketRoutes.js';
 import financeRoutes from './routes/financeRoutes.js';
 import helmet from 'helmet';
 
+import './utils/scheduler.js';
+
 dotenv.config();
 connectDB();
 

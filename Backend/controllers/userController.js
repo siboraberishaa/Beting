@@ -40,11 +40,41 @@ const authUser = asyncHandler(async (req, res) => {
         .json({
           error: true,
           message:
-            "Your account has been disabled. Please contact our support!",
+            "Llogaria juaj eshte suspenduar. Ju lutem kontaktoni supportin",
         });
     }
   } else {
-    res.status(401).json({ error: true, message: "Invalid username or password" });
+    res.status(401).json({ error: true, message: "Username ose passwordi jane gabim!" });
+  }
+});
+
+// @desc    Update user
+// @route   PUT /api/users/update/:id
+// @access  Private/Admin
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.userName = req.body.userName || user.userName;
+    user.dateOfBirth = req.body.dateOfBirth || user.dateOfBirth;
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.citizenship = req.body.citizenship || user.citizenship;
+    user.country = req.body.country || user.country;
+    user.postCode = req.body.postCode || user.postCode;
+    user.city = req.body.city || user.city;
+    user.street = req.body.street || user.street;
+       
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      userName: updatedUser.userName,
+    });
+  } else {
+    res.status(404).json({ error: true, message: "User not found!" });
   }
 });
 
@@ -142,6 +172,34 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 
+// @desc    Get users for usersList
+// @route   GET /api/users/list/:id
+// @access  Private/Admin
+const getUsersList = asyncHandler(async (req, res) => {
+  const userId = req.params.id; // Get user ID from route parameters
+  const isAdmin = req.query.isAdmin === 'true';
+  
+  // Fetch the role IDs for Manager, Agent, and Super Admin
+  const superAdminRole = await Roles.findOne({ name: 'Super Admin' });
+
+
+  let query;
+
+  console.log(isAdmin, 'isAdm')
+
+  if (isAdmin) {
+    // Exclude users with the Super Admin role
+    query = User.find({ rolesId: { $ne: superAdminRole._id } });
+  } else {
+      query = User.find({ registeredBy: userId });
+    }
+  
+
+  const users = await query.sort({ createdAt: -1 }).select("-password");
+  res.json(users);
+});
+
+
 
 
 
@@ -155,7 +213,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ userName });
 
   if (userExists) {
-    res.status(400).json({ error: true, message: "User already exists!" });
+    res.status(400).json({ error: true, message: "Useri ekziston!" });
   } else {
     // Fetch the Agent role
     const agentRole = await Roles.findOne({ name: 'Agent' });
@@ -182,10 +240,10 @@ const registerUser = asyncHandler(async (req, res) => {
         userName: user.userName,
         rolesId: user.rolesId,
         isAgent: user.isAgent,
-        message: "User created successfully",
+        message: "Useri u regjistrua me sukses",
       });
     } else {
-      res.status(400).json({ error: true, message: "Invalid user data!" });
+      res.status(400).json({ error: true, message: "Diqka shkoi gabim!" });
     }
   }
 });
@@ -309,7 +367,7 @@ const logoutUser = (req, res) => {
     sameSite:'none',
     domain: '.ameba-rks.com', // Match the domain used when setting the cookie
   });
-  res.status(200).json({ message: 'Logged out successfully' });
+  res.status(200).json({ message: 'Shkyçje e suksesshme' });
 };
 
 
@@ -327,11 +385,11 @@ const updateUsersPassword = asyncHandler(async (req, res) => {
       await user.save();
 
       res.json({
-        message: "Password updated successfully",
+        message: "Passwordi u perditesua me sukses",
       });
     } else {
       // If it doesn't match, send an error message
-      res.status(401).json({ error: true, message: "Invalid old password" });
+      res.status(401).json({ error: true, message: "Paswordi i vjeter nuk perputhet" });
     }
   } else {
     res.status(404).json({ error: true, message: "User not found!" });
@@ -339,4 +397,4 @@ const updateUsersPassword = asyncHandler(async (req, res) => {
 });
 
 
-export { authUser, getUserProfile, getUsers, registerUser, getUserById, updateUsersUsername, updateUsersDescription, updateUserStatus, logoutUser, updateUsersPassword, updateUsersCommissions }
+export { authUser, updateUser, getUserProfile, getUsers, registerUser, getUserById, updateUsersUsername, updateUsersDescription, updateUserStatus, logoutUser, updateUsersPassword, updateUsersCommissions, getUsersList }

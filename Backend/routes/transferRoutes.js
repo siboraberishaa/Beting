@@ -6,7 +6,7 @@ import { createTransfer, getTransfers } from '../controllers/transferController.
 const router = new express.Router()
 
 router.route('/').post(protect, createTransfer);
-router.route('/').get(protect, getTransfers);
+router.route('/:id').get(protect, getTransfers);
 
 
 export default router

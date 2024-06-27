@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar2 from './Navbar2'
 import { checkPermissions } from '../functions/Permissions'
-import { useGetAllTransfersQuery, useGetAllUsersQuery } from '../features/apiSlice'
+import { useGetAllTransfersQuery, useGetAllUsersQuery, useGetUsersListQuery } from '../features/apiSlice'
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
@@ -13,8 +13,8 @@ const Transfers = () => {
     const [filterApplied, setFilterApplied] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
 
-    const { data: users } = useGetAllUsersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
-    const { data: transfers } = useGetAllTransfersQuery()
+    const { data: users } = useGetUsersListQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
+    const { data: transfers } = useGetAllTransfersQuery({userId: userInfo?._id, isAdmin: !!userInfo?.isAdmin})
 
     const startDateAdjusted = startDate && new Date(startDate.setHours(0, 0, 0, 0));
     const endDateAdjusted = endDate && new Date(endDate.setHours(23, 59, 59, 999));
