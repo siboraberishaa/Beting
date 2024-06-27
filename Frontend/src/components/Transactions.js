@@ -73,24 +73,7 @@ const Transactions = () => {
                                 <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px', fontWeight: '600', marginLeft: '20px'}}>Ticket: {ticket.ticketId}</p>
                                 <p style={{color: '#126e51', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px', fontWeight: '600', marginRight: '20px'}}>{ticket.ticketWin} EUR</p>
                             </div>
-                            {ticket.games.map(game => (
-                                <div key={game._id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', backgroundColor: '#f4f4f4', margin: '10px 0' }}>
-                                    <div>
-                                        <button
-                                            onClick={() => handleUpdateHasWon(ticket.ticketId, game._id, true)}
-                                            style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}
-                                        >
-                                            Win
-                                        </button>
-                                        <button
-                                            onClick={() => handleUpdateHasWon(ticket.ticketId, game._id, false)}
-                                            style={{ backgroundColor: 'red', color: 'white' }}
-                                        >
-                                            Lose
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                            
                         </div>
                     ))}
                 </div>
