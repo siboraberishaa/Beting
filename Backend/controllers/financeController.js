@@ -23,9 +23,9 @@ export const createFinance = asyncHandler(async (ticket) => {
       break;
   }
 
-  const commission = ticketWin * (commissionPercent / 100);
+  const commission = playedSum * (commissionPercent / 100);
 
-  const total = ticketWin - commission;
+  const total = ticketWin;
 
   const finance = await Finance.create({
     player: userName,

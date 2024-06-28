@@ -9,9 +9,10 @@ import transferRoutes from './routes/transferRoutes.js';
 import rolesRoutes from './routes/rolesRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import financeRoutes from './routes/financeRoutes.js';
+import commissionRoutes from './routes/comissionRoutes.js';
 import helmet from 'helmet';
 
-import './utils/scheduler.js';
+// import './utils/scheduler.js';
 
 dotenv.config();
 connectDB();
@@ -46,6 +47,7 @@ app.use('/api/roles', rolesRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/transfers', transferRoutes);
 app.use('/api/finances', financeRoutes);
+app.use('/api/commissions', commissionRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();

@@ -164,7 +164,7 @@ const UserInfo = () => {
             <p style={{color: '#fff', alignSelf: 'center', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{user?.userName}</p>
             </div>
         </div>
-        {userInfo?.role !== 'Super Admin' && userInfo?.role !== 'Agent'  ? 
+        {userInfo?.role !== 'Super Admin' ? 
         <div style={{paddingLeft: '10px', paddingRight: '10px'}} onClick={() => setModal3Open(true)}>
             <div style={{backgroundColor: '#474747', padding: '10px', border: '1px solid #fff'}}>
                 <p style={{color: '#fff',fontFamily: 'Arial, Helvetica, sans-serif'}}>Komisioni</p>

@@ -4,6 +4,7 @@ import Ticket from "../models/ticketModel.js";
 import User from "../models/userModel.js";
 import { createFinance, updateFinanceBasedOnHasWon } from "./financeController.js";
 import cron from 'node-cron'
+import Comission from "../models/comission.js";
 
 const API_KEY = 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1';
 const API_HOST = 'bet365-api-inplay.p.rapidapi.com';
@@ -51,6 +52,8 @@ const createTicket = asyncHandler(async (req, res) => {
           games
       });
 
+      const playerOfUser = await User.findById(playerOf);
+
       if (ticket) {
           // Update the user's credits
           await User.findOneAndUpdate(
@@ -60,6 +63,20 @@ const createTicket = asyncHandler(async (req, res) => {
           );
 
           await createFinance(ticket);
+
+          if (playerOfUser.isAgent) {
+            // Create a new Commission document
+            const comission = await Comission.create({
+                ticketType,
+                playedSum,
+                agentId: playerOf,
+                gamesLength: games.length
+            });
+
+            if (!comission) {
+                console.log('Failed to create commission');
+            }
+        }
 
           res.status(201).json({
               _id: ticket._id,

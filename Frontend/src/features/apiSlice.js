@@ -13,7 +13,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
-          'X-RapidAPI-Key': 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1',
+          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
       query: (sport) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/${sport}`,  
         headers: {
-          'X-RapidAPI-Key': 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1',
+          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -31,7 +31,7 @@ export const apiSlice = createApi({
       query: (eventId) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_event_with_markets/${eventId}`,  
         headers: {
-          'X-RapidAPI-Key': 'c360578a12msh4b46e7b394c9152p101a39jsn2a123b255af1',
+          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
           'X-RapidAPI-Host': ' bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -238,9 +238,26 @@ updateUser: builder.mutation({
   }),
 }),
 
+getAllCommissions: builder.query({
+  query: () => ({
+    url: `http://localhost:5000/api/commissions`,
+    method: 'GET',
+    credentials: 'include',
+  }),
+  keepUnusedDataFor: 5,
+}),
+getCommissionsByUserId: builder.query({
+  query: (userId) => ({
+    url: `http://localhost:5000/api/commissions/${userId}`,
+    method: 'GET',
+    credentials: 'include',
+  }),
+  keepUnusedDataFor: 5,
+}),
+
       
   }),
 });
 
-export const { useGetInPlayFilterQuery, useUpdateUserMutation, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useGetRolesForAgentQuery, useGetRolesForManagerQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation, useGetAllFinancesQuery, useGetUsersListQuery, useUpdateTicketHasWonMutation } = apiSlice;
+export const { useGetInPlayFilterQuery, useUpdateUserMutation, useGetInPlayOdssQuery, useGetOddsPerGameQuery, useLoginMutation, useGetUserProfileQuery, useGetAllUsersQuery, useRegisterUserMutation, useGetRolesQuery, useGetRolesForAgentQuery, useGetRolesForManagerQuery, useCreateTicketMutation, useGetAllTicketsQuery, useGetUserByIdQuery, useCreateTransferMutation, useGetAllTransfersQuery, useEditUsersUserNameMutation, useEditUsersDescriptionMutation, useUpdateUsersStatusMutation, useCreateRoleMutation, useGetRoleDetailsQuery, useUpdateRoleMutation, useLogoutMutation, usePasswordMutation, useEditUsersCommissionMutation, useGetAllFinancesQuery, useGetUsersListQuery, useUpdateTicketHasWonMutation, useGetAllCommissionsQuery, useGetCommissionsByUserIdQuery } = apiSlice;
 
