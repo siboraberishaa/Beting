@@ -13,7 +13,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
-          'X-RapidAPI-Key': 'a6036899bcmsh3f3c78866ebb441p1cf7e0jsnd40455b3eb29',
+          'X-RapidAPI-Key': '39e23c1ae4msh96e519aeb480c64p1f90dajsnffd75eb4b95c',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com' 
         },
       }),
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
       query: (sport) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/${sport}`,  
         headers: {
-          'X-RapidAPI-Key': 'a6036899bcmsh3f3c78866ebb441p1cf7e0jsnd40455b3eb29',
+          'X-RapidAPI-Key': '39e23c1ae4msh96e519aeb480c64p1f90dajsnffd75eb4b95c',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -31,7 +31,7 @@ export const apiSlice = createApi({
       query: (eventId) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_event_with_markets/${eventId}`,  
         headers: {
-          'X-RapidAPI-Key': 'a6036899bcmsh3f3c78866ebb441p1cf7e0jsnd40455b3eb29',
+          'X-RapidAPI-Key': '39e23c1ae4msh96e519aeb480c64p1f90dajsnffd75eb4b95c',
           'X-RapidAPI-Host': ' bet365-api-inplay.p.rapidapi.com'
         },
       }),
