@@ -6,7 +6,7 @@ import { createFinance, updateFinanceBasedOnHasWon } from "./financeController.j
 import cron from 'node-cron'
 import Comission from "../models/comission.js";
 
-const API_KEY = '6f2e70cd49msh694dcd5fc1c77f4p13e0cdjsn6e73b5edff59';
+const API_KEY = '161b29081amsh6bab4a34d4e0d63p1b5277jsnd4327585b5cd';
 const API_HOST = 'bet365-api-inplay.p.rapidapi.com';
 const API_URL = `https://${API_HOST}/bet365/get_event_with_markets/`;
 let apiCallCount = 0;
