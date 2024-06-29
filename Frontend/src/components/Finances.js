@@ -76,14 +76,19 @@ const Finances = () => {
 
     const commissionsByUser = commissions?.reduce((acc, commission) => {
         const userName = commission.agentId;
+        const createdAt = new Date(commission.createdAt);
+        const createdAtDate = `${createdAt.getFullYear()}-${String(createdAt.getMonth() + 1).padStart(2, '0')}-${String(createdAt.getDate()).padStart(2, '0')}`;
       
         // If this userName does not exist in the accumulator, initialize it
         if (!acc[userName]) {
           acc[userName] = [];
         }
       
-        // Push this commission to the appropriate userName
-        acc[userName].push(commission);
+        // Only push this commission to the appropriate userName if it was created within the selected date range
+        // or if no filter is applied, it was created today
+        if ((filterApplied && createdAtDate >= startDate && createdAtDate <= endDate) || (!filterApplied && createdAtDate === formattedDate)) {
+          acc[userName].push(commission);
+        }
       
         return acc;
       }, {});
