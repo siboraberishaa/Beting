@@ -20,7 +20,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-    origin: ['https://beting-7n2d.onrender.com', 'http://localhost:3000'], // replace with your actual origin
+    origin: ['https://beting-1.onrender.com', 'http://localhost:3000'], // replace with your actual origin
   credentials: true, // Include cookies in cross-origin requests
 }));
 
