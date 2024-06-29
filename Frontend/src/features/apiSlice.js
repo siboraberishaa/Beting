@@ -14,7 +14,7 @@ export const apiSlice = createApi({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
           'X-RapidAPI-Key': '4722285c81mshf6c6bf5e879ddbcp1e0e6ejsn2ca812780af1',
-          'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
+          'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com' 
         },
       }),
     }),
