@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Navbar2 from './Navbar2'
 import { checkPermissions } from '../functions/Permissions'
 import { Input } from 'antd'
@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useGetAllCommissionsQuery, useGetAllFinancesQuery, useGetCommissionsByUserIdQuery, useGetUserByIdQuery } from '../features/apiSlice';
 
 
-const AgentCommissionData = ({ agentId, userCommissions }) => {
+const AgentCommissionData = ({ agentId, userCommissions, onTotalCalculated, onCommissionCalculated }) => {
     const userId = agentId;
     const { data: user, isLoading, refetch } = useGetUserByIdQuery(userId);
   
@@ -29,20 +29,32 @@ const AgentCommissionData = ({ agentId, userCommissions }) => {
     const commissionPercentage3 = user?.commission3; // Replace with the actual field name in your user data if it is different
     const totalAfterCommission3 = totalPlayedSum3 - (totalPlayedSum3 * commissionPercentage3 / 100);
 
+    const totalBet = totalPlayedSum + totalPlayedSum2 + totalPlayedSum3
     const totaltotal = totalAfterCommission1 + totalAfterCommission2 + totalAfterCommission3
+    const totalPercentage = totalBet * (totaltotal / 100);
+
+    useEffect(() => {
+        onTotalCalculated(totalPercentage);
+        // onCommissionCalculated(totalBet);
+      }, [totalPercentage, totalBet, onTotalCalculated, onCommissionCalculated]);
+
+
   
     return (
         <div key={user?._id} style={{display: 'flex', justifyContent: 'space-between', backgroundColor: 'grey', padding: '10px', border: '1px solid #000', width: '100%'}}>
             <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>{user?.userName}</div>
-            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalAfterCommission1.toFixed(2)}</div>
-            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalAfterCommission2.toFixed(2)}</div>
-            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalAfterCommission3.toFixed(2)}</div>
             <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totaltotal.toFixed(2)}</div>
+            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalBet.toFixed(2)}</div>
+            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{0}</div>
+            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{0}</div>
+            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalPercentage.toFixed(2)}</div>
         </div>
     );
   };
 
 const Finances = () => {
+
+    
 
     const today = new Date();
     const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -73,6 +85,8 @@ const Finances = () => {
     const totalWin = filteredFinances?.reduce((total, finance) => total + finance.win, 0);
     const totalCancelled = filteredFinances?.reduce((total, finance) => total + finance.cancelled, 0);
 
+    const [totalTotalTotal, setTotalTotalTotal] = useState(totalOfTotal ? totalOfTotal : 0)
+    const [totalCommissionCommission, setTotalCommissionCommission] = useState(totalCommission ? totalCommission : 0)
 
     const commissionsByUser = commissions?.reduce((acc, commission) => {
         const userName = commission.agentId;
@@ -93,11 +107,17 @@ const Finances = () => {
         return acc;
       }, {});
 
+
+      const handleTotalCalculated = useCallback((total) => {
+        setTotalTotalTotal(prevTotal => prevTotal + total);
+      }, []);
+      
+      const handleCommissionCalculated = useCallback((total) => {
+        setTotalCommissionCommission(prevCom => prevCom + total);
+      }, []);
+
       
     
-
-
-
   return (
     <>
         <Navbar2 />
@@ -128,7 +148,7 @@ const Finances = () => {
                 <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>Anuluar</div>
                 <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>Totali</div>
             </div>
-            {filteredFinances?.length === 0 ? <div><p>Financat nuk u gjeten!</p></div> : filteredFinances?.map((finance) => (
+            {filteredFinances?.length === 0 ? '' : filteredFinances?.map((finance) => (
             <div key={finance._id} style={{display: 'flex', justifyContent: 'space-between', backgroundColor: 'grey', padding: '10px', border: '1px solid #000', width: '100%'}}>
                 <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>{finance.player}</div>
                 <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{finance.commission}</div>
@@ -138,43 +158,34 @@ const Finances = () => {
                 <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{finance.total.toFixed(2)}</div>
             </div>
             ))}
-            
-            <div style={{display: 'flex', justifyContent: 'space-between', backgroundColor: '#cccccc', padding: '10px', width: '100%', alignItems: 'center'}}>
-                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>Totali</div>
-                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalCommission?.toFixed(2)}</div>
-                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalBet?.toFixed(2)}</div>
-                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalWin?.toFixed(2)}</div>
-                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalCancelled}</div>
-                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalOfTotal?.toFixed(2)}</div>
-            </div>
-
-        </div>
-
-        {userInfo?.role === 'Manager' ? <>
-        <div style={{backgroundColor: '#126e51', padding: '7px', marginTop: '90px'}}>
-            <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', textAlign: 'start'}}>Fitimet ditore</p>
-        </div>
-        <div>
-            <div style={{display: 'flex', justifyContent: 'space-between', backgroundColor: '#cccccc', padding: '10px', width: '100%'}}>
-                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>Perdoruesi</div>
-                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>Single</div>
-                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>2</div>
-                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>3+</div>
-                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>Totali</div>
-            </div>
+            {userInfo?.role === 'Manager' ? <>
+        
+        
             {commissionsByUser && Object.entries(commissionsByUser).map(([userName, userCommissions]) => {
-               return <AgentCommissionData agentId={userName} userCommissions={userCommissions} />
+               return <AgentCommissionData agentId={userName} userCommissions={userCommissions} onTotalCalculated={handleTotalCalculated} onCommissionCalculated={handleCommissionCalculated}  />
 
                 })}
             
-            <div style={{display: 'flex', justifyContent: 'space-between', backgroundColor: '#cccccc', padding: '10px', width: '100%', alignItems: 'center'}}>
-            </div>
+            
 
-        </div>
+        
         
         
         
         </> : null }
+        {userInfo?.role === 'Manager' ? null : 
+            <div style={{display: 'flex', justifyContent: 'space-between', backgroundColor: '#cccccc', padding: '10px', width: '100%', alignItems: 'center'}}>
+                <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>Totali</div>
+                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalCommission}</div>
+                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalBet?.toFixed(2)}</div>
+                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalWin?.toFixed(2)}</div>
+                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalCancelled}</div>
+                <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalOfTotal}</div>
+            </div>}
+
+        </div>
+
+        
 
         {/*<div style={{backgroundColor: '#126e51', padding: '9px', marginTop: '30px'}}>
                 <p style={{color: '#fff', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', textAlign: 'start'}}>Casino - EUR</p>
