@@ -155,8 +155,8 @@ const getUsers = asyncHandler(async (req, res) => {
         $and: [
           { $or: [
             { registeredBy: userId },
-            { rolesId: agentRole._id },
-            { isAgent: true },
+            // { rolesId: agentRole._id },
+            // { isAgent: true },
           ]},
           { rolesId: { $ne: superAdminRole._id } }
         ]

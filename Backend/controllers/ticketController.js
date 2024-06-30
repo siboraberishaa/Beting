@@ -65,9 +65,19 @@ const createTicket = asyncHandler(async (req, res) => {
           await createFinance(ticket);
 
           if (playerOfUser.isAgent) {
+
+            let commissionPercentage;
+            if (games.length === 1) {
+                commissionPercentage = playedSum * (user.commissionS / 100);
+            } else if (games.length === 2) {
+                commissionPercentage = playedSum * (user.commission2 / 100);
+            } else {
+                commissionPercentage = playedSum * (user.commission3 / 100);
+            }
+
             // Create a new Commission document
             const comission = await Comission.create({
-                ticketType,
+                commissionPercentage,
                 playedSum,
                 agentId: playerOf,
                 gamesLength: games.length

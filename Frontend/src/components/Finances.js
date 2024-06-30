@@ -32,6 +32,7 @@ const AgentCommissionData = ({ agentId, userCommissions, onTotalCalculated, onCo
     const totalBet = totalPlayedSum + totalPlayedSum2 + totalPlayedSum3
     const totaltotal = totalAfterCommission1 + totalAfterCommission2 + totalAfterCommission3
     const totalPercentage = totalBet * (totaltotal / 100);
+    const totalCommission = userCommissions?.reduce((total, commission) => total + commission.commissionPercentage, 0);
 
     useEffect(() => {
         onTotalCalculated(totalPercentage);
@@ -43,11 +44,11 @@ const AgentCommissionData = ({ agentId, userCommissions, onTotalCalculated, onCo
     return (
         <div key={user?._id} style={{display: 'flex', justifyContent: 'space-between', backgroundColor: 'grey', padding: '10px', border: '1px solid #000', width: '100%'}}>
             <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>{user?.userName}</div>
-            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totaltotal.toFixed(2)}</div>
+            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalCommission.toFixed(2)}</div>
             <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalBet.toFixed(2)}</div>
             <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{0}</div>
             <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{0}</div>
-            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{totalPercentage.toFixed(2)}</div>
+            <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{0}</div>
         </div>
     );
   };
@@ -158,7 +159,7 @@ const Finances = () => {
                 <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%', textAlign: 'center'}}>{finance.total.toFixed(2)}</div>
             </div>
             ))}
-            {userInfo?.role === 'Manager' ? <>
+            {userInfo?.role === 'Manager' || userInfo?.role === 'Super Admin' ? <>
         
         
             {commissionsByUser && Object.entries(commissionsByUser).map(([userName, userCommissions]) => {
@@ -173,7 +174,7 @@ const Finances = () => {
         
         
         </> : null }
-        {userInfo?.role === 'Manager' ? null : 
+        {userInfo?.role === 'Manager' || userInfo?.role === 'Super Admin' ? null : 
             <div style={{display: 'flex', justifyContent: 'space-between', backgroundColor: '#cccccc', padding: '10px', width: '100%', alignItems: 'center'}}>
                 <div style={{fontSize: '20px',  fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif', width: '16.6%'}}>Totali</div>
                 <div style={{fontSize: '20px', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: '600', width: '16.6%', textAlign: 'center'}}>{totalCommission}</div>

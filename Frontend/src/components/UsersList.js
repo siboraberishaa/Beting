@@ -71,7 +71,7 @@ useEffect(() => {
             {list?.map((usser) => (
                 <div key={usser._id} onClick={() => navigate(`/user/${usser._id}`)} style={{backgroundColor: '#cccccc', border: '1px solid #666', padding: '7px', display: 'flex', justifyContent: 'space-between', cursor: 'pointer'}}>
                     <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.userName}</p>
-                    <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.credits}</p>
+                    <p style={{color: '#000', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '14px'}}>{usser.credits.toFixed(2)}</p>
                 </div>
             ))}
             

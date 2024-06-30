@@ -5,8 +5,8 @@ const comissionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    ticketType: {
-        type: String,
+    commissionPercentage: {
+        type: Number,
         required: true
     },
     playedSum: {
