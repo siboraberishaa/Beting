@@ -13,7 +13,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: 'https://bet365-api-inplay.p.rapidapi.com/bet365/get_sports',
         headers: {
-          'X-RapidAPI-Key': '81809c1df7mshc6913b0d43ef401p144d4bjsn30dbd506d52c',
+          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com' 
         },
       }),
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
       query: (sport) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_sport_events/${sport}`,  
         headers: {
-          'X-RapidAPI-Key': '81809c1df7mshc6913b0d43ef401p144d4bjsn30dbd506d52c',
+          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
           'X-RapidAPI-Host': 'bet365-api-inplay.p.rapidapi.com'
         },
       }),
@@ -31,14 +31,14 @@ export const apiSlice = createApi({
       query: (eventId) => ({
         url: `https://bet365-api-inplay.p.rapidapi.com/bet365/get_event_with_markets/${eventId}`,  
         headers: {
-          'X-RapidAPI-Key': '81809c1df7mshc6913b0d43ef401p144d4bjsn30dbd506d52c',
+          'X-RapidAPI-Key': '301cf5bac3msha2189f797dc5799p1106ffjsn8b678c025e07',
           'X-RapidAPI-Host': ' bet365-api-inplay.p.rapidapi.com'
         },
       }),
     }),
     login: builder.mutation({
       query: (data) => ({
-        url: `http://localhost:5000/api/users/login`,
+        url: `https://beting-1.onrender.com/api/users/login`,
         method: 'POST',
         body: data,
         credentials: 'include',
@@ -46,7 +46,7 @@ export const apiSlice = createApi({
   }),
   getUserProfile: builder.query({
     query: ({ userId }) => ({
-      url: `http://localhost:5000/api/users/profile/${userId}`,
+      url: `https://beting-1.onrender.com/api/users/profile/${userId}`,
       method: 'GET',
       credentials: 'include',
     }),
@@ -54,7 +54,7 @@ export const apiSlice = createApi({
   }),
   getAllUsers: builder.query({
     query: ({userId, isAdmin}) => ({
-      url: `http://localhost:5000/api/users/get/${userId}?isAdmin=${isAdmin}`,
+      url: `https://beting-1.onrender.com/api/users/get/${userId}?isAdmin=${isAdmin}`,
       method: 'GET',
       credentials: 'include',
     }),
@@ -62,7 +62,7 @@ export const apiSlice = createApi({
   }),  
   getUsersList: builder.query({
     query: ({userId, isAdmin}) => ({
-      url: `http://localhost:5000/api/users/list/${userId}?isAdmin=${isAdmin}`,
+      url: `https://beting-1.onrender.com/api/users/list/${userId}?isAdmin=${isAdmin}`,
       method: 'GET',
       credentials: 'include',
     }),
@@ -70,7 +70,7 @@ export const apiSlice = createApi({
   }),  
   registerUser: builder.mutation({
     query: (data) => ({
-      url: `http://localhost:5000/api/users/register`,
+      url: `https://beting-1.onrender.com/api/users/register`,
       method: 'POST',
       body: data,
       credentials: 'include',
@@ -78,7 +78,7 @@ export const apiSlice = createApi({
   }),
   getRoles: builder.query({
     query: () => ({
-        url: `http://localhost:5000/api/roles/get`,
+        url: `https://beting-1.onrender.com/api/roles/get`,
     }),
     method: 'GET',
     credentials: 'include',
@@ -86,7 +86,7 @@ export const apiSlice = createApi({
 }),
   getRolesForManager: builder.query({
     query: () => ({
-        url: `http://localhost:5000/api/roles/get/manager`,
+        url: `https://beting-1.onrender.com/api/roles/get/manager`,
     }),
     method: 'GET',
     credentials: 'include',
@@ -94,7 +94,7 @@ export const apiSlice = createApi({
 }),
   getRolesForAgent: builder.query({
     query: () => ({
-        url: `http://localhost:5000/api/roles/get/agent`,
+        url: `https://beting-1.onrender.com/api/roles/get/agent`,
     }),
     method: 'GET',
     credentials: 'include',
@@ -102,7 +102,7 @@ export const apiSlice = createApi({
 }),
 createTicket: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/tickets`,
+    url: `https://beting-1.onrender.com/api/tickets`,
     method: 'POST',
     body: data,
     credentials: 'include',
@@ -110,7 +110,7 @@ createTicket: builder.mutation({
 }),
 getAllTickets: builder.query({
   query: ({userId, isAdmin, isAgent}) => ({
-    url: `http://localhost:5000/api/tickets/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
+    url: `https://beting-1.onrender.com/api/tickets/${userId}?isAdmin=${isAdmin}&isAgent=${isAgent}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -118,7 +118,7 @@ getAllTickets: builder.query({
 }),
 getUserById: builder.query({
   query: (userId) => ({
-    url: `http://localhost:5000/api/users/${userId}`,
+    url: `https://beting-1.onrender.com/api/users/${userId}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -126,7 +126,7 @@ getUserById: builder.query({
 }),
 createTransfer: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/transfers`,
+    url: `https://beting-1.onrender.com/api/transfers`,
     method: 'POST',
     body: data,
     credentials: 'include',
@@ -134,7 +134,7 @@ createTransfer: builder.mutation({
 }),
 getAllTransfers: builder.query({
   query: ({ userId, isAdmin }) => ({
-    url: `http://localhost:5000/api/transfers/${userId}?isAdmin=${isAdmin}`,
+    url: `https://beting-1.onrender.com/api/transfers/${userId}?isAdmin=${isAdmin}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -142,7 +142,7 @@ getAllTransfers: builder.query({
 }),
 editUsersUserName: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/users/userName/${data.userId}`,
+    url: `https://beting-1.onrender.com/api/users/userName/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -150,7 +150,7 @@ editUsersUserName: builder.mutation({
 }),
 editUsersDescription: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/users/description/${data.userId}`,
+    url: `https://beting-1.onrender.com/api/users/description/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -158,7 +158,7 @@ editUsersDescription: builder.mutation({
 }),
 editUsersCommission: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/users/commission/${data.userId}`,
+    url: `https://beting-1.onrender.com/api/users/commission/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -166,7 +166,7 @@ editUsersCommission: builder.mutation({
 }),
 updateUsersStatus: builder.mutation({
   query: ({ userId, status }) => ({
-      url: `http://localhost:5000/api/users/status/${userId}`,
+      url: `https://beting-1.onrender.com/api/users/status/${userId}`,
       method: 'PUT',
       credentials: 'include',
       body: { status },
@@ -174,7 +174,7 @@ updateUsersStatus: builder.mutation({
 }),
 createRole: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/roles`,
+    url: `https://beting-1.onrender.com/api/roles`,
     method: 'POST',
     credentials: 'include',
     body: data
@@ -183,7 +183,7 @@ createRole: builder.mutation({
 }),
 getRoleDetails: builder.query({
   query: (roleId) => ({
-    url: `http://localhost:5000/api/roles/${roleId}`,
+    url: `https://beting-1.onrender.com/api/roles/${roleId}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -191,7 +191,7 @@ getRoleDetails: builder.query({
 }),
 updateRole: builder.mutation({
   query: ({ roleId, data }) => ({
-    url: `http://localhost:5000/api/roles/${roleId}`,
+    url: `https://beting-1.onrender.com/api/roles/${roleId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -200,14 +200,14 @@ updateRole: builder.mutation({
 }),
 logout: builder.mutation({
   query: () => ({
-    url: `http://localhost:5000/api/users/logout`,
+    url: `https://beting-1.onrender.com/api/users/logout`,
     method: 'POST',
     credentials: 'include'
   }),
 }),
 password: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/users/password`,
+    url: `https://beting-1.onrender.com/api/users/password`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -215,7 +215,7 @@ password: builder.mutation({
 }),
 getAllFinances: builder.query({
   query: ({userId, isAdmin}) => ({
-    url: `http://localhost:5000/api/finances/${userId}?isAdmin=${isAdmin}`,
+    url: `https://beting-1.onrender.com/api/finances/${userId}?isAdmin=${isAdmin}`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -223,7 +223,7 @@ getAllFinances: builder.query({
 }),
 updateTicketHasWon: builder.mutation({
   query: ({ ticketId, gameId, hasWon }) => ({
-      url: `http://localhost:5000/api/tickets/${ticketId}/games/${gameId}`,
+      url: `https://beting-1.onrender.com/api/tickets/${ticketId}/games/${gameId}`,
       method: 'POST',
       credentials: 'include',
       body: { hasWon },
@@ -231,7 +231,7 @@ updateTicketHasWon: builder.mutation({
 }),
 updateUser: builder.mutation({
   query: (data) => ({
-    url: `http://localhost:5000/api/users/update/${data.userId}`,
+    url: `https://beting-1.onrender.com/api/users/update/${data.userId}`,
     method: 'PUT',
     credentials: 'include',
     body: data,
@@ -240,7 +240,7 @@ updateUser: builder.mutation({
 
 getAllCommissions: builder.query({
   query: () => ({
-    url: `http://localhost:5000/api/commissions`,
+    url: `https://beting-1.onrender.com/api/commissions`,
     method: 'GET',
     credentials: 'include',
   }),
@@ -248,7 +248,7 @@ getAllCommissions: builder.query({
 }),
 getCommissionsByUserId: builder.query({
   query: (userId) => ({
-    url: `http://localhost:5000/api/commissions/${userId}`,
+    url: `https://beting-1.onrender.com/api/commissions/${userId}`,
     method: 'GET',
     credentials: 'include',
   }),
